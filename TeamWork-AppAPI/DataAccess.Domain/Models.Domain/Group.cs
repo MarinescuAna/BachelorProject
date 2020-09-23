@@ -12,7 +12,5 @@ namespace DataAccess.Domain.Models.Domain
         public Guid GroupUniqueID { get; set; }
         public string GroupName { get; set; }
         public string Description { get; set; }
-        public Guid AssigmentListUniqueID { get; set; }
-        public AssigmentList AssigmentList { get; set; }
     }
 }

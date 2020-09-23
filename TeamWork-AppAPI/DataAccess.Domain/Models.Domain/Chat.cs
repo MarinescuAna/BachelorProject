@@ -10,7 +10,6 @@ namespace DataAccess.Domain.Models.Domain
     {
         [Key]
         public int ChatID { get; set; }
-        public Guid GroupUniqueID { get; set; }
         public Group Group { get; set; }
     }
 }

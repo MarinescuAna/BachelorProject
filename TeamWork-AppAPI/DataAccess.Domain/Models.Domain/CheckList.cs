@@ -17,7 +17,6 @@ namespace DataAccess.Domain.Models.Domain
     {
         [Key]
         public int CheckListID { get; set; }
-        public int UserId { get; set; }
         public User User { get; set; }
         public StatusChecklist Status { get; set; }
         public DateTime? LastUpdate { get; set; }

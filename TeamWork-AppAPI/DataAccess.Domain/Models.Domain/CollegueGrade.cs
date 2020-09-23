@@ -11,10 +11,8 @@ namespace DataAccess.Domain.Models.Domain
     {
         [Key]
         public int ID { get; set; }
-        public int UserId { get; set; }
         public User User { get; set; }
         public float Grade { get; set; }
-        public int AssigmentID { get; set; }
         public Assigment Assigment { get; set; }
     }
 }

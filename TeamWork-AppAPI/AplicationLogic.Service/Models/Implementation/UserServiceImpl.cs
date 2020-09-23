@@ -12,13 +12,10 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.Service.Models.Implementation
 {
-    public class UserServiceImpl : IUserService
-    {
-        private readonly IUnitOfWork _unitOfWork;
-        public UserServiceImpl(IUnitOfWork uow)
-        {
-            _unitOfWork = uow;
-        }
+    public class UserServiceImpl :ABaseService, IUserService
+    {   
+        public UserServiceImpl(IUnitOfWork uow):base(uow)
+        {}
         public Task<User> GetUserByEmail(string userEmail)
         {
            return _unitOfWork.User.GetItem(u=>u.EmailAddress==userEmail);    

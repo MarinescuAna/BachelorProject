@@ -40,7 +40,7 @@ namespace TeamWork_API.Controllers
 
             if (user == null || user.Password!= credentials.Password)
             {
-                return StatusCode(404,"Username or password are invalid");
+                return StatusCode(404,Messages.InvalidCredentials_4040NotFound );
             }
 
             JWToken jWToken = new JWToken();
@@ -58,7 +58,7 @@ namespace TeamWork_API.Controllers
                 return StatusCode(201,jWToken);
             }
 
-            return StatusCode(400, "Something went wrong! Please try again");
+            return StatusCode(400, Messages.SthWentWrong_400BadRequest);
 
         }
 
@@ -66,18 +66,14 @@ namespace TeamWork_API.Controllers
         [Route("/api/Account/Register")]
         public async Task<IActionResult> Register([FromBody]UserRegisterModel userCredentials)
         {
-        
-
             if (userCredentials == null)
             {
-                return StatusCode(204,"No content!");
+                return StatusCode(204,Messages.NoContent_204NoContent);
             }
-
-            
 
             if (await _userService.GetUserByEmail(userCredentials.EmailAddress) != null)
             {
-                return StatusCode(409, "A user has already been created using this email address!");
+                return StatusCode(409, Messages.UserAlreadyExistLogin_409Conflict);
             }
 
             User user = new User
@@ -105,7 +101,7 @@ namespace TeamWork_API.Controllers
                 return StatusCode(201, jWToken);
             }
 
-            return StatusCode(400, "Something went wrong! Please try again");
+            return StatusCode(400, Messages.SthWentWrong_400BadRequest);
         }
     }
 }

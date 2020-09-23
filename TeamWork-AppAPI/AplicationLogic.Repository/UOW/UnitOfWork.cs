@@ -12,11 +12,12 @@ namespace AplicationLogic.Repository.UOW
     {
         protected readonly TeamWorkDbContext context;
         private IUserRepository _User;
+        private IGroupRepository _Group;
+        private IGroupMemberRepository _GroupMember;
         public UnitOfWork(TeamWorkDbContext ctx)
         {
             context = ctx;
         }
-
         public IUserRepository User {
             get
             {
@@ -26,6 +27,30 @@ namespace AplicationLogic.Repository.UOW
                 }
 
                 return _User;
+            }
+        }
+        public IGroupMemberRepository GroupMember
+        {
+            get
+            {
+                if (_GroupMember == null)
+                {
+                    _GroupMember = new GroupMemberRespositoryImpl(context);
+                }
+
+                return _GroupMember;
+            }
+        }
+        public IGroupRepository Group
+        {
+            get
+            {
+                if (_Group == null)
+                {
+                    _Group = new GroupRepositoryImpl(context);
+                }
+
+                return _Group;
             }
         }
 

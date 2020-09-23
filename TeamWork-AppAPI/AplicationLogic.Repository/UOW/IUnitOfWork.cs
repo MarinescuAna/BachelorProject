@@ -9,6 +9,8 @@ namespace AplicationLogic.Repository.UOW
     public interface IUnitOfWork: IDisposable
     {
         IUserRepository User { get; }
+        IGroupRepository Group { get; }
+        IGroupMemberRepository GroupMember { get; }
         Task<int> Commit();
     }
 }

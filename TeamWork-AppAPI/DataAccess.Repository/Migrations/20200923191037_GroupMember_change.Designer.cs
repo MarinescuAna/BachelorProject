@@ -4,14 +4,16 @@ using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Repository.Migrations
 {
     [DbContext(typeof(TeamWorkDbContext))]
-    partial class TeamWorkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200923191037_GroupMember_change")]
+    partial class GroupMember_change
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

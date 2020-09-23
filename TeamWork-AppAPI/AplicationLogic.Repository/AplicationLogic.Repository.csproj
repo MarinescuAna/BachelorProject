@@ -9,8 +9,4 @@
     <ProjectReference Include="..\DataAccess.Repository\DataAccess.Repository.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Queries\Implementation\" />
-  </ItemGroup>
-
 </Project>

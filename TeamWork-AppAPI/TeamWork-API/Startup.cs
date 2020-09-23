@@ -40,6 +40,7 @@ namespace TeamWork_API
 
             //Dependency Injection
             services.AddScoped<IUserService, UserServiceImpl>();
+            services.AddScoped<IGroupService, GroupServiceImpl>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //Session

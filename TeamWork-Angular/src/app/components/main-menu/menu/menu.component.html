@@ -1,0 +1,13 @@
+<mat-toolbar class="menu-style" fxLayoutAlign="space-evenly center">
+    <app-menu-home></app-menu-home>
+    <button mat-button>
+        <mat-icon>home</mat-icon>Home
+    </button>
+    <app-menu-group *ngIf='authService.isLoggedIn'></app-menu-group>
+    <a mat-button [routerLink]="'/login'" *ngIf='!authService.isLoggedIn'>
+        Login
+    </a>
+    <a mat-button [routerLink]="'/register'" *ngIf='!authService.isLoggedIn'>
+        Register
+    </a>
+</mat-toolbar>

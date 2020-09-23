@@ -1,0 +1,35 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+    <div class="title-style">
+        <h1><strong>Login</strong></h1>
+    </div>
+    <div>
+        <form [formGroup]="formLogin" (ngSubmit)="onSubmit()">
+            <mat-form-field class="input-style">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Ex. pat@example.com"  formControlName='email'>
+                <mat-icon matSuffix>email</mat-icon>
+                <mat-error *ngIf="true">
+                    Please enter a valid email address!
+                </mat-error>
+                <mat-error *ngIf="true">
+                    Email is <strong>required</strong>!
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="input-style">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName='password'>
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
+    </div>
+    <div>
+        <button mat-raised-button class="btn-size" color="primary">
+            Create a new account
+        </button>
+        <button class="btn-size" mat-raised-button (click)="onSubmit()">Done</button>
+    </div>
+</div>

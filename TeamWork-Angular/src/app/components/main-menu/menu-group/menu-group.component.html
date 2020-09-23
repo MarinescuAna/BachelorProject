@@ -1,0 +1,19 @@
+<button #clickMe mat-icon-button [matMenuTriggerFor]="menu" (mouseenter)="clickOnHover()">
+    <span class="fill-remaining-space">
+        Manage_Groups
+    </span>
+</button>
+<mat-menu #menu="matMenu" [overlapTrigger]="false">
+    <button mat-menu-item>
+        <mat-icon>create</mat-icon>
+        <span>Create a New Group</span>
+    </button>
+    <button mat-menu-item>
+        <mat-icon>group_add</mat-icon>
+        <span>Join a Group</span>
+    </button>
+    <button mat-menu-item>
+        <mat-icon>groups</mat-icon>
+        <span>My Groups</span>
+    </button>
+</mat-menu>

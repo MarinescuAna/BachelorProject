@@ -34,7 +34,11 @@ namespace TeamWork_API.Controllers
         [HttpPost]
         [Route("/api/Account/Login")]
         public async Task<IActionResult> Login(UserLoginModel credentials)
-        {        
+        {
+            if (credentials == null)
+            {
+                return StatusCode(204, Messages.NoContent_204NoContent);
+            }
 
             User user = await _userService.GetUserByEmail(credentials.EmailAddress);
 

@@ -1,13 +1,18 @@
 <mat-toolbar class="menu-style" fxLayoutAlign="space-evenly center">
-    <app-menu-home></app-menu-home>
-    <button mat-button>
+    <app-menu-home *ngIf='authService.isLogged()'></app-menu-home>
+    <a mat-icon-button [routerLink]="'/landing-page'" *ngIf='!authService.isLogged()'>
+        <span class="fill-remaining-space">
+            <h1><strong>TeamWork</strong></h1>
+        </span>
+    </a>
+    <button mat-button [routerLink]="authService.isLogged()?'/create-group':'/landing-page'" >
         <mat-icon>home</mat-icon>Home
     </button>
-    <app-menu-group *ngIf='authService.isLoggedIn'></app-menu-group>
-    <a mat-button [routerLink]="'/login'" *ngIf='!authService.isLoggedIn'>
+    <app-menu-group *ngIf='authService.isLogged()'></app-menu-group>
+    <a mat-button [routerLink]="'/login'" *ngIf='!authService.isLogged()'>
         Login
     </a>
-    <a mat-button [routerLink]="'/register'" *ngIf='!authService.isLoggedIn'>
+    <a mat-button [routerLink]="'/register'" *ngIf='!authService.isLogged()'>
         Register
     </a>
 </mat-toolbar>

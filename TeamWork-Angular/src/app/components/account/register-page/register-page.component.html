@@ -8,7 +8,7 @@
                 <mat-label>First Name</mat-label>
                 <input matInput formControlName="firstName">
                 <mat-icon matSuffix>person</mat-icon>
-                <mat-error *ngIf="true">
+                <mat-error *ngIf="formRegister.controls['firstName'].hasError('required')">
                     First name is <strong>required</strong>!
                 </mat-error>
             </mat-form-field>
@@ -17,7 +17,7 @@
                 <mat-label>Last Name</mat-label>
                 <input matInput formControlName="lastName">
                 <mat-icon matSuffix>person</mat-icon>
-                <mat-error *ngIf="true">
+                <mat-error *ngIf="formRegister.controls['lastName'].hasError('required')">
                     Last name is <strong>required</strong>!
                 </mat-error>
             </mat-form-field>
@@ -26,7 +26,7 @@
                 <mat-label>Institution</mat-label>
                 <input matInput formControlName="institution">
                 <mat-icon matSuffix>school</mat-icon>
-                <mat-error *ngIf="true">
+                <mat-error *ngIf="formRegister.controls['institution'].hasError('required')">
                     Institution is <strong>required</strong>!
                 </mat-error>
             </mat-form-field>
@@ -35,10 +35,10 @@
                 <mat-label>Email</mat-label>
                 <input matInput placeholder="Ex. pat@example.com" formControlName="email">
                 <mat-icon matSuffix>email</mat-icon>
-                <mat-error *ngIf="true">
+                <mat-error *ngIf="!formRegister.controls['email'].hasError('required') || formRegister.controls['email'].hasError('pattern')">
                     Please enter a valid email address!
                 </mat-error>
-                <mat-error *ngIf="true">
+                <mat-error *ngIf="formRegister.controls['email'].hasError('required')">
                     Email is <strong>required</strong>!
                 </mat-error>
             </mat-form-field>
@@ -49,6 +49,9 @@
                     <mat-option value="Teacher">Teacher</mat-option>
                     <mat-option value="Student">Student</mat-option>
                 </mat-select>
+                <mat-error *ngIf="formRegister.controls['role'].hasError('required')">
+                    The role is <strong>required</strong>!
+                </mat-error>
             </mat-form-field>
             <br>
             <mat-form-field class="input-style">
@@ -58,6 +61,12 @@
                     [attr.aria-pressed]="hide">
                     <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
+                <mat-error *ngIf="formRegister.controls['password'].hasError('required')">
+                    Password is <strong>required</strong>!
+                </mat-error>
+                <mat-error *ngIf="!formRegister.controls['password'].hasError('required') && !formRegister.controls['password'].hasError('minLength')">
+                    Password must have <strong> at least 6 characters</strong>!
+                </mat-error>
             </mat-form-field>
             <br>
             <mat-form-field class="input-style">
@@ -67,13 +76,27 @@
                     [attr.aria-pressed]="hide2">
                     <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
+                <mat-error *ngIf="formRegister.controls['passwordConfirmation'].hasError('required')">
+                    You <strong>must </strong> confirm your password!
+                </mat-error>
+                <mat-error *ngIf="isMatch()">
+                    Passwords <strong>do not</strong> match!
+                </mat-error>
             </mat-form-field>
         </form>
     </div>
     <div>
-        <button mat-raised-button class="btn-size" color="primary">
+        <button mat-raised-button class="btn-size" color="primary" (click)="onAccessAccount()">
             <mat-icon>keyboard_arrow_left</mat-icon> Back to login
         </button>
-        <button class="btn-size" mat-raised-button (click)="onSubmit()">Done</button>
+        <button class="btn-size" mat-raised-button (click)="onSubmit()"
+        [disabled]="formRegister.controls['firstName'].hasError('required') ||
+                    formRegister.controls['lastName'].hasError('required') ||
+                    formRegister.controls['institution'].hasError('required')||
+                    formRegister.controls['email'].hasError('required') ||
+                    formRegister.controls['role'].hasError('required') ||
+                    formRegister.controls['password'].hasError('required') ||
+                    formRegister.controls['passwordConfirmation'].hasError('required') ||
+                    formRegister.controls['email'].hasError('pattern')">Done</button>
     </div>
 </div>

@@ -8,10 +8,10 @@
                 <mat-label>Email</mat-label>
                 <input matInput placeholder="Ex. pat@example.com"  formControlName='email'>
                 <mat-icon matSuffix>email</mat-icon>
-                <mat-error *ngIf="true">
+                <mat-error *ngIf="!formLogin.controls['email'].hasError('required') && formLogin.controls['email'].hasError('pattern')">
                     Please enter a valid email address!
                 </mat-error>
-                <mat-error *ngIf="true">
+                <mat-error *ngIf="formLogin.controls['email'].hasError('required')">
                     Email is <strong>required</strong>!
                 </mat-error>
             </mat-form-field>
@@ -23,13 +23,22 @@
                     [attr.aria-pressed]="hide">
                     <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
+                <mat-error *ngIf="formLogin.controls['password'].hasError('required')">
+                    Password is <strong>required</strong>!
+                </mat-error>
+                <mat-error *ngIf="!formLogin.controls['password'].hasError('required') && !formLogin.controls['password'].hasError('minLength')">
+                    Password must have <strong> at least 6 characters</strong>!
+                </mat-error>
             </mat-form-field>
         </form>
     </div>
     <div>
-        <button mat-raised-button class="btn-size" color="primary">
+        <button mat-raised-button class="btn-size" color="primary" (click)="onCreateAccount()">
             Create a new account
         </button>
-        <button class="btn-size" mat-raised-button (click)="onSubmit()">Done</button>
+        <button class="btn-size" mat-raised-button (click)="onSubmit()"
+        [disabled]="formLogin.controls['email'].hasError('required') || 
+                    formLogin.controls['password'].hasError('required') ||
+                    formLogin.controls['email'].hasError('pattern') ">Done</button>
     </div>
 </div>

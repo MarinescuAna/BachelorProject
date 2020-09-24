@@ -22,6 +22,5 @@ export class MenuHomeComponent  {
 
   onSubmit(): void{
     this.authService.doLogout();
-    //TODO redirect to another component(home)
   }
 }

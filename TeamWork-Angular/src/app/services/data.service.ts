@@ -1,9 +1,16 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { environment }  from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-
+import { AlertService } from './alert.service';
+import { AppErrorHandler } from 'src/app/handler-error/app-error-handler';
+import { BadRequestError } from "src/app/handler-error/bad-request-error";
+import { ConflictError } from "src/app/handler-error/conflict-error";
+import { ForbiddenError } from "src/app/handler-error/forbidden-error";
+import { MethodNotAllowedError } from "src/app/handler-error/method-not-allowed-error";
+import { NotFoundError } from "src/app/handler-error/not-found-error";
+import { UnauthorizedError } from "src/app/handler-error/unauthorized-error";
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,12 +20,15 @@ const httpOptions = {
 export class DataService {
 
   private http: HttpClient;
-
+  private appHandler: AppErrorHandler;
+  private alertService: AlertService;
   constructor(
     private injector: Injector,
     private url: string
   ) {
     this.http=this.injector.get(HttpClient);
+    this.alertService=this.injector.get(AlertService);
+    this.appHandler=this.injector.get(AppErrorHandler);
     this.url=`${environment.baseApiUrl}${url}`;
    }
 
@@ -91,6 +101,31 @@ export class DataService {
   }
 
    public handleError(error: any){
+    switch (error.status) {
+      case 400: {
+        throw this.appHandler.handleError(new BadRequestError(error.error));
+      }
+      case 405: {
+        throw this.appHandler.handleError(new MethodNotAllowedError(error.error));
+      }
+      case 404: {
+        throw this.appHandler.handleError(new NotFoundError(error.error));
+      }
+      case 409: {
+        throw this.appHandler.handleError(new ConflictError(error.error));
+      }
+      case 403: {
+        throw this.appHandler.handleError(new ForbiddenError(error.error));
+      }
+      case 401: {
+        throw this.appHandler.handleError(new UnauthorizedError(error.error));
+      }
+      case 500: {
+        this.alertService.showError('The server encountered an internal error and was unable to complete your request. ' +
+          'Please contact the administrators and inform them of the time the error occurred and anything you might have done that may have caused the error.');
+      }
+    }
+    this.alertService.showError(error.message, 'Cannot connect to the API');
      return Observable.throw;
    }
    

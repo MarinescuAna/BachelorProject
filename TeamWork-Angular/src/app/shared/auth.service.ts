@@ -1,22 +1,15 @@
 import { Injectable, Injector } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { TokenModule } from '../modules/token.module';
 import { UserLoginModule } from '../modules/user-login.module';
-import { UserRegisterModule } from '../modules/user-register.module';
 import { DataService } from '../services/data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService extends DataService {
-
-  private isLoggedInSubject: BehaviorSubject<boolean>;
-  public isLoggedIn: Observable<boolean>;
-  
-  constructor(injector: Injector) {
+  constructor(injector: Injector,private route: Router) {
     super(injector, 'Account');
-    this.isLoggedInSubject = new BehaviorSubject<boolean>(localStorage.getItem('access_token') != null);
-    this.isLoggedIn = this.isLoggedInSubject.asObservable();
   }
 
   private setLocalStorage(token: TokenModule): void {
@@ -53,21 +46,23 @@ export class AuthService extends DataService {
     return null;
   }
 
+  isLogged(): boolean{
+    return localStorage.getItem('is_logged')==='true';
+  }
+
   doLogout(): void {
     debugger
     this.removeLocalStorage();
-    this.isLoggedInSubject.next(false);
-    this.isLoggedIn = this.isLoggedInSubject.asObservable();
-    //TODO: redirect to the guest page
+    localStorage.setItem('is_logged', 'false');
+    this.route.navigateByUrl('/landing-page');
   }
 
   register(user: UserLoginModule): void {
     super.post<TokenModule>('Register', user).subscribe(cr => {
       this.setUser(user.emailAddress);
       this.setLocalStorage(cr as TokenModule);
-      this.isLoggedInSubject.next(true);
-      this.isLoggedIn = this.isLoggedInSubject.asObservable();
-      //TODO redirectare catre pagina de home a uritlizatorului
+      localStorage.setItem('is_logged', 'true');
+      this.route.navigateByUrl('/create-group');
     });
   }
 
@@ -76,9 +71,8 @@ export class AuthService extends DataService {
     super.post<TokenModule>('Login', user).subscribe(cr => {
       this.setUser(user.emailAddress);
       this.setLocalStorage(cr as TokenModule);
-      this.isLoggedInSubject.next(true);
-      this.isLoggedIn = this.isLoggedInSubject.asObservable();
-      //TODO redirectare catre pagina de home a uritlizatorului
+      localStorage.setItem('is_logged', 'true');
+      this.route.navigateByUrl('/create-group');
     });
   }
 

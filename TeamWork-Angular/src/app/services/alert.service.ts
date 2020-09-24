@@ -10,12 +10,13 @@ export class AlertService {
 
   constructor(private service: ToastrService) { 
     this.config={
-      closeButton: true,
+      tapToDismiss: true,
       preventDuplicates: true,
-      positionClass : 'toast-bottom-full-width',
+      positionClass : 'toast-bottom-right',
       onActivateTick: true,
       enableHtml: true,
-      timeOut: 10000
+      timeOut: 10000,
+      progressBar: true
     };
   }
 

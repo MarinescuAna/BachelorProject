@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserRegisterModule } from 'src/app/modules/user-register.module';
 import { AuthService } from 'src/app/shared/auth.service';
 
@@ -17,11 +18,11 @@ export class RegisterPageComponent implements OnInit {
     email: new FormControl('',[Validators.required,Validators.pattern(this.pattern)]),
     role: new FormControl('',Validators.required),
     password: new FormControl('',[Validators.required,Validators.minLength(6)]),
-    passwordConfirmation: new FormControl('',[Validators.required,Validators.minLength(6)])
+    passwordConfirmation: new FormControl('',[Validators.required])
   });
   hide: Boolean = true;
   hide2: Boolean = true;
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private route: Router) { }
 
   ngOnInit(): void {
   }
@@ -35,5 +36,12 @@ export class RegisterPageComponent implements OnInit {
     userRegister.password=this.formRegister.value.password;
     userRegister.userRole=this.formRegister.value.role;
     this.authService.register(userRegister);
+  }
+  onAccessAccount(): void{
+    this.route.navigateByUrl('/login');
+  }
+  isMatch(): boolean{
+    debugger;
+    return this.formRegister.controls['password'].value!==this.formRegister.controls['passwordConfirmation'].value? true: false;
   }
 }

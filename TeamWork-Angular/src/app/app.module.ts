@@ -23,7 +23,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {UserRegisterModule} from '../app/modules/user-register.module';
 import {UserLoginModule} from '../app/modules/user-login.module';
 import { HttpClientModule } from '@angular/common/http';
+import { CreateGroupComponent } from './components/group-section/create-group/create-group.component';
 
+import { AlertService } from 'src/app/services/alert.service'; 
+import { ToastrModule } from 'ngx-toastr';
+import { AppErrorHandler } from './handler-error/app-error-handler';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +36,8 @@ import { HttpClientModule } from '@angular/common/http';
     MenuGroupComponent,
     LoginPageComponent,
     RegisterPageComponent,
-    MainPageComponent
+    MainPageComponent,
+    CreateGroupComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -49,9 +54,13 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     UserRegisterModule,
     UserLoginModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    AlertService,
+    AppErrorHandler
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

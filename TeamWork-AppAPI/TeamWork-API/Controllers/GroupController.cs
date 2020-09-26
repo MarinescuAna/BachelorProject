@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AplicationLogic.Repository.Models.Interface;
 using AplicationLogic.Service.Models.Interface;
 using DataAccess.Domain.Group.Domain;
+using DataAccess.Domain.Models.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -13,6 +15,7 @@ using TeamWork_API.Utils;
 namespace TeamWork_API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class GroupController : ControllerBase
     {
@@ -34,9 +37,19 @@ namespace TeamWork_API.Controllers
                 return StatusCode(204, Messages.NoContent_204NoContent);
             }
 
-            if (await _userService.GetUserByEmail(detalisReceived.TeacherEmail) == null)
+            if (await _groupService.GetGroupByNameAsync(detalisReceived.GroupName) == null)
+            {
+                return StatusCode(404, Messages.GroupAlreadyExist_409Conflict);
+            }
+
+            var teacher = await _userService.GetUserByEmail(detalisReceived.TeacherEmail);
+            if (teacher == null)
             {
                 return StatusCode(404, Messages.InvalidCredentials_4040NotFound);
+            }
+            if (teacher.UserRole != Role.TEACHER)
+            {
+                return StatusCode(404, Messages.NotBelongToTeacher_4040NotFound);
             }
 
             var key = await _groupService.CrateGroupByUser(detalisReceived);

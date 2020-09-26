@@ -6,7 +6,7 @@
         <form [formGroup]="formRegister" (ngSubmit)="onSubmit()">
             <mat-form-field class="input-style">
                 <mat-label>First Name</mat-label>
-                <input matInput formControlName="firstName">
+                <input matInput formControlName="firstName" required>
                 <mat-icon matSuffix>person</mat-icon>
                 <mat-error *ngIf="formRegister.controls['firstName'].hasError('required')">
                     First name is <strong>required</strong>!
@@ -15,7 +15,7 @@
             <br>
             <mat-form-field class="input-style">
                 <mat-label>Last Name</mat-label>
-                <input matInput formControlName="lastName">
+                <input matInput formControlName="lastName" required>
                 <mat-icon matSuffix>person</mat-icon>
                 <mat-error *ngIf="formRegister.controls['lastName'].hasError('required')">
                     Last name is <strong>required</strong>!
@@ -24,7 +24,7 @@
             <br>
             <mat-form-field class="input-style">
                 <mat-label>Institution</mat-label>
-                <input matInput formControlName="institution">
+                <input matInput formControlName="institution" required>
                 <mat-icon matSuffix>school</mat-icon>
                 <mat-error *ngIf="formRegister.controls['institution'].hasError('required')">
                     Institution is <strong>required</strong>!
@@ -33,7 +33,7 @@
             <br>
             <mat-form-field class="input-style">
                 <mat-label>Email</mat-label>
-                <input matInput placeholder="Ex. pat@example.com" formControlName="email">
+                <input matInput placeholder="Ex. pat@example.com" formControlName="email" required>
                 <mat-icon matSuffix>email</mat-icon>
                 <mat-error *ngIf="!formRegister.controls['email'].hasError('required') || formRegister.controls['email'].hasError('pattern')">
                     Please enter a valid email address!
@@ -45,7 +45,7 @@
             <br>
             <mat-form-field class="input-style">
                 <mat-label>Role</mat-label>
-                <mat-select formControlName="role">
+                <mat-select formControlName="role" required>
                     <mat-option value="Teacher">Teacher</mat-option>
                     <mat-option value="Student">Student</mat-option>
                 </mat-select>
@@ -56,7 +56,7 @@
             <br>
             <mat-form-field class="input-style">
                 <mat-label>Password</mat-label>
-                <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
+                <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required>
                 <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                     [attr.aria-pressed]="hide">
                     <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -71,7 +71,7 @@
             <br>
             <mat-form-field class="input-style">
                 <mat-label>Confirm password</mat-label>
-                <input matInput formControlName="passwordConfirmation" [type]="hide2 ? 'password' : 'text'">
+                <input matInput formControlName="passwordConfirmation" [type]="hide2 ? 'password' : 'text'" required>
                 <button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'"
                     [attr.aria-pressed]="hide2">
                     <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>

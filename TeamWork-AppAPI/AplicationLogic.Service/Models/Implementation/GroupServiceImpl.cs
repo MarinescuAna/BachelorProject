@@ -17,6 +17,10 @@ namespace AplicationLogic.Service.Models.Implementation
             _userService = new UserServiceImpl(uow);
         }
 
+        public async Task<Group> GetGroupByNameAsync(string name)
+        {
+            return await _unitOfWork.Group.GetItem(u => u.GroupName == name);
+        }
         public async Task<Guid> CrateGroupByUser(GroupDetalisReceived groupDetalis)
         {
             var key = Guid.NewGuid();

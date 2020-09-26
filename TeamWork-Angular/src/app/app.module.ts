@@ -20,14 +20,14 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { AppRoutingModule } from './app-routing.module';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
-import {UserRegisterModule} from '../app/modules/user-register.module';
-import {UserLoginModule} from '../app/modules/user-login.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CreateGroupComponent } from './components/group-section/create-group/create-group.component';
 
 import { AlertService } from 'src/app/services/alert.service'; 
 import { ToastrModule } from 'ngx-toastr';
 import { AppErrorHandler } from './handler-error/app-error-handler';
+import {AuthconfigInterceptor} from 'src/app/shared/authconfig.interceptor';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,14 +52,17 @@ import { AppErrorHandler } from './handler-error/app-error-handler';
     MatSidenavModule,
     FlexLayoutModule,
     AppRoutingModule,
-    UserRegisterModule,
-    UserLoginModule,
     HttpClientModule,
     ToastrModule.forRoot()
   ],
   providers: [
     AlertService,
-    AppErrorHandler
+    AppErrorHandler,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthconfigInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

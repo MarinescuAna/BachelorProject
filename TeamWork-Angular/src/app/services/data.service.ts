@@ -21,7 +21,7 @@ export class DataService {
 
   private http: HttpClient;
   private appHandler: AppErrorHandler;
-  private alertService: AlertService;
+  public alertService: AlertService;
   constructor(
     private injector: Injector,
     private url: string

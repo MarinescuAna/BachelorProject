@@ -1,1 +1,41 @@
-<p>create-group works!</p>
+<div fxLayout="column" fxLayoutAlign="center center">
+    <div class="title-style">
+        <h1><strong>Create a new group</strong></h1>
+    </div>
+    <div>
+        <form [formGroup]="formCreateGroup" (ngSubmit)="onSubmit()">
+            <mat-form-field class="input-style" appearance="fill">
+                <mat-label>Group name</mat-label>
+                <input matInput [type]="'text'" formControlName='name' required>
+                <mat-icon matSuffix>edit</mat-icon>
+                <mat-error *ngIf="formCreateGroup.controls['name'].hasError('required')">
+                    Group name is <strong>required</strong>!
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="input-style" appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Ex. pat@example.com" formControlName='emailTeacher'required>
+                <mat-icon matSuffix>email</mat-icon>
+                <mat-error
+                    *ngIf="!formCreateGroup.controls['emailTeacher'].hasError('required') && formCreateGroup.controls['emailTeacher'].hasError('pattern')">
+                    Please enter a valid email address!
+                </mat-error>
+                <mat-error *ngIf="formCreateGroup.controls['emailTeacher'].hasError('required')">
+                    Email is <strong>required</strong>!
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="input-style" appearance="fill">
+                <mat-label>Description</mat-label>
+                <textarea matInput rows="5" placeholder="..." formControlName='description'></textarea>
+            </mat-form-field>
+        </form>
+    </div>
+    <div>
+        <button class="btn-size" color="primary" mat-raised-button (click)="onSubmit()" 
+        [disabled]="formCreateGroup.controls['emailTeacher'].hasError('required') || 
+        formCreateGroup.controls['name'].hasError('required') ||
+        formCreateGroup.controls['emailTeacher'].hasError('pattern')">Create</button>
+    </div>
+</div>

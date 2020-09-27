@@ -16,11 +16,14 @@ namespace DataAccess.Domain.Models.Domain
     {
         [Key]
         public int AssigmentMemberID { get; set; }
-        public Assigment Assigment { get; set; }
-        public AssigmentList AssigmentList { get; set; }
+        public int AssigmentID { get; set; }
+        public Guid AssigmentListUniqueID { get; set; }
         public float TeacherGrade { get; set; }
         public StatusAssigment Status { get; set; }
-        public string SolutionLink { get; set; }
+        public string SolutionLink { get; set; }    
+        
+        public virtual Assigment Assigment { get; set; }
+        public virtual AssigmentList AssigmentList { get; set; }
 
     }
 }

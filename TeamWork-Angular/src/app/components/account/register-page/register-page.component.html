@@ -79,7 +79,7 @@
                 <mat-error *ngIf="formRegister.controls['passwordConfirmation'].hasError('required')">
                     You <strong>must </strong> confirm your password!
                 </mat-error>
-                <mat-error *ngIf="isMatch()">
+                <mat-error *ngIf="isMatch && !formRegister.controls['password'].hasError('required') && !formRegister.controls['passwordConfirmation'].hasError('required')">
                     Passwords <strong>do not</strong> match!
                 </mat-error>
             </mat-form-field>
@@ -97,6 +97,8 @@
                     formRegister.controls['role'].hasError('required') ||
                     formRegister.controls['password'].hasError('required') ||
                     formRegister.controls['passwordConfirmation'].hasError('required') ||
-                    formRegister.controls['email'].hasError('pattern')">Done</button>
+                    formRegister.controls['email'].hasError('pattern') ||
+                    formRegister.controls['passwordConfirmation'].value.length < 6 ||
+                    formRegister.controls['passwordConfirmation'].value !== formRegister.controls['password'].value">Done</button>
     </div>
 </div>

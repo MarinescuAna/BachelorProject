@@ -37,7 +37,8 @@ namespace TeamWork_API.Controllers
                 return StatusCode(204, Messages.NoContent_204NoContent);
             }
 
-            if (await _groupService.GetGroupByNameAsync(detalisReceived.GroupName) == null)
+            var group = await _groupService.GetGroupByNameAsync(detalisReceived.GroupName);
+            if (group != null)
             {
                 return StatusCode(404, Messages.GroupAlreadyExist_409Conflict);
             }
@@ -59,10 +60,11 @@ namespace TeamWork_API.Controllers
                 return StatusCode(400, Messages.SthWentWrong_400BadRequest);
             }
 
-            return StatusCode(201, new JObject
+            var response = new CreateGroupResponse
             {
-                 "key", key
-            });
+                Key=key
+            };
+            return StatusCode(201, response);
         }
     }
 }

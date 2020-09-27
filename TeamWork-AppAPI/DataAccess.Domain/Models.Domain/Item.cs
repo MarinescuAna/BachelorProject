@@ -17,7 +17,8 @@ namespace DataAccess.Domain.Models.Domain
         public int ItemID { get; set; }
         public string Description { get; set; }
         public int CheckListID { get; set; }
-        public CheckList CheckList { get; set; }
         public StatusItem Status { get; set; }
+
+        public virtual CheckList CheckList { get; set; }
     }
 }

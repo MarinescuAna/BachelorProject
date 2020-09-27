@@ -4,14 +4,16 @@ using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Repository.Migrations
 {
     [DbContext(typeof(TeamWorkDbContext))]
-    partial class TeamWorkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200927182357_Migr_Duplicate_Record1")]
+    partial class Migr_Duplicate_Record1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,15 +118,12 @@ namespace DataAccess.Repository.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("GroupUniqueID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("GroupUniqueID1")
+                    b.Property<Guid?>("GroupUniqueID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ChatID");
 
-                    b.HasIndex("GroupUniqueID1");
+                    b.HasIndex("GroupUniqueID");
 
                     b.ToTable("Chats");
                 });
@@ -145,7 +144,7 @@ namespace DataAccess.Repository.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("CheckListID");
@@ -162,13 +161,13 @@ namespace DataAccess.Repository.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AssigmentID")
+                    b.Property<int?>("AssigmentID")
                         .HasColumnType("int");
 
                     b.Property<float>("Grade")
                         .HasColumnType("real");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -264,7 +263,7 @@ namespace DataAccess.Repository.Migrations
                     b.Property<DateTime?>("DateSent")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -357,31 +356,25 @@ namespace DataAccess.Repository.Migrations
                 {
                     b.HasOne("DataAccess.Domain.Models.Domain.Group", "Group")
                         .WithMany()
-                        .HasForeignKey("GroupUniqueID1");
+                        .HasForeignKey("GroupUniqueID");
                 });
 
             modelBuilder.Entity("DataAccess.Domain.Models.Domain.CheckList", b =>
                 {
                     b.HasOne("DataAccess.Domain.Models.Domain.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("DataAccess.Domain.Models.Domain.CollegueGrade", b =>
                 {
                     b.HasOne("DataAccess.Domain.Models.Domain.Assigment", "Assigment")
                         .WithMany()
-                        .HasForeignKey("AssigmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AssigmentID");
 
                     b.HasOne("DataAccess.Domain.Models.Domain.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("DataAccess.Domain.Models.Domain.GroupMember", b =>
@@ -416,9 +409,7 @@ namespace DataAccess.Repository.Migrations
 
                     b.HasOne("DataAccess.Domain.Models.Domain.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

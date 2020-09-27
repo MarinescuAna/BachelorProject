@@ -11,8 +11,11 @@ namespace DataAccess.Domain.Models.Domain
     {
         [Key]
         public int ID { get; set; }
-        public User User { get; set; }
+        public int UserId { get; set; }   
         public float Grade { get; set; }
-        public Assigment Assigment { get; set; }
+        public int AssigmentID { get; set; }
+
+        public virtual User User { get; set; }
+        public virtual Assigment Assigment { get; set; }
     }
 }

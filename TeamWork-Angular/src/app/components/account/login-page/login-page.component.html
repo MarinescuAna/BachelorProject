@@ -39,6 +39,7 @@
         <button class="btn-size" mat-raised-button (click)="onSubmit()"
         [disabled]="formLogin.controls['email'].hasError('required') || 
                     formLogin.controls['password'].hasError('required') ||
+                    formLogin.controls['password'].value.length < 6 ||
                     formLogin.controls['email'].hasError('pattern') ">Done</button>
     </div>
 </div>

@@ -11,7 +11,10 @@ namespace DataAccess.Domain.Models.Domain
         [Key]
         public Guid AssigmentListUniqueID { get; set; }
         public string DomainName { get; set; }
-        public Group Group { get; set; }
-        public User Teacher { get; set; }
+        public Guid GroupUniqueID { get; set; }
+        public int UserID { get; set; }
+
+        public virtual Group Group { get; set; }
+        public virtual User Teacher { get; set; }
     }
 }

@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.Service.Models.Implementation
 {
-    public class GroupServiceImpl:ABaseService, IGroupService
+    public class GroupServiceImpl : ABaseService, IGroupService
     {
         private IUserService _userService;
-        public GroupServiceImpl(IUnitOfWork uow):base(uow)
+        public GroupServiceImpl(IUnitOfWork uow) : base(uow)
         {
             _userService = new UserServiceImpl(uow);
         }
@@ -36,20 +36,21 @@ namespace AplicationLogic.Service.Models.Implementation
             var teacher = await _userService.GetUserByEmail(groupDetalis.TeacherEmail);
             var student = await _userService.GetUserByEmail(groupDetalis.StudentCreatorEmail);
 
-            _unitOfWork.GroupMember.InsertItem(new GroupMember { 
-            Group=group,
-            StatusRequest=StatusRequest.Waiting,
-            User=teacher
+            _unitOfWork.GroupMember.InsertItem(new GroupMember
+            {
+                UserID = teacher.UserId,
+                GroupUniqueID=group.GroupUniqueID,
+                StatusRequest = StatusRequest.Waiting
             });
 
             _unitOfWork.GroupMember.InsertItem(new GroupMember
             {
-                Group = group,
+                GroupUniqueID = group.GroupUniqueID,
                 StatusRequest = StatusRequest.Joined,
-                User = student
+                UserID = student.UserId
             });
 
-            if ( await _unitOfWork.Commit() < 3)
+            if (await _unitOfWork.Commit() < 3)
             {
                 key = Guid.Empty;
             }

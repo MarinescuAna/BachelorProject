@@ -16,7 +16,9 @@ namespace DataAccess.Domain.Models.Domain
         public DateTime? Deadline { get; set; }
         public DateTime? ChecklistDeadline { get; set; }
         public int MaxGroup { get; set; }
-        public User Teacher { get; set; }
+        public int UserID { get; set; }
+
+        public virtual User Teacher { get; set; }
        
 
     }

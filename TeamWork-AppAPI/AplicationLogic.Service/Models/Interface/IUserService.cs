@@ -8,7 +8,7 @@ namespace AplicationLogic.Service.Models.Interface
 {
     public interface IUserService
     {
-        Task<User> GetUserByEmail(string userEmail);
+        Task<User> GetUserByEmailAsync(string userEmail);
         Task<int> InsertUser(User user);
         Task<int> UpdateUserInformation(User user);
     }

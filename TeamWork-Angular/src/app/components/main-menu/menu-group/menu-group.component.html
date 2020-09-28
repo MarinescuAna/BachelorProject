@@ -4,11 +4,11 @@
     </span>
 </button>
 <mat-menu #menu="matMenu" [overlapTrigger]="false">
-    <button mat-menu-item>
+    <button mat-menu-item (click)="redirectTo('create-group')">
         <mat-icon>create</mat-icon>
         <span>Create a New Group</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="redirectTo('join-group')">
         <mat-icon>group_add</mat-icon>
         <span>Join a Group</span>
     </button>

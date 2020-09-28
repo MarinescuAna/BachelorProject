@@ -9,7 +9,10 @@ namespace AplicationLogic.Service.Models.Interface
 {
     public interface IGroupService
     {
-        Task<Guid> CrateGroupByUser(GroupDetalisReceived groupDetalis);
+        Task<Guid> CrateGroupByUserAsync(GroupDetalisReceived groupDetalis);
         Task<Group> GetGroupByNameAsync(string name);
+        Task<Group> GetGroupByKeyAsync(string key);
+        Task<int> JoinToGroupAsync(JoinGroup group);
+        Task<GroupMember> GetGroupMemberByKeyIdAsync(string key, int id);
     }
 }

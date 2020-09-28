@@ -40,16 +40,17 @@ namespace TeamWork_API.Controllers
                 return StatusCode(204, Messages.NoContent_204NoContent);
             }
 
-            User user = await _userService.GetUserByEmail(credentials.EmailAddress);
+            User user = await _userService.GetUserByEmailAsync(credentials.EmailAddress);
 
             if (user == null || user.Password!= credentials.Password)
             {
                 return StatusCode(404,Messages.InvalidCredentials_4040NotFound );
             }
 
-            JWToken jWToken = new JWToken();
-
-            jWToken.AccessToken = user.AccessToken = tokenGenerator.GenerateAccessToken(user.UserId.ToString(), user.EmailAddress, user.UserRole.ToString());
+            JWToken jWToken = new JWToken
+            {
+                AccessToken = user.AccessToken = tokenGenerator.GenerateAccessToken(user.UserId.ToString(), user.EmailAddress, user.UserRole.ToString())
+            };
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(2);
             jWToken.RefershToken = user.RefreshToken = tokenGenerator.GenerateRefreshToken(user.UserId.ToString(), user.EmailAddress, DateTime.Now.AddMonths(2).ToString(), user.UserRole.ToString());
@@ -75,7 +76,7 @@ namespace TeamWork_API.Controllers
                 return StatusCode(204,Messages.NoContent_204NoContent);
             }
 
-            if (await _userService.GetUserByEmail(userCredentials.EmailAddress) != null)
+            if (await _userService.GetUserByEmailAsync(userCredentials.EmailAddress) != null)
             {
                 return StatusCode(409, Messages.UserAlreadyExistLogin_409Conflict);
             }

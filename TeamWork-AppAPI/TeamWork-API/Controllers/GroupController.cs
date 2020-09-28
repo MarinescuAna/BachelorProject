@@ -43,7 +43,7 @@ namespace TeamWork_API.Controllers
                 return StatusCode(404, Messages.GroupAlreadyExist_409Conflict);
             }
 
-            var teacher = await _userService.GetUserByEmail(detalisReceived.TeacherEmail);
+            var teacher = await _userService.GetUserByEmailAsync(detalisReceived.TeacherEmail);
             if (teacher == null)
             {
                 return StatusCode(404, Messages.InvalidCredentials_4040NotFound);
@@ -53,7 +53,7 @@ namespace TeamWork_API.Controllers
                 return StatusCode(404, Messages.NotBelongToTeacher_4040NotFound);
             }
 
-            var key = await _groupService.CrateGroupByUser(detalisReceived);
+            var key = await _groupService.CrateGroupByUserAsync(detalisReceived);
 
             if (key == Guid.Empty)
             {
@@ -65,6 +65,35 @@ namespace TeamWork_API.Controllers
                 Key=key
             };
             return StatusCode(201, response);
+        }
+
+        [HttpPost]
+        [Route("JoinToGroup")]
+        public async Task<IActionResult> JoinToGroup(JoinGroup joinGroup)
+        {
+            if (joinGroup==null)
+            {
+                return StatusCode(204, Messages.NoContent_204NoContent);
+            }
+
+            var group = await _groupService.GetGroupByKeyAsync(joinGroup.Key);
+            if (group == null)
+            {
+                return StatusCode(404, Messages.InvalidKey_4040NotFound);
+            }
+
+            var user = await _userService.GetUserByEmailAsync(joinGroup.AttenderEmail);
+            if(await _groupService.GetGroupMemberByKeyIdAsync(joinGroup.Key, user.UserId) != null)
+            {
+                return StatusCode(409, Messages.PartFromGroup_409Conflict);
+            }
+
+            if(await _groupService.JoinToGroupAsync(joinGroup) < 1)
+            {
+                return StatusCode(400, Messages.SthWentWrong_400BadRequest);
+            }
+
+            return StatusCode(200, Messages.Success_200Ok);
         }
     }
 }

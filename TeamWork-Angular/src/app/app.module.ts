@@ -27,6 +27,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { ToastrModule } from 'ngx-toastr';
 import { AppErrorHandler } from './handler-error/app-error-handler';
 import {AuthconfigInterceptor} from 'src/app/shared/authconfig.interceptor';
+import { JoinGroupComponent } from './components/group-section/join-group/join-group.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {AuthconfigInterceptor} from 'src/app/shared/authconfig.interceptor';
     LoginPageComponent,
     RegisterPageComponent,
     MainPageComponent,
-    CreateGroupComponent
+    CreateGroupComponent,
+    JoinGroupComponent
   ],
   imports: [
     ReactiveFormsModule,

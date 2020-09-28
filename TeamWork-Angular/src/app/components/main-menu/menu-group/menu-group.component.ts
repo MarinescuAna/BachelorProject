@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu-group',
@@ -12,4 +13,11 @@ export class MenuGroupComponent  {
     this.clickMe._elementRef.nativeElement.click();
   }
 
+  constructor(private route: Router){
+
+  }
+
+  redirectTo(url:string):void{
+    this.route.navigateByUrl(url);
+  }
 }

@@ -11,17 +11,25 @@ namespace AplicationLogic.Service.Models.Implementation
 {
     public class GroupServiceImpl : ABaseService, IGroupService
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
         public GroupServiceImpl(IUnitOfWork uow) : base(uow)
         {
             _userService = new UserServiceImpl(uow);
         }
 
+        public async Task<Group> GetGroupByKeyAsync(string key)
+        {
+            return await _unitOfWork.Group.GetItem(u => u.GroupUniqueID.ToString() == key);
+        }
+        public async Task<GroupMember> GetGroupMemberByKeyIdAsync(string key, int id)
+        {
+            return await _unitOfWork.GroupMember.GetItem(u => u.GroupUniqueID.ToString() == key && u.UserID==id);
+        }
         public async Task<Group> GetGroupByNameAsync(string name)
         {
             return await _unitOfWork.Group.GetItem(u => u.GroupName == name);
         }
-        public async Task<Guid> CrateGroupByUser(GroupDetalisReceived groupDetalis)
+        public async Task<Guid> CrateGroupByUserAsync(GroupDetalisReceived groupDetalis)
         {
             var key = Guid.NewGuid();
             var group = new Group
@@ -33,8 +41,8 @@ namespace AplicationLogic.Service.Models.Implementation
 
             _unitOfWork.Group.InsertItem(group);
 
-            var teacher = await _userService.GetUserByEmail(groupDetalis.TeacherEmail);
-            var student = await _userService.GetUserByEmail(groupDetalis.StudentCreatorEmail);
+            var teacher = await _userService.GetUserByEmailAsync(groupDetalis.TeacherEmail);
+            var student = await _userService.GetUserByEmailAsync(groupDetalis.StudentCreatorEmail);
 
             _unitOfWork.GroupMember.InsertItem(new GroupMember
             {
@@ -56,6 +64,20 @@ namespace AplicationLogic.Service.Models.Implementation
             }
 
             return key;
+        }
+        public async Task<int> JoinToGroupAsync(JoinGroup group)
+        {
+            var user = await _userService.GetUserByEmailAsync(group.AttenderEmail);
+            var groupTarget = await GetGroupByKeyAsync(group.Key);
+            var newMember = new GroupMember
+            {
+                GroupUniqueID=groupTarget.GroupUniqueID,
+                StatusRequest=StatusRequest.Joined,
+                UserID=user.UserId,
+            };
+
+            _unitOfWork.GroupMember.InsertItem(newMember);
+            return await _unitOfWork.Commit();
         }
     }
 }

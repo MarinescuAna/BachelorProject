@@ -16,7 +16,7 @@ namespace AplicationLogic.Service.Models.Implementation
     {   
         public UserServiceImpl(IUnitOfWork uow):base(uow)
         {}
-        public Task<User> GetUserByEmail(string userEmail)
+        public Task<User> GetUserByEmailAsync(string userEmail)
         {
            return _unitOfWork.User.GetItem(u=>u.EmailAddress==userEmail);    
         }

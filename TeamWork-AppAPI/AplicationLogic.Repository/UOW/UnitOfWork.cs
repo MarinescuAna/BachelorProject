@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using TeamWork.AplicationLogin.Logger;
 
 namespace AplicationLogic.Repository.UOW
 {
@@ -14,14 +15,17 @@ namespace AplicationLogic.Repository.UOW
         private IUserRepository _User;
         private IGroupRepository _Group;
         private IGroupMemberRepository _GroupMember;
-        public UnitOfWork(TeamWorkDbContext ctx)
+        private readonly ILoggerService _loggerService;
+        public UnitOfWork(TeamWorkDbContext ctx, ILoggerService loggerService)
         {
             context = ctx;
+            _loggerService = loggerService;
         }
-        public IUserRepository User {
+        public IUserRepository User
+        {
             get
             {
-                if(_User==null)
+                if (_User == null)
                 {
                     _User = new UserRepositoryImpl(context);
                 }
@@ -54,14 +58,24 @@ namespace AplicationLogic.Repository.UOW
             }
         }
 
-        public async Task<int> Commit()
+        public async Task<int> Commit(string loggDetails)
         {
-           return await context.SaveChangesAsync();
+            try
+            {
+                return await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogError(loggDetails, ex.Message);
+                Dispose();
+            }
+
+            return -1;
         }
 
         public async void Dispose()
         {
-             await context.DisposeAsync();
+            await context.DisposeAsync();
         }
     }
 }

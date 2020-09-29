@@ -25,14 +25,14 @@ namespace AplicationLogic.Service.Models.Implementation
         {
             _unitOfWork.User.InsertItem(user);
 
-            return _unitOfWork.Commit();
+            return _unitOfWork.Commit("UserServiceImpl -> InsertUser");
         }
 
         public Task<int> UpdateUserInformation(User user)
         {
             _unitOfWork.User.UpdateItem(u => u.UserId == user.UserId, user);
 
-            return _unitOfWork.Commit();
+            return _unitOfWork.Commit("UserServiceImpl -> UpdateUserInformation");
         }
     }
 }

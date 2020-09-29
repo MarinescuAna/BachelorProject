@@ -355,3 +355,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+TeamWork-AppAPI/Logger/internal_logs/internallog.txt

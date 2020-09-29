@@ -16,6 +16,9 @@ using System.Text;
 using System;
 using Microsoft.AspNetCore.Http;
 using AplicationLogic.Repository.UOW;
+using System.IO;
+using TeamWork.AplicationLogin.Logger;
+using NLog;
 
 namespace TeamWork_API
 {
@@ -23,6 +26,7 @@ namespace TeamWork_API
     {
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
 
@@ -39,6 +43,7 @@ namespace TeamWork_API
                    Configuration.GetConnectionString("DefaultConnection")));
 
             //Dependency Injection
+            services.AddSingleton<ILoggerService, LoggerService>();
             services.AddScoped<IUserService, UserServiceImpl>();
             services.AddScoped<IGroupService, GroupServiceImpl>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

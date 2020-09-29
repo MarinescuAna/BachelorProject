@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { GroupCreateModule } from '../modules/group-create.module';
 import { GroupCreateResponseModule } from '../modules/group-create-response.module';
 import { DataService } from '../services/data.service';
-import {JoinGroupModule} from 'src/app/modules/join-group';
+import {JoinGroupModule} from 'src/app/modules/join-group.module';
 @Injectable({
   providedIn: 'root'
 })

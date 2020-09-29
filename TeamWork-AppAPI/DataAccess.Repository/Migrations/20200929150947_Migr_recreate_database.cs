@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Repository.Migrations
 {
-    public partial class First_Not_First : Migration
+    public partial class Migr_recreate_database : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,7 @@ namespace DataAccess.Repository.Migrations
                     Password = table.Column<string>(nullable: true),
                     EmailAddress = table.Column<string>(nullable: true),
                     Institution = table.Column<string>(nullable: true),
-                    UserRole = table.Column<int>(nullable: false),
+                    UserRole = table.Column<int>(nullable: true),
                     AccessToken = table.Column<string>(nullable: true),
                     RefreshToken = table.Column<string>(nullable: true),
                     AccessTokenExpiration = table.Column<DateTime>(nullable: true),
@@ -48,15 +48,14 @@ namespace DataAccess.Repository.Migrations
                 {
                     ChatID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GroupUniqueID = table.Column<Guid>(nullable: false),
-                    GroupUniqueID1 = table.Column<Guid>(nullable: true)
+                    GroupUniqueID = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Chats", x => x.ChatID);
                     table.ForeignKey(
-                        name: "FK_Chats_Groups_GroupUniqueID1",
-                        column: x => x.GroupUniqueID1,
+                        name: "FK_Chats_Groups_GroupUniqueID",
+                        column: x => x.GroupUniqueID,
                         principalTable: "Groups",
                         principalColumn: "GroupUniqueID",
                         onDelete: ReferentialAction.Restrict);
@@ -68,22 +67,21 @@ namespace DataAccess.Repository.Migrations
                 {
                     AssigmentListUniqueID = table.Column<Guid>(nullable: false),
                     DomainName = table.Column<string>(nullable: true),
-                    GroupUniqueID = table.Column<Guid>(nullable: false),
-                    GroupUniqueID1 = table.Column<Guid>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    GroupUniqueID = table.Column<Guid>(nullable: true),
+                    UserID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AssigmentList", x => x.AssigmentListUniqueID);
                     table.ForeignKey(
-                        name: "FK_AssigmentList_Groups_GroupUniqueID1",
-                        column: x => x.GroupUniqueID1,
+                        name: "FK_AssigmentList_Groups_GroupUniqueID",
+                        column: x => x.GroupUniqueID,
                         principalTable: "Groups",
                         principalColumn: "GroupUniqueID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_AssigmentList_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_AssigmentList_Users_UserID",
+                        column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -98,15 +96,15 @@ namespace DataAccess.Repository.Migrations
                     Description = table.Column<string>(nullable: true),
                     Deadline = table.Column<DateTime>(nullable: true),
                     ChecklistDeadline = table.Column<DateTime>(nullable: true),
-                    MaxGroup = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    MaxGroup = table.Column<int>(nullable: true),
+                    UserID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Assigments", x => x.AssigmentID);
                     table.ForeignKey(
-                        name: "FK_Assigments_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Assigments_Users_UserID",
+                        column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -118,8 +116,8 @@ namespace DataAccess.Repository.Migrations
                 {
                     CheckListID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: true),
+                    Status = table.Column<int>(nullable: true),
                     LastUpdate = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true)
                 },
@@ -140,22 +138,22 @@ namespace DataAccess.Repository.Migrations
                 {
                     GroupMemberID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    GroupUniqueID = table.Column<Guid>(nullable: false),
-                    GroupUniqueID1 = table.Column<Guid>(nullable: true)
+                    UserID = table.Column<int>(nullable: true),
+                    GroupUniqueID = table.Column<Guid>(nullable: true),
+                    StatusRequest = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GroupMembers", x => x.GroupMemberID);
                     table.ForeignKey(
-                        name: "FK_GroupMembers_Groups_GroupUniqueID1",
-                        column: x => x.GroupUniqueID1,
+                        name: "FK_GroupMembers_Groups_GroupUniqueID",
+                        column: x => x.GroupUniqueID,
                         principalTable: "Groups",
                         principalColumn: "GroupUniqueID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_GroupMembers_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_GroupMembers_Users_UserID",
+                        column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -167,10 +165,10 @@ namespace DataAccess.Repository.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ChatID = table.Column<int>(nullable: false),
+                    ChatID = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: true),
                     Content = table.Column<string>(nullable: true),
-                    DateSent = table.Column<DateTime>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    DateSent = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -195,11 +193,10 @@ namespace DataAccess.Repository.Migrations
                 {
                     AssigmentMemberID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AssigmentID = table.Column<int>(nullable: false),
-                    AssigmentListUniqueID = table.Column<Guid>(nullable: false),
-                    AssigmentListUniqueID1 = table.Column<Guid>(nullable: true),
-                    TeacherGrade = table.Column<float>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
+                    AssigmentID = table.Column<int>(nullable: true),
+                    AssigmentListUniqueID = table.Column<Guid>(nullable: true),
+                    TeacherGrade = table.Column<float>(nullable: true),
+                    Status = table.Column<int>(nullable: true),
                     SolutionLink = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -212,8 +209,8 @@ namespace DataAccess.Repository.Migrations
                         principalColumn: "AssigmentID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AssigmentMembers_AssigmentList_AssigmentListUniqueID1",
-                        column: x => x.AssigmentListUniqueID1,
+                        name: "FK_AssigmentMembers_AssigmentList_AssigmentListUniqueID",
+                        column: x => x.AssigmentListUniqueID,
                         principalTable: "AssigmentList",
                         principalColumn: "AssigmentListUniqueID",
                         onDelete: ReferentialAction.Restrict);
@@ -225,9 +222,9 @@ namespace DataAccess.Repository.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    Grade = table.Column<float>(nullable: false),
-                    AssigmentID = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: true),
+                    Grade = table.Column<float>(nullable: true),
+                    AssigmentID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -253,8 +250,8 @@ namespace DataAccess.Repository.Migrations
                     ItemID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(nullable: true),
-                    CheckListID = table.Column<int>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
+                    CheckListID = table.Column<int>(nullable: true),
+                    Status = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -268,14 +265,14 @@ namespace DataAccess.Repository.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssigmentList_GroupUniqueID1",
+                name: "IX_AssigmentList_GroupUniqueID",
                 table: "AssigmentList",
-                column: "GroupUniqueID1");
+                column: "GroupUniqueID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssigmentList_UserId",
+                name: "IX_AssigmentList_UserID",
                 table: "AssigmentList",
-                column: "UserId");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AssigmentMembers_AssigmentID",
@@ -283,19 +280,19 @@ namespace DataAccess.Repository.Migrations
                 column: "AssigmentID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssigmentMembers_AssigmentListUniqueID1",
+                name: "IX_AssigmentMembers_AssigmentListUniqueID",
                 table: "AssigmentMembers",
-                column: "AssigmentListUniqueID1");
+                column: "AssigmentListUniqueID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Assigments_UserId",
+                name: "IX_Assigments_UserID",
                 table: "Assigments",
-                column: "UserId");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Chats_GroupUniqueID1",
+                name: "IX_Chats_GroupUniqueID",
                 table: "Chats",
-                column: "GroupUniqueID1");
+                column: "GroupUniqueID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CheckLists_UserId",
@@ -313,14 +310,14 @@ namespace DataAccess.Repository.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupMembers_GroupUniqueID1",
+                name: "IX_GroupMembers_GroupUniqueID",
                 table: "GroupMembers",
-                column: "GroupUniqueID1");
+                column: "GroupUniqueID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupMembers_UserId",
+                name: "IX_GroupMembers_UserID",
                 table: "GroupMembers",
-                column: "UserId");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_CheckListID",

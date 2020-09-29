@@ -9,6 +9,7 @@ import { LoginPageComponent } from './components/account/login-page/login-page.c
 import { RegisterPageComponent } from './components/account/register-page/register-page.component';
 import { MainPageComponent } from './components/landing-page/main-page/main-page.component';
 
+import {MatCardModule} from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
@@ -28,6 +29,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppErrorHandler } from './handler-error/app-error-handler';
 import {AuthconfigInterceptor} from 'src/app/shared/authconfig.interceptor';
 import { JoinGroupComponent } from './components/group-section/join-group/join-group.component';
+import { GroupComponent } from './components/group-section/my-groups/group/group.component';
+import { GroupsComponent } from './components/group-section/my-groups/groups/groups.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,9 @@ import { JoinGroupComponent } from './components/group-section/join-group/join-g
     RegisterPageComponent,
     MainPageComponent,
     CreateGroupComponent,
-    JoinGroupComponent
+    JoinGroupComponent,
+    GroupComponent,
+    GroupsComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -55,6 +60,7 @@ import { JoinGroupComponent } from './components/group-section/join-group/join-g
     FlexLayoutModule,
     AppRoutingModule,
     HttpClientModule,
+    MatCardModule,
     ToastrModule.forRoot()
   ],
   providers: [

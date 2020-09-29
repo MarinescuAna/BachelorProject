@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DataAccess.Domain\DataAccess.Domain.csproj" />
     <ProjectReference Include="..\DataAccess.Repository\DataAccess.Repository.csproj" />
+    <ProjectReference Include="..\TeamWork.AplicationLogin.Logger\TeamWork.AplicationLogin.Logger.csproj" />
   </ItemGroup>
 
 </Project>

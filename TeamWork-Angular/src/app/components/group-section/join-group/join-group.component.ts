@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { JoinGroupModule } from 'src/app/modules/join-group';
+import { JoinGroupModule } from 'src/app/modules/join-group.module';
 import { GroupService } from 'src/app/services/group-service';
 import { AuthService } from 'src/app/shared/auth.service';
 

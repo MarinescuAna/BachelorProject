@@ -6,6 +6,7 @@ import { CreateGroupComponent } from './components/group-section/create-group/cr
 import { MainPageComponent } from './components/landing-page/main-page/main-page.component';
 import { AuthGuard } from 'src/app/shared/auth.guard';
 import { JoinGroupComponent } from './components/group-section/join-group/join-group.component';
+import { GroupsComponent } from './components/group-section/my-groups/groups/groups.component';
 
 const routes: Routes=[
 
@@ -34,6 +35,11 @@ const routes: Routes=[
   {
     path:'join-group',
     component: JoinGroupComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path:'my-groups',
+    component: GroupsComponent,
     canActivate: [AuthGuard]
   }
 ]

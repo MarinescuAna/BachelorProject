@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using TeamWork.AplicationLogin.Logger;
 using TeamWork_API.Utils;
 
 namespace TeamWork_API.Controllers
@@ -22,7 +23,7 @@ namespace TeamWork_API.Controllers
         private readonly IGroupService _groupService;
         private readonly IUserService _userService;
 
-        public GroupController(IGroupService group, IUserService user)
+        public GroupController(IGroupService group, IUserService user )
         {
             _groupService = group;
             _userService = user;

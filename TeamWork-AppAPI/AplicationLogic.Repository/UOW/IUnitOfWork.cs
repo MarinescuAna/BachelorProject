@@ -11,6 +11,6 @@ namespace AplicationLogic.Repository.UOW
         IUserRepository User { get; }
         IGroupRepository Group { get; }
         IGroupMemberRepository GroupMember { get; }
-        Task<int> Commit();
+        Task<int> Commit(string loggDetails);
     }
 }

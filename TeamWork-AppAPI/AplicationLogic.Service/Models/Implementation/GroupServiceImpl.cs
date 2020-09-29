@@ -48,17 +48,21 @@ namespace AplicationLogic.Service.Models.Implementation
             {
                 UserID = teacher.UserId,
                 GroupUniqueID=group.GroupUniqueID,
-                StatusRequest = StatusRequest.Waiting
+                StatusRequest = StatusRequest.Waiting,
+                Group=group,
+                User=teacher
             });
 
             _unitOfWork.GroupMember.InsertItem(new GroupMember
             {
                 GroupUniqueID = group.GroupUniqueID,
                 StatusRequest = StatusRequest.Joined,
-                UserID = student.UserId
+                UserID = student.UserId,
+                User=student,
+                Group=group
             });
 
-            if (await _unitOfWork.Commit() < 3)
+            if (await _unitOfWork.Commit("GroupServiceImpl -> CrateGroupByUserAsync ->") < 3)
             {
                 key = Guid.Empty;
             }
@@ -77,7 +81,7 @@ namespace AplicationLogic.Service.Models.Implementation
             };
 
             _unitOfWork.GroupMember.InsertItem(newMember);
-            return await _unitOfWork.Commit();
+            return await _unitOfWork.Commit("GroupServiceImpl -> JoinToGroupAsync ->");
         }
     }
 }

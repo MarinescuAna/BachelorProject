@@ -1,9 +1,7 @@
-﻿using DataAccess.Domain;
-using DataAccess.Domain.Models.Domain;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using Microsoft.EntityFrameworkCore;
+using TeamWork.DataAccess.Domain.Models.Domain;
 
-namespace DataAccess.Repository
+namespace TeamWork.DataAccess.Repository
 {
     public class TeamWorkDbContext:DbContext
     {
@@ -23,11 +21,11 @@ namespace DataAccess.Repository
         public DbSet<GroupMember> GroupMembers { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public string JwTokenGenerator { get; private set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-
         }
     }
 }

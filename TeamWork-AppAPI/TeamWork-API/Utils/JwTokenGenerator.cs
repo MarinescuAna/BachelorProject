@@ -20,14 +20,12 @@ namespace TeamWork_API.Utils
 
         public string GenerateAccessToken(string userId, string userEmail, string role)
         {
-            var key = Encoding.ASCII.GetBytes(configuration["SecretKey"]);
+            var key = Encoding.ASCII.GetBytes(configuration[Constants.SecretKey]);
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] {
-                    new Claim(ClaimTypes.Email,userEmail),
-                    new Claim(ClaimTypes.Name, userId),
-                    new Claim(ClaimTypes.Role, role)
+                    new Claim(ClaimTypes.Email,userEmail)
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
@@ -39,15 +37,13 @@ namespace TeamWork_API.Utils
         }
         public string GenerateRefreshToken(string userId, string userEmail, string date, string role)
         {
-            var key = Encoding.ASCII.GetBytes(configuration["SecretKey"]);
+            var key = Encoding.ASCII.GetBytes(configuration[Constants.SecretKey]);
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] {
                     new Claim(ClaimTypes.Expiration, date),
-                    new Claim(ClaimTypes.Email,userEmail),
-                    new Claim(ClaimTypes.Name, userId),
-                    new Claim(ClaimTypes.Role,role)
+                    new Claim(ClaimTypes.Email,userEmail)
                 }),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)

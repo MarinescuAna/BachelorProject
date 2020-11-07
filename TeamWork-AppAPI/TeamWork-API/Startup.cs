@@ -1,24 +1,23 @@
-using AplicationLogic.Service.Models.Implementation;
-using AplicationLogic.Service.Models.Interface;
-using DataAccess.Repository;
+using TeamWork.DataAccess.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System;
 using Microsoft.AspNetCore.Http;
-using AplicationLogic.Repository.UOW;
 using System.IO;
-using TeamWork.AplicationLogin.Logger;
 using NLog;
+using TeamWork.ApplicationLogger;
+using TeamWork.ApplicationLogic.Service.Models.Interface;
+using TeamWork.ApplicationLogic.Service.Models.Implementation;
+using TeamWork.ApplicationLogic.Repository.UOW;
+using Microsoft.EntityFrameworkCore;
 
 namespace TeamWork_API
 {
@@ -47,13 +46,11 @@ namespace TeamWork_API
             services.AddScoped<IUserService, UserServiceImpl>();
             services.AddScoped<IGroupService, GroupServiceImpl>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //Session
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(120);
             });
 
             //For Jwt
@@ -80,52 +77,11 @@ namespace TeamWork_API
            });
 
             //For SWAGGER
-            services.AddSwaggerGen(
-                c =>
+            services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Core API", Description = "Swagger Core API" });
-                    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-
-                    //JWT again
-                    var secutity = new Dictionary<string, IEnumerable<string>> {
-                        { "Bearer", new string[0]}
-                    };
-
-                    var securityScheme = new OpenApiSecurityScheme
-                    {
-                        Name = "Authorization",
-                        Description = "Jwt authorization header using the bearer scheme",
-                        In = ParameterLocation.Header,
-                        Type = SecuritySchemeType.Http,
-                        Scheme = "bearer", // must be lower case
-                        BearerFormat = "JWT",
-                        Reference = new OpenApiReference
-                        {
-                            Id = JwtBearerDefaults.AuthenticationScheme,
-                            Type = ReferenceType.SecurityScheme
-                        }
-                    };
-                    c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
-                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                    {
-                        {securityScheme, new string[] { }}
-                    });
-
-                    // add Basic Authentication
-                    var basicSecurityScheme = new OpenApiSecurityScheme
-                    {
-                        Type = SecuritySchemeType.Http,
-                        Scheme = "basic",
-                        Reference = new OpenApiReference { Id = "BasicAuth", Type = ReferenceType.SecurityScheme }
-                    };
-                    c.AddSecurityDefinition(basicSecurityScheme.Reference.Id, basicSecurityScheme);
-                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                    {
-                        {basicSecurityScheme, new string[] { }}
-                    });
-                }
-
-                );
+                    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());                
+                });
 
             //For Angular Consumer
             services.AddCors(o=>o.AddPolicy("CORSPolicy", builder => {

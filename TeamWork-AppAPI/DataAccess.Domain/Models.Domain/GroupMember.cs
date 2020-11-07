@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace DataAccess.Domain.Models.Domain
+namespace TeamWork.DataAccess.Domain.Models.Domain
 {
     public enum StatusRequest
     {
@@ -17,12 +17,9 @@ namespace DataAccess.Domain.Models.Domain
     {
         [Key]
         public int GroupMemberID { get; set; }
-        public int UserID { get; set; }
-        public Guid GroupUniqueID { get; set; }
         public StatusRequest StatusRequest { get; set; }
-
-        public virtual User User { get; set; }
-        public virtual Group Group { get; set; }
+        public User User { get; set; }
+        public Group Group { get; set; }
 
     }
 }

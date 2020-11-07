@@ -1,13 +1,11 @@
-﻿using AplicationLogic.Repository.Models.Implementation;
-using AplicationLogic.Repository.Models.Interface;
-using DataAccess.Repository;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
-using TeamWork.AplicationLogin.Logger;
+using TeamWork.ApplicationLogger;
+using TeamWork.ApplicationLogic.Repository.Models.Implementation;
+using TeamWork.ApplicationLogic.Repository.Models.Interface;
+using TeamWork.DataAccess.Repository;
 
-namespace AplicationLogic.Repository.UOW
+namespace TeamWork.ApplicationLogic.Repository.UOW
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -67,6 +65,7 @@ namespace AplicationLogic.Repository.UOW
             catch (Exception ex)
             {
                 _loggerService.LogError(loggDetails, ex.Message);
+                _loggerService.LogError(loggDetails, ex.InnerException.Message);
                 Dispose();
             }
 

@@ -1,13 +1,13 @@
-﻿using AplicationLogic.Repository.UOW;
-using AplicationLogic.Service.Models.Interface;
-using DataAccess.Domain.Group.Domain;
-using DataAccess.Domain.Models.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
+using TeamWork.ApplicationLogic.Repository.UOW;
+using TeamWork.ApplicationLogic.Service.Models.Interface;
+using TeamWork.DataAccess.Domain.Group.Domain;
+using TeamWork.DataAccess.Domain.Models.Domain;
 
-namespace AplicationLogic.Service.Models.Implementation
+namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 {
     public class GroupServiceImpl : ABaseService, IGroupService
     {
@@ -16,20 +16,32 @@ namespace AplicationLogic.Service.Models.Implementation
         {
             _userService = new UserServiceImpl(uow);
         }
+        private async Task<int> GetNoMembersFromGroupByGuid(Guid key) => (await _unitOfWork
+            .GroupMember
+            .GetItems())
+            .Where(s => s.Group.GroupUniqueID == key)
+            .Count();
+        private async Task<string> GetTeacherEmailByGroupId(Guid guid) => (await _unitOfWork
+            .GroupMember
+            .GetItems())
+            .FirstOrDefault(s => s.Group.GroupUniqueID == guid 
+                            && s.User.UserRole == Role.TEACHER)
+            .User
+            .EmailAddress;
+        public async Task<Group> GetGroupByKeyAsync(string key) => await _unitOfWork
+            .Group
+            .GetItem(u => u.GroupUniqueID.ToString() == key);
 
-        public async Task<Group> GetGroupByKeyAsync(string key)
-        {
-            return await _unitOfWork.Group.GetItem(u => u.GroupUniqueID.ToString() == key);
-        }
-        public async Task<GroupMember> GetGroupMemberByKeyIdAsync(string key, int id)
-        {
-            return await _unitOfWork.GroupMember.GetItem(u => u.GroupUniqueID.ToString() == key && u.UserID==id);
-        }
-        public async Task<Group> GetGroupByNameAsync(string name)
-        {
-            return await _unitOfWork.Group.GetItem(u => u.GroupName == name);
-        }
-        public async Task<Guid> CrateGroupByUserAsync(GroupDetalisReceived groupDetalis)
+        public async Task<GroupMember> GetGroupMemberByKeyIdAsync(string key, int id) => await _unitOfWork
+            .GroupMember
+            .GetItem(u => u.Group.GroupUniqueID.ToString() == key
+                          && u.User.UserId == id);
+
+        public async Task<Group> GetGroupByNameAsync(string name) => await _unitOfWork
+            .Group
+            .GetItem(u => u.GroupName == name);
+        
+        public async Task<Guid> CreateGroupByUserAsync(GroupDetalisReceived groupDetalis)
         {
             var key = Guid.NewGuid();
             var group = new Group
@@ -46,20 +58,16 @@ namespace AplicationLogic.Service.Models.Implementation
 
             _unitOfWork.GroupMember.InsertItem(new GroupMember
             {
-                UserID = teacher.UserId,
-                GroupUniqueID=group.GroupUniqueID,
                 StatusRequest = StatusRequest.Waiting,
-                Group=group,
-                User=teacher
+                Group = group,
+                User = teacher
             });
 
             _unitOfWork.GroupMember.InsertItem(new GroupMember
             {
-                GroupUniqueID = group.GroupUniqueID,
                 StatusRequest = StatusRequest.Joined,
-                UserID = student.UserId,
-                User=student,
-                Group=group
+                User = student,
+                Group = group
             });
 
             if (await _unitOfWork.Commit("GroupServiceImpl -> CrateGroupByUserAsync ->") < 3)
@@ -75,13 +83,33 @@ namespace AplicationLogic.Service.Models.Implementation
             var groupTarget = await GetGroupByKeyAsync(group.Key);
             var newMember = new GroupMember
             {
-                GroupUniqueID=groupTarget.GroupUniqueID,
-                StatusRequest=StatusRequest.Joined,
-                UserID=user.UserId,
+                StatusRequest = StatusRequest.Joined,
+                Group = groupTarget,
+                User = user
             };
 
             _unitOfWork.GroupMember.InsertItem(newMember);
             return await _unitOfWork.Commit("GroupServiceImpl -> JoinToGroupAsync ->");
+        }
+
+        public async Task<List<ViewGroups>> GetGroups(User user)
+        {
+            List<ViewGroups> viewGroups = new List<ViewGroups>();
+            var groups = (await _unitOfWork.GroupMember.GetItems()).Where(s => s.User.UserId == user.UserId);
+
+            foreach (var group in groups)
+            {
+                viewGroups.Add(
+                    new ViewGroups
+                    {
+                        GroupName = group.Group.GroupName,
+                        NoMembers = await GetNoMembersFromGroupByGuid(group.Group.GroupUniqueID),
+                        TeacherName = await GetTeacherEmailByGroupId(group.Group.GroupUniqueID),
+                        UniqueKey = group.Group.GroupUniqueID
+                    });
+            }
+
+            return viewGroups;
         }
     }
 }

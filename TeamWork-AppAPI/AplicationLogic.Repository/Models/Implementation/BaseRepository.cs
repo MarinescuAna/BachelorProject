@@ -1,16 +1,14 @@
-﻿using AplicationLogic.Repository.Models.Interface;
-using DataAccess.Repository;
+﻿using TeamWork.DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
+using TeamWork.ApplicationLogic.Repository.Models.Interface;
 
-namespace AplicationLogic.Repository.Models.Implementation
+namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T: class
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T: class
     {
         protected TeamWorkDbContext context;
         public BaseRepository(TeamWorkDbContext ctx)
@@ -36,7 +34,7 @@ namespace AplicationLogic.Repository.Models.Implementation
             return await context.Set<T>().FirstOrDefaultAsync(expression);
         }
 
-        public async Task<IEnumerable<T>> GetItems()
+        public virtual async Task<IEnumerable<T>> GetItems()
         {
             return await context.Set<T>().ToListAsync();
         }

@@ -1,11 +1,8 @@
-﻿using AplicationLogic.Repository.Models.Interface;
-using DataAccess.Domain.Models.Domain;
-using DataAccess.Repository;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using TeamWork.DataAccess.Repository;
+using TeamWork.ApplicationLogic.Repository.Models.Interface;
+using TeamWork.DataAccess.Domain.Models.Domain;
 
-namespace AplicationLogic.Repository.Models.Implementation
+namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
 {
     public class GroupRepositoryImpl: BaseRepository<Group>, IGroupRepository
     {

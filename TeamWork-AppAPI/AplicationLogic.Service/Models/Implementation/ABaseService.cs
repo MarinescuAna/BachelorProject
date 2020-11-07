@@ -1,9 +1,6 @@
-﻿using AplicationLogic.Repository.UOW;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using TeamWork.ApplicationLogic.Repository.UOW;
 
-namespace AplicationLogic.Service.Models.Implementation
+namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 {
     public abstract class ABaseService
     {

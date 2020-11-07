@@ -4,14 +4,16 @@ using TeamWork.DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Repository.Migrations
 {
     [DbContext(typeof(TeamWorkDbContext))]
-    partial class TeamWorkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201003133005_Migr1_broken")]
+    partial class Migr1_broken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,20 +206,23 @@ namespace DataAccess.Repository.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid?>("GroupUniqueID")
+                    b.Property<Guid>("GroupUniqueID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("GroupUniqueID1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("StatusRequest")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("GroupMemberID");
 
-                    b.HasIndex("GroupUniqueID");
+                    b.HasIndex("GroupUniqueID1");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("GroupMembers");
                 });
@@ -384,12 +389,14 @@ namespace DataAccess.Repository.Migrations
             modelBuilder.Entity("DataAccess.Domain.Models.Domain.GroupMember", b =>
                 {
                     b.HasOne("DataAccess.Domain.Models.Domain.Group", "Group")
-                        .WithMany("GroupMembers")
-                        .HasForeignKey("GroupUniqueID");
+                        .WithMany()
+                        .HasForeignKey("GroupUniqueID1");
 
                     b.HasOne("DataAccess.Domain.Models.Domain.User", "User")
-                        .WithMany("GroupMembers")
-                        .HasForeignKey("UserId");
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataAccess.Domain.Models.Domain.Item", b =>

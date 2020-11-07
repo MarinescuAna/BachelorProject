@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace DataAccess.Domain.Models.Domain
+namespace TeamWork.DataAccess.Domain.Models.Domain
 {
     public enum Role{
         STUDENT,
@@ -24,5 +24,7 @@ namespace DataAccess.Domain.Models.Domain
         public DateTime? AccessTokenExpiration { get; set; }
         public DateTime? RefreshTokenExpiration { get; set; }
 
+
+        public ICollection<GroupMember> GroupMembers { get; set; }
     }
 }

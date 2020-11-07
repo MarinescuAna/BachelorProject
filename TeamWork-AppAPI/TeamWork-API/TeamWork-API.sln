@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamWork-API", "TeamWork-API.csproj", "{73493308-A303-463A-8AEC-51EA468F0370}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Repository", "..\DataAccess.Repository\DataAccess.Repository.csproj", "{1B975622-4197-46C3-8E69-8E474C8B99DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamWork.DataAccess.Repository", "..\DataAccess.Repository\TeamWork.DataAccess.Repository.csproj", "{1B975622-4197-46C3-8E69-8E474C8B99DC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Domain", "..\DataAccess.Domain\DataAccess.Domain.csproj", "{B8A4240A-5CF4-4F36-83CD-D52F354AD380}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamWork.DataAccess.Domain", "..\DataAccess.Domain\TeamWork.DataAccess.Domain.csproj", "{B8A4240A-5CF4-4F36-83CD-D52F354AD380}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AplicationLogic.Service", "..\AplicationLogic.Service\AplicationLogic.Service.csproj", "{F9FDB438-330B-464B-845F-88137F7E5783}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamWork.ApplicationLogic.Service", "..\AplicationLogic.Service\TeamWork.ApplicationLogic.Service.csproj", "{F9FDB438-330B-464B-845F-88137F7E5783}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AplicationLogic.Repository", "..\AplicationLogic.Repository\AplicationLogic.Repository.csproj", "{BF856A61-A1DF-470B-9A9B-79CCACF0CBF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamWork.ApplicationLogic.Repository", "..\AplicationLogic.Repository\TeamWork.ApplicationLogic.Repository.csproj", "{BF856A61-A1DF-470B-9A9B-79CCACF0CBF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamWork.AplicationLogin.Logger", "..\TeamWork.AplicationLogin.Logger\TeamWork.AplicationLogin.Logger.csproj", "{3D748474-1E8E-4AF7-8945-01BB8DCB320D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamWork.ApplicationLogger", "..\TeamWork.AplicationLogin.Logger\TeamWork.ApplicationLogger.csproj", "{3D748474-1E8E-4AF7-8945-01BB8DCB320D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

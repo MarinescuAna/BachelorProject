@@ -1,10 +1,6 @@
-﻿using DataAccess.Domain.Models.Domain;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TeamWork.DataAccess.Domain.Models.Domain;
 
-namespace AplicationLogic.Repository.Models.Interface
+namespace TeamWork.ApplicationLogic.Repository.Models.Interface
 {
     public interface IUserRepository: IBaseRepository<User>
     {

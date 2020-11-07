@@ -1,10 +1,8 @@
-﻿using AplicationLogic.Repository.Models.Interface;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using TeamWork.ApplicationLogic.Repository.Models.Interface;
 
-namespace AplicationLogic.Repository.UOW
+namespace TeamWork.ApplicationLogic.Repository.UOW
 {
     public interface IUnitOfWork: IDisposable
     {

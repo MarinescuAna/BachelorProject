@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, OnInit } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router'
 import { LoginPageComponent } from './components/account/login-page/login-page.component';
 import { RegisterPageComponent } from './components/account/register-page/register-page.component';
@@ -7,38 +7,39 @@ import { MainPageComponent } from './components/landing-page/main-page/main-page
 import { AuthGuard } from 'src/app/shared/auth.guard';
 import { JoinGroupComponent } from './components/group-section/join-group/join-group.component';
 import { GroupsComponent } from './components/group-section/my-groups/groups/groups.component';
+import { AuthService } from './shared/auth.service';
 
-const routes: Routes=[
+const routes: Routes = [
 
   {
-    path:'login',
+    path: 'login',
     component: LoginPageComponent
   },
   {
-    path:'register',
+    path: 'register',
     component: RegisterPageComponent
   },
   {
-    path:'landing-page',
+    path: 'landing-page',
     component: MainPageComponent
   },
   {
-    path: '',   
+    path: '',
     redirectTo: '/landing-page',
-    pathMatch: 'full' 
+    pathMatch: 'full'
   },
   {
-    path:'create-group',
+    path: 'create-group',
     component: CreateGroupComponent,
     canActivate: [AuthGuard]
   },
   {
-    path:'join-group',
+    path: 'join-group',
     component: JoinGroupComponent,
     canActivate: [AuthGuard]
   },
   {
-    path:'my-groups',
+    path: 'my-groups',
     component: GroupsComponent,
     canActivate: [AuthGuard]
   }
@@ -46,6 +47,13 @@ const routes: Routes=[
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports:[RouterModule]
+  exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule implements OnInit {
+  constructor(private authService: AuthService) {
+  }
+
+  ngOnInit() {
+    this.authService.doLogout();
+  }
+}

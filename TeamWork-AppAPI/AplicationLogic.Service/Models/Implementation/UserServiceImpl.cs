@@ -1,16 +1,9 @@
-﻿
-using AplicationLogic.Repository.Models.Implementation;
-using AplicationLogic.Repository.Models.Interface;
-using AplicationLogic.Repository.UOW;
-using AplicationLogic.Service.Models.Interface;
-using DataAccess.Domain.Models.Domain;
-using DataAccess.Repository;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using TeamWork.ApplicationLogic.Repository.UOW;
+using TeamWork.ApplicationLogic.Service.Models.Interface;
+using TeamWork.DataAccess.Domain.Models.Domain;
 
-namespace AplicationLogic.Service.Models.Implementation
+namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 {
     public class UserServiceImpl :ABaseService, IUserService
     {   

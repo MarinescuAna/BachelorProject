@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess.Domain\TeamWork.DataAccess.Domain.csproj" />
+    <ProjectReference Include="..\DataAccess.Repository\TeamWork.DataAccess.Repository.csproj" />
+    <ProjectReference Include="..\TeamWork.AplicationLogin.Logger\TeamWork.ApplicationLogger.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplicationLogic.Repository.Models.Interface
+namespace TeamWork.ApplicationLogic.Repository.Models.Interface
 {
     public interface IBaseRepository<T>
     {

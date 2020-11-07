@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Repository.Migrations
 {
-    public partial class Migr_recreate_database : Migration
+    public partial class Migr1_broken : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,7 +58,7 @@ namespace DataAccess.Repository.Migrations
                         column: x => x.GroupUniqueID,
                         principalTable: "Groups",
                         principalColumn: "GroupUniqueID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,7 +78,7 @@ namespace DataAccess.Repository.Migrations
                         column: x => x.GroupUniqueID,
                         principalTable: "Groups",
                         principalColumn: "GroupUniqueID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AssigmentList_Users_UserID",
                         column: x => x.UserID,
@@ -150,7 +150,7 @@ namespace DataAccess.Repository.Migrations
                         column: x => x.GroupUniqueID,
                         principalTable: "Groups",
                         principalColumn: "GroupUniqueID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_GroupMembers_Users_UserID",
                         column: x => x.UserID,
@@ -213,7 +213,7 @@ namespace DataAccess.Repository.Migrations
                         column: x => x.AssigmentListUniqueID,
                         principalTable: "AssigmentList",
                         principalColumn: "AssigmentListUniqueID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(

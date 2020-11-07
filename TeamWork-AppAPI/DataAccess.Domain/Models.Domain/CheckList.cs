@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace DataAccess.Domain.Models.Domain
+namespace TeamWork.DataAccess.Domain.Models.Domain
 {
     public enum StatusChecklist
     {

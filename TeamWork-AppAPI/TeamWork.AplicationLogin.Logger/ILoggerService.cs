@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TeamWork.AplicationLogin.Logger
+namespace TeamWork.ApplicationLogger
 {
     public interface ILoggerService
     {

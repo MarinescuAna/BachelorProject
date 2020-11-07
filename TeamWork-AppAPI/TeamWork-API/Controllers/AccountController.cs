@@ -1,19 +1,13 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using DataAccess.Domain.Models.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using AplicationLogic.Service.Models.Interface;
 using TeamWork_API.Utils;
-using AplicationLogic.Repository.UOW;
-using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Http;
-using DataAccess.Domain.Account.Domain;
+using TeamWork.ApplicationLogic.Service.Models.Interface;
+using TeamWork.DataAccess.Domain.Account.Domain;
+using TeamWork.DataAccess.Domain.Models.Domain;
 
 namespace TeamWork_API.Controllers
 {
@@ -35,16 +29,16 @@ namespace TeamWork_API.Controllers
         [Route("/api/Account/Login")]
         public async Task<IActionResult> Login(UserLoginModel credentials)
         {
-            if (credentials == null)
+            if (credentials == null || String.IsNullOrEmpty(credentials.EmailAddress))
             {
-                return StatusCode(204, Messages.NoContent_204NoContent);
+                return StatusCode(Codes.Number_204, Messages.NoContent_204NoContent);
             }
 
             User user = await _userService.GetUserByEmailAsync(credentials.EmailAddress);
 
             if (user == null || user.Password!= credentials.Password)
             {
-                return StatusCode(404,Messages.InvalidCredentials_4040NotFound );
+                return StatusCode(Codes.Number_404,Messages.InvalidCredentials_4040NotFound );
             }
 
             JWToken jWToken = new JWToken
@@ -54,16 +48,16 @@ namespace TeamWork_API.Controllers
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(2);
             jWToken.RefershToken = user.RefreshToken = tokenGenerator.GenerateRefreshToken(user.UserId.ToString(), user.EmailAddress, DateTime.Now.AddMonths(2).ToString(), user.UserRole.ToString());
-            HttpContext.Session.SetString("Token", user.AccessToken);
-
+            HttpContext.Session.SetString(Constants.Token, user.AccessToken);
+ 
             int response = await _userService.UpdateUserInformation(user);
 
             if(response > 0)
             {
-                return StatusCode(201,jWToken);
+                return StatusCode(Codes.Number_201,jWToken);
             }
 
-            return StatusCode(400, Messages.SthWentWrong_400BadRequest);
+            return StatusCode(Codes.Number_400, Messages.SthWentWrong_400BadRequest);
 
         }
 
@@ -71,14 +65,14 @@ namespace TeamWork_API.Controllers
         [Route("/api/Account/Register")]
         public async Task<IActionResult> Register([FromBody]UserRegisterModel userCredentials)
         {
-            if (userCredentials == null)
+            if (userCredentials == null || String.IsNullOrEmpty(userCredentials.EmailAddress))
             {
-                return StatusCode(204,Messages.NoContent_204NoContent);
+                return StatusCode(Codes.Number_204, Messages.NoContent_204NoContent);
             }
 
             if (await _userService.GetUserByEmailAsync(userCredentials.EmailAddress) != null)
             {
-                return StatusCode(409, Messages.UserAlreadyExistLogin_409Conflict);
+                return StatusCode(Codes.Number_409, Messages.UserAlreadyExistLogin_409Conflict);
             }
 
             User user = new User
@@ -88,7 +82,7 @@ namespace TeamWork_API.Controllers
                 Institution = userCredentials.Institution,
                 LastName = userCredentials.LastName,
                 Password = userCredentials.Password,
-                UserRole = userCredentials.UserRole == "Teacher" ? Role.TEACHER : Role.STUDENT
+                UserRole = userCredentials.UserRole == Constants.Token ? Role.TEACHER : Role.STUDENT
             };
 
             JWToken jWToken = new JWToken();
@@ -97,16 +91,16 @@ namespace TeamWork_API.Controllers
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(2);
             user.RefreshToken = jWToken.RefershToken = tokenGenerator.GenerateRefreshToken(user.UserId.ToString(), user.EmailAddress, jWToken.RefershTokenExpiration.ToString(), user.UserRole.ToString());
-            HttpContext.Session.SetString("Token", user.AccessToken);
+            HttpContext.Session.SetString(Constants.Token, user.AccessToken);
 
             int response = await _userService.InsertUser(user);
             
             if ( response > 0)
             {
-                return StatusCode(201, jWToken);
+                return StatusCode(Codes.Number_201, jWToken);
             }
 
-            return StatusCode(400, Messages.SthWentWrong_400BadRequest);
+            return StatusCode(Codes.Number_400, Messages.SthWentWrong_400BadRequest);
         }
     }
 }

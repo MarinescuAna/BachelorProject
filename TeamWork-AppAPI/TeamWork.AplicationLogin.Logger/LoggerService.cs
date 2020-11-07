@@ -1,9 +1,5 @@
 ﻿using NLog;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TeamWork.AplicationLogin.Logger
+namespace TeamWork.ApplicationLogger
 {
     public class LoggerService:ILoggerService
     {

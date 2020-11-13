@@ -10,5 +10,6 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
         IGroupRepository Group { get; }
         IGroupMemberRepository GroupMember { get; }
         Task<int> Commit(string loggDetails);
+        void LoggMessageError(string path, string message);
     }
 }

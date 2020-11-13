@@ -12,3 +12,6 @@
     width: 200px;
     height: 50px;
 }
+.card-img{
+    background-image: url("src/assets/Images/bg-div.jpg");
+}

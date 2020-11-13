@@ -9,6 +9,6 @@ namespace TeamWork.DataAccess.Domain.Group.Domain
         public Guid UniqueKey { get; set; }
         public string GroupName { get; set; }
         public string TeacherName { get; set; }
-        public int NoMembers { get; set; }
+        public string NoMembers { get; set; }
     }
 }

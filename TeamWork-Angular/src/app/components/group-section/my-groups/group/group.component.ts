@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GroupSendModule } from 'src/app/modules/group-send.module';
+import { ViewGroupsModule } from 'src/app/modules/view-groups.module';
 
 @Component({
   selector: 'app-group',
@@ -8,7 +8,7 @@ import { GroupSendModule } from 'src/app/modules/group-send.module';
 })
 export class GroupComponent implements OnInit {
 
-  @Input() group: GroupSendModule;
+  @Input() group: ViewGroupsModule;
   constructor() { }
 
   ngOnInit(): void {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import{GroupSendModule} from 'src/app/modules/group-send.module';
+import{ViewGroupsModule} from 'src/app/modules/view-groups.module';
+import { GroupService } from 'src/app/services/group-service';
 
 @Component({
   selector: 'app-groups',
@@ -8,10 +9,15 @@ import{GroupSendModule} from 'src/app/modules/group-send.module';
 })
 export class GroupsComponent implements OnInit {
 
-  myGroups: GroupSendModule[];
-  constructor() { }
+  myGroups: ViewGroupsModule[];
+  constructor(private groupService: GroupService) {
+
+   }
 
   ngOnInit(): void {
+    this.groupService.GetMyGroupsStudent().subscribe(cr =>{
+      this.myGroups= cr as ViewGroupsModule[];
+    });
   }
 
 }

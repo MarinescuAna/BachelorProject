@@ -64,14 +64,24 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
             }
             catch (Exception ex)
             {
-                _loggerService.LogError(loggDetails, ex.Message);
-                _loggerService.LogError(loggDetails, ex.InnerException.Message);
+
+                LoggMessageError(loggDetails, ex.Message);
+                
+                if (!string.IsNullOrEmpty(ex.InnerException.Message))
+                {
+                    LoggMessageError(loggDetails, ex.InnerException.Message);
+                }
+                
                 Dispose();
             }
 
             return -1;
         }
 
+        public void LoggMessageError(string path, string message)
+        {
+            _loggerService.LogError(path,message);
+        }
         public async void Dispose()
         {
             await context.DisposeAsync();

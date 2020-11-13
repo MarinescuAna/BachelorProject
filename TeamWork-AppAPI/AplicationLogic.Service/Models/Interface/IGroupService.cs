@@ -13,6 +13,6 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
         Task<Group> GetGroupByKeyAsync(string key);
         Task<int> JoinToGroupAsync(JoinGroup group);
         Task<GroupMember> GetGroupMemberByKeyIdAsync(string key, int id);
-        Task<List<ViewGroups>> GetGroups(User user);
+        Task<List<ViewGroups>> GetGroupsAsync(User user);
     }
 }

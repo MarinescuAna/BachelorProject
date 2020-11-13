@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
 using TeamWork.DataAccess.Domain.Group.Domain;
 using TeamWork.DataAccess.Domain.Models.Domain;
+using TeamWork_API.ErrorHandler;
 using TeamWork_API.Utils;
 
 namespace TeamWork_API.Controllers
@@ -15,14 +16,13 @@ namespace TeamWork_API.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class GroupController : ControllerBase
+    public class GroupController : BaseController
     {
         private readonly IGroupService _groupService;
         private readonly IUserService _userService;
-        private IHttpContextAccessor _httpContextAccessor;
         public GroupController(IGroupService group, IUserService user, IHttpContextAccessor httpContextAccessor)
+            :base(httpContextAccessor)
         {
-            _httpContextAccessor = httpContextAccessor;
             _groupService = group;
             _userService = user;
         }
@@ -33,30 +33,30 @@ namespace TeamWork_API.Controllers
         {
             if (detalisReceived == null)
             {
-                return StatusCode(Codes.Number_204, Messages.NoContent_204NoContent);
+                return StatusCode(Codes.Number_204, NoContent204Error.NoContent);
             }
 
             var group = await _groupService.GetGroupByNameAsync(detalisReceived.GroupName);
             if (group != null)
             {
-                return StatusCode(Codes.Number_404, Messages.GroupAlreadyExist_409Conflict);
+                return StatusCode(Codes.Number_404, Conflict409Error.GroupAlreadyExist);
             }
 
             var teacher = await _userService.GetUserByEmailAsync(detalisReceived.TeacherEmail);
             if (teacher == null)
             {
-                return StatusCode(Codes.Number_404, Messages.InvalidCredentials_4040NotFound);
+                return StatusCode(Codes.Number_404, NotFound404Error.InvalidEmail);
             }
             if (teacher.UserRole != Role.TEACHER)
             {
-                return StatusCode(Codes.Number_404, Messages.NotBelongToTeacher_4040NotFound);
+                return StatusCode(Codes.Number_404, NotFound404Error.NotBelongToTeacher);
             }
 
             var key = await _groupService.CreateGroupByUserAsync(detalisReceived);
 
             if (key == Guid.Empty)
             {
-                return StatusCode(Codes.Number_400, Messages.SthWentWrong_400BadRequest);
+                return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
             }
 
             var response = new CreateGroupResponse
@@ -72,24 +72,24 @@ namespace TeamWork_API.Controllers
         {
             if (joinGroup == null || string.IsNullOrEmpty(joinGroup.Key))
             {
-                return StatusCode(Codes.Number_204, Messages.NoContent_204NoContent);
+                return StatusCode(Codes.Number_204, NoContent204Error.NoContent);
             }
 
             var group = await _groupService.GetGroupByKeyAsync(joinGroup.Key);
             if (group == null)
             {
-                return StatusCode(Codes.Number_404, Messages.InvalidKey_4040NotFound);
+                return StatusCode(Codes.Number_404, NotFound404Error.InvalidKey);
             }
 
             var user = await _userService.GetUserByEmailAsync(joinGroup.AttenderEmail);
             if (await _groupService.GetGroupMemberByKeyIdAsync(joinGroup.Key, user.UserId) != null)
             {
-                return StatusCode(Codes.Number_409, Messages.PartFromGroup_409Conflict);
+                return StatusCode(Codes.Number_409, Conflict409Error.PartFromGroup);
             }
 
-            if (await _groupService.JoinToGroupAsync(joinGroup) < 1)
+            if (await _groupService.JoinToGroupAsync(joinGroup) < Codes.Number_1)
             {
-                return StatusCode(Codes.Number_400, Messages.SthWentWrong_400BadRequest);
+                return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
             }
 
             return Ok();
@@ -99,11 +99,15 @@ namespace TeamWork_API.Controllers
         [Route("GetMyGroups")]
         public async Task<IActionResult> GetMyGroups()
         {
-            var token = HttpContext.Session.GetString(Constants.Token);
-            var tokenTake = new JwtSecurityToken(token);
-            var user = await _userService.GetUserByEmailAsync(tokenTake.Claims.FirstOrDefault()?.Value);
+      
+            var userEmail = ExtractEmailFromJWT();
+            if (String.IsNullOrEmpty(userEmail))
+            {
 
-            var groups = await _groupService.GetGroups(user);
+            }
+            var user = await _userService.GetUserByEmailAsync(userEmail);
+
+            var groups = await _groupService.GetGroupsAsync(user);
             return StatusCode(Codes.Number_200,groups);
         }
     }

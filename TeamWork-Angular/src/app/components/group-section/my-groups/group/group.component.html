@@ -1,1 +1,15 @@
-<mat-card>Simple card</mat-card>
+<mat-card></mat-card>
+<mat-card class="example-card">
+    <mat-card-header>
+        <mat-card-title>{{group.groupName}}</mat-card-title>
+        <mat-card-subtitle>Teacher: {{group.teacherName}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        Number of members:{{group.noMembers}}
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button>View key</button>
+        <button mat-button>Go to group details</button>
+        <button mat-button>Leave</button>
+    </mat-card-actions>
+</mat-card>

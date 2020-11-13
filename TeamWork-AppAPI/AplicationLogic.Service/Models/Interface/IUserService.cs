@@ -6,7 +6,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
     public interface IUserService
     {
         Task<User> GetUserByEmailAsync(string userEmail);
-        Task<int> InsertUser(User user);
-        Task<int> UpdateUserInformation(User user);
+        Task<int> InsertUserAsync(User user);
+        Task<int> UpdateUserInformationAsync(User user);
     }
 }

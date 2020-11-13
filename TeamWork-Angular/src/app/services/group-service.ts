@@ -4,6 +4,7 @@ import { GroupCreateModule } from '../modules/group-create.module';
 import { GroupCreateResponseModule } from '../modules/group-create-response.module';
 import { DataService } from '../services/data.service';
 import {JoinGroupModule} from 'src/app/modules/join-group.module';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,5 +25,9 @@ export class GroupService extends DataService {
       this.alertService.showSucces('Success. Welcome to the group!');
       //TODO redirectare catre pagina de grupri
     });
+  }
+
+  GetMyGroupsStudent():Observable<any>{
+    return super.getMany<any>('GetMyGroups');
   }
 }

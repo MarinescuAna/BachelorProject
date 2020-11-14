@@ -1,22 +1,25 @@
-<div fxLayout="column" fxLayoutAlign="center center" class="card-img">
-    <div class="title-style">
-        <h1><strong>Join to a group</strong></h1>
-    </div>
-    <div>
-        <form [formGroup]="formJoinGroup" (ngSubmit)="onSubmit()">
-            <mat-form-field class="input-style" appearance="fill">
-                <mat-label>Group key</mat-label>
-                <input matInput [type]="'text'" formControlName='key' required>
-                <mat-icon matSuffix>lock</mat-icon>
-                <mat-error *ngIf="formJoinGroup.controls['key'].hasError('required')">
-                    Group key is <strong>required</strong>!
-                </mat-error>
-            </mat-form-field>
-        </form>
-    </div>
-    <div>
-        <button class="btn-size" color="primary" mat-raised-button (click)="onSubmit()" 
-        [disabled]="formJoinGroup.controls['key'].hasError('required')">Join</button>
+<div fxLayoutAlign="center center">
+    <div class="card-img">
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <div class="title-style">
+                <h1><strong>Join to a group</strong></h1>
+            </div>
+            <div>
+                <form [formGroup]="formJoinGroup" (ngSubmit)="onSubmit()">
+                    <mat-form-field class="input-style">
+                        <mat-label>Group key</mat-label>
+                        <input matInput [type]="'text'" formControlName='key' required>
+                        <mat-icon matSuffix>lock</mat-icon>
+                        <mat-error *ngIf="formJoinGroup.controls['key'].hasError('required')">
+                            Group key is <strong>required</strong>!
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+            </div>
+            <div>
+                <button class="btn-size" color="primary" mat-raised-button (click)="onSubmit()"
+                    [disabled]="formJoinGroup.controls['key'].hasError('required')">Join</button>
+            </div>
+        </div>
     </div>
 </div>
-

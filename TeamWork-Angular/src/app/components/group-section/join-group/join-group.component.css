@@ -1,7 +1,7 @@
 .input-style{
     width: 500px;
     margin: 15px;
-    font-size: small;
+    font-size: medium;
 }
 
 .title-style{
@@ -13,5 +13,10 @@
     height: 50px;
 }
 .card-img{
-    background-image: url("src/assets/Images/bg-div.jpg");
+    background-image:url("src/assets/Images/bg-div.jpg");
+    background-repeat: no-repeat;
+    width:600px;
+    height: 360px;
+    margin-top: 5%;
+    
 }

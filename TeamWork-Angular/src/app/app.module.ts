@@ -9,6 +9,8 @@ import { LoginPageComponent } from './components/account/login-page/login-page.c
 import { RegisterPageComponent } from './components/account/register-page/register-page.component';
 import { MainPageComponent } from './components/landing-page/main-page/main-page.component';
 
+import {MatListModule} from '@angular/material/list';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatCardModule} from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,6 +26,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CreateGroupComponent } from './components/group-section/create-group/create-group.component';
 
+import {ClipboardModule} from '@angular/cdk/clipboard';
 import { AlertService } from 'src/app/services/alert.service'; 
 import { ToastrModule } from 'ngx-toastr';
 import { AppErrorHandler } from './handler-error/app-error-handler';
@@ -31,6 +34,7 @@ import {AuthconfigInterceptor} from 'src/app/shared/authconfig.interceptor';
 import { JoinGroupComponent } from './components/group-section/join-group/join-group.component';
 import { GroupComponent } from './components/group-section/my-groups/group/group.component';
 import { GroupsComponent } from './components/group-section/my-groups/groups/groups.component';
+import { SheetKeyComponent } from './components/group-section/my-groups/sheet-key/sheet-key.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +48,8 @@ import { GroupsComponent } from './components/group-section/my-groups/groups/gro
     CreateGroupComponent,
     JoinGroupComponent,
     GroupComponent,
-    GroupsComponent
+    GroupsComponent,
+    SheetKeyComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -60,6 +65,9 @@ import { GroupsComponent } from './components/group-section/my-groups/groups/gro
     FlexLayoutModule,
     AppRoutingModule,
     HttpClientModule,
+    MatBottomSheetModule,
+    ClipboardModule,
+    MatListModule,
     MatCardModule,
     ToastrModule.forRoot()
   ],

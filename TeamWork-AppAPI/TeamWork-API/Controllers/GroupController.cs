@@ -98,16 +98,13 @@ namespace TeamWork_API.Controllers
         [HttpGet]
         [Route("GetMyGroups")]
         public async Task<IActionResult> GetMyGroups()
-        {
-      
+        {  
             var userEmail = ExtractEmailFromJWT();
-            if (String.IsNullOrEmpty(userEmail))
-            {
 
-            }
             var user = await _userService.GetUserByEmailAsync(userEmail);
 
             var groups = await _groupService.GetGroupsAsync(user);
+
             return StatusCode(Codes.Number_200,groups);
         }
     }

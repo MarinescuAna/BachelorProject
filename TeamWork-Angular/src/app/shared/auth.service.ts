@@ -62,7 +62,7 @@ export class AuthService extends DataService {
       this.setUser(user.emailAddress);
       this.setLocalStorage(cr as TokenModule);
       localStorage.setItem('is_logged', 'true');
-      this.route.navigateByUrl('/create-group');
+      this.route.navigateByUrl('/my-groups');
     });
   }
 
@@ -72,7 +72,7 @@ export class AuthService extends DataService {
       this.setUser(user.emailAddress);
       this.setLocalStorage(cr as TokenModule);
       localStorage.setItem('is_logged', 'true');
-      this.route.navigateByUrl('/create-group');
+      this.route.navigateByUrl('/my-groups');
     });
   }
 

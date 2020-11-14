@@ -7,7 +7,12 @@ import { AuthService } from 'src/app/shared/auth.service';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent {
-  constructor(public authService: AuthService){
-  }
 
+  email:string;
+  constructor(public authService: AuthService){
+    this.email=localStorage.getItem('email');
+  }
+  onSubmit(): void{
+    this.authService.doLogout();
+  }
 }

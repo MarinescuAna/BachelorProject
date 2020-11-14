@@ -1,18 +1,32 @@
-<mat-toolbar class="menu-style" fxLayoutAlign="space-evenly center">
-    <app-menu-home *ngIf='authService.isLogged()'></app-menu-home>
-    <a mat-icon-button [routerLink]="'/landing-page'" *ngIf='!authService.isLogged()'>
-        <span class="fill-remaining-space">
-            <h1><strong>TeamWork</strong></h1>
-        </span>
-    </a>
-    <button mat-button [routerLink]="authService.isLogged()?'/create-group':'/landing-page'" >
-        <mat-icon>home</mat-icon>Home
-    </button>
-    <app-menu-group *ngIf='authService.isLogged()'></app-menu-group>
-    <a mat-button [routerLink]="'/login'" *ngIf='!authService.isLogged()'>
-        Login
-    </a>
-    <a mat-button [routerLink]="'/register'" *ngIf='!authService.isLogged()'>
-        Register
-    </a>
-</mat-toolbar>
+<div fxLayoutAlign="center center">
+    <mat-toolbar class="menu-style">
+        <div class="logo"> <img src="assets/Images/LogoBachelorNoBackground.png" class="image-logo" /></div>
+        <div fxLayoutAlign="center center">
+            <button mat-button [routerLink]="authService.isLogged()?'/my-groups':'/landing-page'">
+                <mat-icon>home</mat-icon>Home
+            </button>
+            <app-menu-group *ngIf='authService.isLogged()'></app-menu-group>
+            <button mat-button [routerLink]="'/register'" *ngIf='!authService.isLogged()'>
+                Register
+            </button>
+            <button mat-button [routerLink]="'/login'" *ngIf='!authService.isLogged()'>
+                Login
+            </button>
+        </div>
+        <div class="menu-style2">
+        <div fxLayoutAlign="end center">
+            
+                <button mat-menu-item *ngIf='authService.isLogged()'>
+                    <mat-icon>person</mat-icon>
+                    <span>{{email}}</span>
+                </button>
+                <br>
+                <button mat-menu-item (click)="onSubmit()" *ngIf='authService.isLogged()'>
+                    <mat-icon>exit_to_app</mat-icon>
+                    <span>Logout</span>
+                </button>
+                <br>
+            </div>
+        </div>
+    </mat-toolbar>
+</div>

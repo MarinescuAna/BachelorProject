@@ -1,6 +1,30 @@
 .menu-style{
     background-color:#6200EE;
-    width: 100%;
+    width: 900px;
     align-items: center;
     justify-content: center;
+    bottom: 0;
+    position: fixed;
+    border-radius: 90px;
+}
+.logo{
+    width: 150px;
+    height: 150px;
+    border-radius: 360px;
+    background-color:#6200EE;
+    margin-left: -521px;
+}
+.image-logo{
+    position: fixed;
+    width: 160px;
+    margin-top: 5px;
+    margin-left: 9px;
+   
+}
+
+.menu-style2{
+    width: 900px;
+    bottom: 0;
+    position: fixed;
+    border-radius: 90px;
 }

@@ -1,5 +1,5 @@
-<mat-card></mat-card>
-<mat-card class="example-card">
+
+<mat-card class="card">
     <mat-card-header>
         <mat-card-title>{{group.groupName}}</mat-card-title>
         <mat-card-subtitle>Teacher: {{group.teacherName}}</mat-card-subtitle>
@@ -8,8 +8,8 @@
         Number of members:{{group.noMembers}}
     </mat-card-content>
     <mat-card-actions>
-        <button mat-button>View key</button>
-        <button mat-button>Go to group details</button>
-        <button mat-button>Leave</button>
+        <button mat-button (click)="openKeySheet()"><mat-icon >vpn_key</mat-icon></button>
+        <button mat-button >Go to<mat-icon>keyboard_arrow_right</mat-icon></button>
+        <button mat-mini-fab color="warn" ><mat-icon>exit_to_app</mat-icon></button>
     </mat-card-actions>
-</mat-card>
+</mat-card> 

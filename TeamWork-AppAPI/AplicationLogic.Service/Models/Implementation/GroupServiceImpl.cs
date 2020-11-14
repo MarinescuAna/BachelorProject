@@ -29,8 +29,8 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                    .GroupMember
                    .GetItems())
                    .FirstOrDefault(s => s.Group.GroupUniqueID == guid
-                                   && s.User.UserRole == Role.TEACHER)
-                   .User
+                                   && s.User.UserRole == Role.TEACHER)?
+                   .User?
                    .EmailAddress;
                 return response;
             }
@@ -104,7 +104,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         public async Task<List<ViewGroups>> GetGroupsAsync(User user)
         {
             List<ViewGroups> viewGroups = new List<ViewGroups>();
-            var groups = (await _unitOfWork.GroupMember.GetItems()).Where(s => s.User.UserId == user.UserId);
+            var groups = (await _unitOfWork.GroupMember.GetItems()).Where(s => s.User.UserId == user.UserId && s.StatusRequest==StatusRequest.Joined);
 
             foreach (var group in groups)
             {
@@ -114,7 +114,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                         GroupName = group.Group.GroupName,
                         NoMembers = (await GetNoMembersFromGroupByGuidAsync(group.Group.GroupUniqueID)).ToString(),
                         TeacherName = await GetTeacherEmailByGroupIdAsync(group.Group.GroupUniqueID),
-                        UniqueKey = group.Group.GroupUniqueID
+                        UniqueKey = group.Group.GroupUniqueID.ToString()
                     });
             }
 

@@ -16,11 +16,6 @@ export class MenuHomeComponent  {
     this.clickMe._elementRef.nativeElement.click();
   }
 
-  constructor(public authService: AuthService){
-    this.email=localStorage.getItem('email');
-  }
 
-  onSubmit(): void{
-    this.authService.doLogout();
-  }
+
 }

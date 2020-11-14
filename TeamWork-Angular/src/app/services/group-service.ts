@@ -16,14 +16,14 @@ export class GroupService extends DataService {
   CreateNewGroup(module: GroupCreateModule){
     super.post<GroupCreateResponseModule>('CreateGroupByUser', module).subscribe(cr => {
         this.alertService.showSucces('The group was created!');
-        //TODO this.route.navigateByUrl('/create-group');
+        this.route.navigateByUrl('/my-groups');
       });
   }
 
   JoinToGroup(module: JoinGroupModule){
     super.post<any>('JoinToGroup', module).subscribe(cr=>{
       this.alertService.showSucces('Success. Welcome to the group!');
-      //TODO redirectare catre pagina de grupri
+      this.route.navigateByUrl('/my-groups');
     });
   }
 

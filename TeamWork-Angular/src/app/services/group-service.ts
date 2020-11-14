@@ -30,4 +30,8 @@ export class GroupService extends DataService {
   GetMyGroupsStudent():Observable<any>{
     return super.getMany<any>('GetMyGroups');
   }
+
+  LeaveGroup(id: any):Observable<any>{
+    return super.delete("id="+id,'LeaveGroup');
+  }
 }

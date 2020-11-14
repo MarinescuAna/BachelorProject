@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Repository.UOW;
-using TeamWork.ApplicationLogic.Repository.Utils;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
+using TeamWork.ApplicationLogic.Service.Utils;
 using TeamWork.DataAccess.Domain.Group.Domain;
 using TeamWork.DataAccess.Domain.Models.Domain;
 
@@ -36,7 +36,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
             }
             catch (Exception ex)
             {
-                _unitOfWork.LoggMessageError(Messages.GroupServiceImpl, ex.Message);
+                _unitOfWork.LoggMessageError(Messages.GetTeacherEmailByGroupIdAsync, ex.Message);
                 return null; 
             }
          }
@@ -80,7 +80,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                 Group = group
             });
 
-            if (await _unitOfWork.Commit("GroupServiceImpl -> CrateGroupByUserAsync ->") < 3)
+            if (await _unitOfWork.Commit(Messages.CreateGroupByUserAsync) < 3)
             {
                 key = Guid.Empty;
             }
@@ -99,7 +99,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
             };
 
             _unitOfWork.GroupMember.InsertItem(newMember);
-            return await _unitOfWork.Commit("GroupServiceImpl -> JoinToGroupAsync ->");
+            return await _unitOfWork.Commit(Messages.JoinToGroupAsync);
         }
         public async Task<List<ViewGroups>> GetGroupsAsync(User user)
         {
@@ -119,6 +119,19 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
             }
 
             return viewGroups;
+        }
+        public async Task<bool> DeleteUserFromGroupAsync(User user, Guid group)
+        {
+            var groupMember = await _unitOfWork.GroupMember.GetItem(u => u.Group.GroupUniqueID == group && u.User.EmailAddress == user.EmailAddress);
+
+            if (groupMember == null)
+            {
+                return false;
+            }
+
+           await _unitOfWork.GroupMember.DeleteItem(u => u.GroupMemberID == groupMember.GroupMemberID);
+
+            return await _unitOfWork.Commit(Messages.DeleteUserFromGroupAsync)>0;
         }
     }
 }

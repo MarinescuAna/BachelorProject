@@ -107,5 +107,24 @@ namespace TeamWork_API.Controllers
 
             return StatusCode(Codes.Number_200,groups);
         }
+
+        [HttpDelete]
+        [Route("LeaveGroup")]
+        public async Task<IActionResult> LeaveGroup(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return StatusCode(Codes.Number_204, NoContent204Error.NoContent);
+            }
+
+            var email = ExtractEmailFromJWT();
+            var user = await _userService.GetUserByEmailAsync(email);
+
+            if (await _groupService.DeleteUserFromGroupAsync(user, Guid.Parse(id)) == false){
+                return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
+            }
+
+            return Ok();
+        }
     }
 }

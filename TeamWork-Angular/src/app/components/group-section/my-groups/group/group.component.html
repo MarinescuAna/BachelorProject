@@ -1,15 +1,24 @@
-
 <mat-card class="card">
     <mat-card-header>
-        <mat-card-title>{{group.groupName}}</mat-card-title>
+        <mat-card-title>
+            <h1><strong>{{group.groupName}}</strong></h1>
+        </mat-card-title>
         <mat-card-subtitle>Teacher: {{group.teacherName}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        Number of members:{{group.noMembers}}
+        <h3><strong>Number of members:</strong> {{group.noMembers}}</h3>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-button (click)="openKeySheet()"><mat-icon >vpn_key</mat-icon></button>
-        <button mat-button >Go to<mat-icon>keyboard_arrow_right</mat-icon></button>
-        <button mat-mini-fab color="warn" ><mat-icon>exit_to_app</mat-icon></button>
+        <div fxLayout="row" fxLayoutAlign="end">
+            <button mat-raised-button color="primary" [routerLink]="'/group-details'">Go to<mat-icon>keyboard_arrow_right</mat-icon></button>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end end">
+            <button mat-fab color="primary" (click)="openKeySheet()">
+                <mat-icon>vpn_key</mat-icon>
+            </button>
+            <button mat-fab color="warn" (click)="onLeaveGroup()">
+                <mat-icon>exit_to_app</mat-icon>
+            </button>
+        </div>
     </mat-card-actions>
-</mat-card> 
+</mat-card>

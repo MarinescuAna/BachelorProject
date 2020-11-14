@@ -67,7 +67,7 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
 
                 LoggMessageError(loggDetails, ex.Message);
                 
-                if (!string.IsNullOrEmpty(ex.InnerException.Message))
+                if(ex.InnerException!=null)
                 {
                     LoggMessageError(loggDetails, ex.InnerException.Message);
                 }

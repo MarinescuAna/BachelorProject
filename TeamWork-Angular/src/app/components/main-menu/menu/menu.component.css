@@ -22,9 +22,6 @@
    
 }
 
-.menu-style2{
-    width: 900px;
-    bottom: 0;
-    position: fixed;
-    border-radius: 90px;
+.go-right{
+    margin-right: -500px;
 }

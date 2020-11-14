@@ -35,6 +35,8 @@ import { JoinGroupComponent } from './components/group-section/join-group/join-g
 import { GroupComponent } from './components/group-section/my-groups/group/group.component';
 import { GroupsComponent } from './components/group-section/my-groups/groups/groups.component';
 import { SheetKeyComponent } from './components/group-section/my-groups/sheet-key/sheet-key.component';
+import { GroupMainPageComponent } from './components/group-section/group-details/group-main-page/group-main-page.component';
+import { GroupMenuComponent } from './components/group-section/group-details/group-menu/group-menu.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { SheetKeyComponent } from './components/group-section/my-groups/sheet-ke
     JoinGroupComponent,
     GroupComponent,
     GroupsComponent,
-    SheetKeyComponent
+    SheetKeyComponent,
+    GroupMainPageComponent,
+    GroupMenuComponent
   ],
   imports: [
     ReactiveFormsModule,

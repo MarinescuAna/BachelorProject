@@ -1,32 +1,49 @@
 <div fxLayoutAlign="center center">
     <mat-toolbar class="menu-style">
         <div class="logo"> <img src="assets/Images/LogoBachelorNoBackground.png" class="image-logo" /></div>
-        <div fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="center center">
             <button mat-button [routerLink]="authService.isLogged()?'/my-groups':'/landing-page'">
                 <mat-icon>home</mat-icon>Home
             </button>
-            <app-menu-group *ngIf='authService.isLogged()'></app-menu-group>
+            <br>
+            <button #clickMe mat-icon-button *ngIf='authService.isLogged()' [matMenuTriggerFor]="menu"
+                (mouseenter)="clickOnHover()">
+                <span class="fill-remaining-space">
+                    Manage_Groups
+                </span>
+            </button>
+            <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                <button mat-menu-item (click)="redirectTo('create-group')">
+                    <mat-icon>create</mat-icon>
+                    <span>Create a New Group</span>
+                </button>
+                <button mat-menu-item (click)="redirectTo('join-group')">
+                    <mat-icon>group_add</mat-icon>
+                    <span>Join a Group</span>
+                </button>
+                <button mat-menu-item (click)="redirectTo('my-groups')">
+                    <mat-icon>groups</mat-icon>
+                    <span>My Groups</span>
+                </button>
+            </mat-menu>
+
             <button mat-button [routerLink]="'/register'" *ngIf='!authService.isLogged()'>
                 Register
             </button>
             <button mat-button [routerLink]="'/login'" *ngIf='!authService.isLogged()'>
                 Login
             </button>
-        </div>
-        <div class="menu-style2">
-        <div fxLayoutAlign="end center">
-            
-                <button mat-menu-item *ngIf='authService.isLogged()'>
-                    <mat-icon>person</mat-icon>
-                    <span>{{email}}</span>
-                </button>
-                <br>
-                <button mat-menu-item (click)="onSubmit()" *ngIf='authService.isLogged()'>
-                    <mat-icon>exit_to_app</mat-icon>
-                    <span>Logout</span>
-                </button>
-                <br>
-            </div>
+        </div> 
+      
+        <div fxLayout="row" fxLayoutAlign="end center">
+            <button mat-button *ngIf='authService.isLogged()'>
+                <mat-icon>person</mat-icon>
+                <span>{{email}}</span>
+            </button>
+            <button mat-fab color="warn" (click)="onSubmit()" *ngIf='authService.isLogged()' >
+                <mat-icon>exit_to_app</mat-icon>
+            </button>
+
         </div>
     </mat-toolbar>
 </div>

@@ -90,8 +90,8 @@ export class DataService {
       }));
   }
 
-  delete(id: number): Observable<any> {
-    const url = `${this.url}/${id}`;
+  delete(id: string, path: string): Observable<any> {
+    const url = `${this.url}/${path}?${id}`;
     return this.http.delete<any>(url, httpOptions).pipe(map((response) => {
       return response;
     })).pipe(catchError(
@@ -99,6 +99,7 @@ export class DataService {
         return this.handleError(err);
       }));
   }
+
 
    public handleError(error: any){
     switch (error.status) {

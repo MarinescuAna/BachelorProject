@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
@@ -8,11 +9,22 @@ import { AuthService } from 'src/app/shared/auth.service';
 })
 export class MenuComponent {
 
+  @ViewChild('clickMe') clickMe: any;
   email:string;
-  constructor(public authService: AuthService){
+
+  constructor(public authService: AuthService,private route: Router){
     this.email=localStorage.getItem('email');
   }
+
   onSubmit(): void{
     this.authService.doLogout();
+  }
+
+  clickOnHover() {
+    this.clickMe._elementRef.nativeElement.click();
+  }
+
+  redirectTo(url:string):void{
+    this.route.navigateByUrl(url);
   }
 }

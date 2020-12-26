@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Http;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
 using TeamWork.DataAccess.Domain.Account.Domain;
 using TeamWork.DataAccess.Domain.Models.Domain;
-using TeamWork_API.Helper;
 using TeamWork_API.ErrorHandler;
 
 namespace TeamWork_API.Controllers
@@ -16,14 +15,12 @@ namespace TeamWork_API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
-    public class AccountController : ControllerBase
+    public class AccountController : BaseController
     {
         private readonly IUserService _userService;
-        private readonly JwTokenGeneratorHelper tokenGenerator;
-        public AccountController(IConfiguration configuration,IUserService userService)
+        public AccountController(IConfiguration configuration,IUserService userService, IHttpContextAccessor httpContextAccessor) :base(configuration, httpContextAccessor)
         {
             _userService = userService;
-            tokenGenerator = new JwTokenGeneratorHelper(configuration);
         }
     
         [HttpPost]
@@ -48,12 +45,17 @@ namespace TeamWork_API.Controllers
 
             JWToken jWToken = new JWToken
             {
-                AccessToken = user.AccessToken = tokenGenerator.GenerateAccessToken(user.UserId.ToString(), user.EmailAddress, user.UserRole.ToString())
+                AccessToken = user.AccessToken = GenerateAccessToken(user.UserId.ToString(), user.EmailAddress, user.UserRole.ToString())
             };
 
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Codes.Number_2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Codes.Number_2);
-            jWToken.RefershToken = user.RefreshToken = tokenGenerator.GenerateRefreshToken(user.UserId.ToString(), user.EmailAddress, DateTime.Now.AddMonths(Codes.Number_2).ToString(), user.UserRole.ToString());
+            jWToken.RefershToken = user.RefreshToken = GenerateRefreshToken(
+                user.FirstName, 
+                user.EmailAddress, 
+                DateTime.Now.AddMonths(Codes.Number_2).ToString(), 
+                user.UserRole.ToString()
+                );
             HttpContext.Session.SetString(Constants.Token, user.AccessToken);
  
             int response = await _userService.UpdateUserInformationAsync(user);
@@ -93,10 +95,17 @@ namespace TeamWork_API.Controllers
 
             JWToken jWToken = new JWToken();
 
-            user.AccessToken = jWToken.AccessToken = tokenGenerator.GenerateAccessToken(user.UserId.ToString(), user.EmailAddress, user.UserRole.ToString());
+            user.AccessToken = jWToken.AccessToken = GenerateAccessToken(
+                user.UserId.ToString(), 
+                user.EmailAddress, user.UserRole.ToString());
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Codes.Number_2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Codes.Number_2);
-            user.RefreshToken = jWToken.RefershToken = tokenGenerator.GenerateRefreshToken(user.UserId.ToString(), user.EmailAddress, jWToken.RefershTokenExpiration.ToString(), user.UserRole.ToString());
+            user.RefreshToken = jWToken.RefershToken = GenerateRefreshToken(
+                user.FirstName, 
+                user.EmailAddress, 
+                jWToken.RefershTokenExpiration.ToString(), 
+                user.UserRole.ToString()
+                );
             HttpContext.Session.SetString(Constants.Token, user.AccessToken);
 
             int response = await _userService.InsertUserAsync(user);

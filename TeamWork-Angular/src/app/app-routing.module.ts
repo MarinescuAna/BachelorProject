@@ -32,7 +32,8 @@ const routes: Routes = [
   {
     path: 'create-group',
     component: CreateGroupComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { roles: ["student"]}
   },
   {
     path: 'join-group',
@@ -47,7 +48,8 @@ const routes: Routes = [
   {
     path: 'group-details',
     component: GroupMainPageComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { roles: ["student"]}
   }
 ]
 

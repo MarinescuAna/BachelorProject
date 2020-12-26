@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
 using TeamWork.DataAccess.Domain.Group.Domain;
 using TeamWork.DataAccess.Domain.Models.Domain;
@@ -20,8 +21,8 @@ namespace TeamWork_API.Controllers
     {
         private readonly IGroupService _groupService;
         private readonly IUserService _userService;
-        public GroupController(IGroupService group, IUserService user, IHttpContextAccessor httpContextAccessor)
-            :base(httpContextAccessor)
+        public GroupController(IGroupService group, IUserService user, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+            :base(configuration,httpContextAccessor)
         {
             _groupService = group;
             _userService = user;

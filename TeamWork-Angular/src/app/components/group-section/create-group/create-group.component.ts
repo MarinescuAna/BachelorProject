@@ -26,7 +26,7 @@ export class CreateGroupComponent implements OnInit {
     const temp=new GroupCreateModule();
     temp.description=this.formCreateGroup.value.description;
     temp.groupName=this.formCreateGroup.value.name;
-    temp.studentCreatorEmail=this.authService.getUserEmail();
+    temp.studentCreatorEmail=this.authService.decodeJWRefreshToken('email');
     temp.teacherEmail=this.formCreateGroup.value.emailTeacher;
     debugger
     this.groupService.CreateNewGroup(temp);

@@ -20,5 +20,9 @@
     <ProjectReference Include="..\TeamWork.AplicationLogin.Logger\TeamWork.ApplicationLogger.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helper\" />
+  </ItemGroup>
+
 
 </Project>

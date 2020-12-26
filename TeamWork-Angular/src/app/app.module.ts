@@ -3,11 +3,10 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './components/main-menu/menu/menu.component';
-import { MenuHomeComponent } from './components/main-menu//menu-home/menu-home.component';
-import { MenuGroupComponent } from './components/main-menu/menu-group/menu-group.component';
 import { LoginPageComponent } from './components/account/login-page/login-page.component';
 import { RegisterPageComponent } from './components/account/register-page/register-page.component';
 import { MainPageComponent } from './components/landing-page/main-page/main-page.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import {MatListModule} from '@angular/material/list';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
@@ -38,12 +37,14 @@ import { SheetKeyComponent } from './components/group-section/my-groups/sheet-ke
 import { GroupMainPageComponent } from './components/group-section/group-details/group-main-page/group-main-page.component';
 import { GroupMenuComponent } from './components/group-section/group-details/group-menu/group-menu.component';
 
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
+
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    MenuHomeComponent,
-    MenuGroupComponent,
     LoginPageComponent,
     RegisterPageComponent,
     MainPageComponent,
@@ -73,7 +74,11 @@ import { GroupMenuComponent } from './components/group-section/group-details/gro
     ClipboardModule,
     MatListModule,
     MatCardModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    JwtModule.forRoot({
+      config: {
+      tokenGetter: tokenGetter
+    }}),
   ],
   providers: [
     AlertService,

@@ -21,7 +21,7 @@ export class JoinGroupComponent implements OnInit {
   onSubmit(): void{
     const temp=new JoinGroupModule();
     temp.key=this.formJoinGroup.value.key;
-    temp.attenderEmail=this.authService.getUserEmail();
+    temp.attenderEmail=this.authService.decodeJWRefreshToken('email');
     debugger
     this.groupService.JoinToGroup(temp);
   }

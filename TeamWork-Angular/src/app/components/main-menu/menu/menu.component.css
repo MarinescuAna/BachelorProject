@@ -12,7 +12,7 @@
     height: 150px;
     border-radius: 360px;
     background-color:#6200EE;
-    margin-left: -28px;
+    margin-left: -521px;
 }
 .image-logo{
     position: fixed;
@@ -21,9 +21,7 @@
     margin-left: 9px;
    
 }
-.goleft{
-    margin-left:50px;
-}
+
 .go-right{
-    margin-left: auto;
+    margin-right: -500px;
 }

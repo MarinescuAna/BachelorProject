@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './components/main-menu/menu/menu.component';
+import { MenuHomeComponent } from './components/main-menu//menu-home/menu-home.component';
+import { MenuGroupComponent } from './components/main-menu/menu-group/menu-group.component';
 import { LoginPageComponent } from './components/account/login-page/login-page.component';
 import { RegisterPageComponent } from './components/account/register-page/register-page.component';
 import { MainPageComponent } from './components/landing-page/main-page/main-page.component';
@@ -40,6 +42,8 @@ import { GroupMenuComponent } from './components/group-section/group-details/gro
   declarations: [
     AppComponent,
     MenuComponent,
+    MenuHomeComponent,
+    MenuGroupComponent,
     LoginPageComponent,
     RegisterPageComponent,
     MainPageComponent,

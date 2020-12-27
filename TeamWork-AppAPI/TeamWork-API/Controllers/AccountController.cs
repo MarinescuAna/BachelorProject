@@ -51,7 +51,7 @@ namespace TeamWork_API.Controllers
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Codes.Number_2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Codes.Number_2);
             jWToken.RefershToken = user.RefreshToken = GenerateRefreshToken(
-                user.FirstName, 
+                 user.FirstName + " " + user.LastName,
                 user.EmailAddress, 
                 DateTime.Now.AddMonths(Codes.Number_2).ToString(), 
                 user.UserRole.ToString()
@@ -90,7 +90,7 @@ namespace TeamWork_API.Controllers
                 Institution = userCredentials.Institution,
                 LastName = userCredentials.LastName,
                 Password = userCredentials.Password,
-                UserRole = userCredentials.UserRole == Constants.Token ? Role.TEACHER : Role.STUDENT
+                UserRole = userCredentials.UserRole == Constants.Teacher ? Role.TEACHER : Role.STUDENT
             };
 
             JWToken jWToken = new JWToken();
@@ -101,7 +101,7 @@ namespace TeamWork_API.Controllers
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Codes.Number_2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Codes.Number_2);
             user.RefreshToken = jWToken.RefershToken = GenerateRefreshToken(
-                user.FirstName, 
+                user.FirstName+" "+user.LastName, 
                 user.EmailAddress, 
                 jWToken.RefershTokenExpiration.ToString(), 
                 user.UserRole.ToString()

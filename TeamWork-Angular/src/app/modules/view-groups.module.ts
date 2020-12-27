@@ -16,4 +16,6 @@ export class ViewGroupsModule {
     groupName: string  
     teacherName:string;
     noMembers:string; 
+    teacherEmail:string;
+    groupDetails:string;
 }

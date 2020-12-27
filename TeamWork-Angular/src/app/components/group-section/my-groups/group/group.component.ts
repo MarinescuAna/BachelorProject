@@ -1,6 +1,6 @@
 import { Component, Inject, Injector, Input, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ViewGroupsModule } from 'src/app/modules/view-groups.module';
 import { AlertService } from 'src/app/services/alert.service';
 import { GroupService } from 'src/app/services/group-service';
@@ -27,11 +27,17 @@ export class GroupComponent implements OnInit {
     this._bottomSheet.open(SheetKeyComponent, {data:{key:this.group.uniqueKey}});
   }
 
-  onLeaveGroup(){
+  viewGroup():void{
+    let navigationExtras: NavigationExtras = {
+      queryParams:this.group
+  };
+    this.route.navigate(['\group-details'],navigationExtras);
+  }
+  onLeaveGroup():void{
     debugger
     this.service.LeaveGroup(this.group.uniqueKey).subscribe(cr => {
       this.alertService.showSucces('You left the group successfully!');
-      this.route.navigateByUrl['\my-groups'];
+      this.route.navigateByUrl['\my-groups'];  
     });;
   }
 }

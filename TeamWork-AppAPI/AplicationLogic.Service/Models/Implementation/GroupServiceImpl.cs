@@ -17,12 +17,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         {
             _userService = new UserServiceImpl(uow);
         }
-        private async Task<int> GetNoMembersFromGroupByGuidAsync(Guid key) => (await _unitOfWork
-            .GroupMember
-            .GetItems())
-            .Where(s => s.Group.GroupUniqueID == key)
-            .Count();
-        private async Task<string> GetTeacherEmailByGroupIdAsync(Guid guid)
+        private async Task<User> GetTeacherEmailByGroupIdAsync(Guid guid)
         {
             try {
                 var response = (await _unitOfWork
@@ -30,8 +25,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                    .GetItems())
                    .FirstOrDefault(s => s.Group.GroupUniqueID == guid
                                    && s.User.UserRole == Role.TEACHER)?
-                   .User?
-                   .EmailAddress;
+                   .User;
                 return response;
             }
             catch (Exception ex)
@@ -108,13 +102,16 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
             foreach (var group in groups)
             {
+                var teacher = await GetTeacherEmailByGroupIdAsync(group.Group.GroupUniqueID);
                 viewGroups.Add(
                     new ViewGroups
                     {
                         GroupName = group.Group.GroupName,
-                        NoMembers = (await GetNoMembersFromGroupByGuidAsync(group.Group.GroupUniqueID)).ToString(),
-                        TeacherName = await GetTeacherEmailByGroupIdAsync(group.Group.GroupUniqueID),
-                        UniqueKey = group.Group.GroupUniqueID.ToString()
+                        NoMembers = group.Group.GroupMembers.Count.ToString(),
+                        TeacherName = teacher.FirstName+" "+teacher.LastName,
+                        UniqueKey = group.Group.GroupUniqueID.ToString(),
+                        GroupDetails=group.Group.Description,
+                        TeacherEmail=group.User.EmailAddress
                     });
             }
 

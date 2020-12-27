@@ -13,7 +13,7 @@ export class MenuComponent {
   email:string;
 
   constructor(public authService: AuthService,private route: Router){
-    this.email=localStorage.getItem('email');
+    this.email=this.authService.decodeJWRefreshToken('unique_name');
   }
 
   onSubmit(): void{

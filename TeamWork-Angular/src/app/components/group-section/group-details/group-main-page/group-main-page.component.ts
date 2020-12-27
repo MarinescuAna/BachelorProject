@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ViewGroupsModule } from 'src/app/modules/view-groups.module';
 
 @Component({
   selector: 'app-group-main-page',
@@ -7,7 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GroupMainPageComponent implements OnInit {
 
-  constructor() { }
+  public group:ViewGroupsModule;
+  constructor(private route:ActivatedRoute) {
+    debugger
+    this.route.queryParams.subscribe(
+      params=>{
+        this.group=params as ViewGroupsModule;
+      }
+    );
+   }
 
   ngOnInit(): void {
   }

@@ -4,5 +4,6 @@
     min-height: 200px;
     max-height: 400px;
     background-image: url("src/assets/Images/bg-groups.jpg");
+    margin: 5px;
   }
   

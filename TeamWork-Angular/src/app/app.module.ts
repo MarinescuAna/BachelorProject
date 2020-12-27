@@ -36,6 +36,8 @@ import { GroupsComponent } from './components/group-section/my-groups/groups/gro
 import { SheetKeyComponent } from './components/group-section/my-groups/sheet-key/sheet-key.component';
 import { GroupMainPageComponent } from './components/group-section/group-details/group-main-page/group-main-page.component';
 import { GroupMenuComponent } from './components/group-section/group-details/group-menu/group-menu.component';
+import { GroupDetailsSectionComponent } from './components/group-section/group-details/group-details-section/group-details-section.component';
+import { EditGroupComponent } from './components/group-section/group-details/edit-group/edit-group.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -54,7 +56,9 @@ export function tokenGetter() {
     GroupsComponent,
     SheetKeyComponent,
     GroupMainPageComponent,
-    GroupMenuComponent
+    GroupMenuComponent,
+    GroupDetailsSectionComponent,
+    EditGroupComponent
   ],
   imports: [
     ReactiveFormsModule,

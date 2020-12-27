@@ -10,7 +10,7 @@
     </mat-card-content>
     <mat-card-actions>
         <div fxLayout="row" fxLayoutAlign="end">
-            <button mat-raised-button color="primary" [routerLink]="'/group-details'">Go to<mat-icon>keyboard_arrow_right</mat-icon></button>
+            <button mat-raised-button color="primary" (click)="viewGroup()">Go to<mat-icon>keyboard_arrow_right</mat-icon></button>
         </div>
         <div fxLayout="row" fxLayoutAlign="end end">
             <button mat-fab color="primary" (click)="openKeySheet()">

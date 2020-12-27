@@ -15,5 +15,6 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
         Task<GroupMember> GetGroupMemberByKeyIdAsync(string key, int id);
         Task<List<ViewGroups>> GetGroupsAsync(User user);
         Task<bool> DeleteUserFromGroupAsync(User user, Guid group);
+
     }
 }

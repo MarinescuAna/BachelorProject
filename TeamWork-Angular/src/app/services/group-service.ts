@@ -23,7 +23,6 @@ export class GroupService extends DataService {
   JoinToGroup(module: JoinGroupModule){
     super.post<any>('JoinToGroup', module).subscribe(cr=>{
       this.alertService.showSucces('Success. Welcome to the group!');
-      this.route.navigateByUrl('/my-groups');
     });
   }
 
@@ -33,5 +32,12 @@ export class GroupService extends DataService {
 
   LeaveGroup(id: any):Observable<any>{
     return super.delete("id="+id,'LeaveGroup');
+  }
+  UpdateGroup(data: any): any{
+    return super.update('UpdateGroup', data);
+  }
+
+  AddMember(data: any): any{
+    return super.update('AddMember', data);
   }
 }

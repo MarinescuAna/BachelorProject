@@ -22,7 +22,7 @@ namespace TeamWork_API.Controllers
         private readonly IGroupService _groupService;
         private readonly IUserService _userService;
         public GroupController(IGroupService group, IUserService user, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
-            :base(configuration,httpContextAccessor)
+            : base(configuration, httpContextAccessor)
         {
             _groupService = group;
             _userService = user;
@@ -99,14 +99,22 @@ namespace TeamWork_API.Controllers
         [HttpGet]
         [Route("GetMyGroups")]
         public async Task<IActionResult> GetMyGroups()
-        {  
+        {
             var userEmail = ExtractEmailFromJWT();
 
             var user = await _userService.GetUserByEmailAsync(userEmail);
 
             var groups = await _groupService.GetGroupsAsync(user);
 
-            return StatusCode(Codes.Number_200,groups);
+            return StatusCode(Codes.Number_200, groups);
+        }
+        [HttpGet]
+        [Route("GetMembersByGroupKey")]
+        public async Task<IActionResult> GetMembersByGroupKey(string key)
+        {
+            var groups = await _groupService.GetGroupMembersByKeyAsync(key);
+
+            return StatusCode(Codes.Number_200, groups);
         }
 
         [HttpDelete]
@@ -121,7 +129,57 @@ namespace TeamWork_API.Controllers
             var email = ExtractEmailFromJWT();
             var user = await _userService.GetUserByEmailAsync(email);
 
-            if (await _groupService.DeleteUserFromGroupAsync(user, Guid.Parse(id)) == false){
+            if (await _groupService.DeleteUserFromGroupAsync(user, Guid.Parse(id)) == false)
+            {
+                return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
+            }
+
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("UpdateGroup")]
+        public async Task<IActionResult> UpdateGroup(GroupUpdateReceived detalisReceived)
+        {
+            if (detalisReceived == null)
+            {
+                return StatusCode(Codes.Number_204, NoContent204Error.NoContent);
+            }
+
+            if (!detalisReceived.OldGroupName.Equals(detalisReceived.GroupName))
+            {
+                var group = await _groupService.GetGroupByNameAsync(detalisReceived.GroupName);
+                if (group != null)
+                {
+                    return StatusCode(Codes.Number_404, Conflict409Error.GroupAlreadyExist);
+                }
+            }
+
+            if (!(await _groupService.UpdateGroupAsync(detalisReceived)))
+            {
+                return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
+            }
+
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("AddMember")]
+        public async Task<IActionResult> AddMember(AddMember detalisReceived)
+        {
+            if (detalisReceived == null)
+            {
+                return StatusCode(Codes.Number_204, NoContent204Error.NoContent);
+            }
+
+
+            if (await _groupService.IsMemberToGroupAsync(detalisReceived.AttenderEmail, detalisReceived.GroupKey))
+            {
+                return StatusCode(Codes.Number_404, Conflict409Error.UserIsPartFromGroup);
+            }
+
+            if (!(await _groupService.AddMemberByEmailAsync(detalisReceived.AttenderEmail,detalisReceived.GroupKey)))
+            {
                 return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
             }
 

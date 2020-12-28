@@ -7,6 +7,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
@@ -16,7 +20,6 @@
     <ProjectReference Include="..\AplicationLogic.Repository\TeamWork.ApplicationLogic.Repository.csproj" />
     <ProjectReference Include="..\AplicationLogic.Service\TeamWork.ApplicationLogic.Service.csproj" />
     <ProjectReference Include="..\DataAccess.Domain\TeamWork.DataAccess.Domain.csproj" />
-    <ProjectReference Include="..\DataAccess.Repository\TeamWork.DataAccess.Repository.csproj" />
     <ProjectReference Include="..\TeamWork.AplicationLogin.Logger\TeamWork.ApplicationLogger.csproj" />
   </ItemGroup>
 

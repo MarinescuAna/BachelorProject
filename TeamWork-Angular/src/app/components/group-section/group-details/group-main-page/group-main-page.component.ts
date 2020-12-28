@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ViewGroupsModule } from 'src/app/modules/view-groups.module';
+import { AddMemberComponent } from '../add-member/add-member.component';
+import { EditGroupComponent } from '../edit-group/edit-group.component';
 
 @Component({
   selector: 'app-group-main-page',
@@ -10,8 +13,7 @@ import { ViewGroupsModule } from 'src/app/modules/view-groups.module';
 export class GroupMainPageComponent implements OnInit {
 
   public group:ViewGroupsModule;
-  constructor(private route:ActivatedRoute) {
-    debugger
+  constructor(private dialog: MatDialog,private route:ActivatedRoute, private router: Router) {
     this.route.queryParams.subscribe(
       params=>{
         this.group=params as ViewGroupsModule;
@@ -21,5 +23,14 @@ export class GroupMainPageComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  redirectTo(url:string):void{
+    this.router.navigateByUrl(url);
+  }
+  openDialog(): void {
+    const diagRef = this.dialog.open(EditGroupComponent, { data: { data:this.group } });
+  }
 
+  openDialogAddMember(): void {
+    const diagRef = this.dialog.open(AddMemberComponent, { data: { data:this.group } });
+  }
 }

@@ -34,7 +34,6 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                 return null; 
             }
          }
-
         public async Task<Group> GetGroupByKeyAsync(string key) => await _unitOfWork
             .Group
             .GetItem(u => u.GroupUniqueID.ToString() == key);
@@ -84,12 +83,11 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         public async Task<int> JoinToGroupAsync(JoinGroup group)
         {
             var user = await _userService.GetUserByEmailAsync(group.AttenderEmail);
-            var groupTarget = await GetGroupByKeyAsync(group.Key);
             var newMember = new GroupMember
             {
                 StatusRequest = StatusRequest.Joined,
-                Group = groupTarget,
-                User = user
+                GroupID = Guid.Parse(group.Key),
+                UserID = user.UserId
             };
 
             _unitOfWork.GroupMember.InsertItem(newMember);
@@ -108,10 +106,10 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                     {
                         GroupName = group.Group.GroupName,
                         NoMembers = group.Group.GroupMembers.Count.ToString(),
-                        TeacherName = teacher.FirstName+" "+teacher.LastName,
+                        TeacherName = teacher?.FirstName+" "+teacher?.LastName,
                         UniqueKey = group.Group.GroupUniqueID.ToString(),
                         GroupDetails=group.Group.Description,
-                        TeacherEmail=group.User.EmailAddress
+                        TeacherEmail=teacher?.EmailAddress
                     });
             }
 
@@ -129,6 +127,53 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
            await _unitOfWork.GroupMember.DeleteItem(u => u.GroupMemberID == groupMember.GroupMemberID);
 
             return await _unitOfWork.Commit(Messages.DeleteUserFromGroupAsync)>0;
+        }
+        public async Task<bool> IsMemberToGroupAsync(string userEmail, string groupKey)
+        {
+            return await _unitOfWork.GroupMember.GetItem(u => u.User.EmailAddress == userEmail && u.GroupID.ToString() == groupKey)!=null;
+        }
+        public async Task<bool> UpdateGroupAsync(GroupUpdateReceived groupDetalis)
+        {
+            await _unitOfWork.Group.UpdateItem(u => u.GroupUniqueID.ToString() == groupDetalis.Id,
+                new Group
+                {
+                    GroupUniqueID = Guid.Parse(groupDetalis.Id),
+                    Description = groupDetalis.Description,
+                    GroupName = groupDetalis.GroupName
+                });
+            return await _unitOfWork.Commit(Messages.UpdateGroupAsync) > 0;
+        }
+        public async Task<bool> AddMemberByEmailAsync(string userEmail, string groupKey)
+        {
+            _unitOfWork.GroupMember.InsertItem(new GroupMember
+            {
+                StatusRequest = StatusRequest.Waiting,
+                UserID = (await _userService.GetUserByEmailAsync(userEmail)).UserId,
+                GroupID = (await GetGroupByKeyAsync(groupKey)).GroupUniqueID
+            });
+
+            return await _unitOfWork.Commit(Messages.AddMemberByEmailAsync)>0;
+        }
+        public async Task<List<Member>> GetGroupMembersByKeyAsync(string key)
+        {
+            var viewMembers = new List<Member>();
+            var users = (await _unitOfWork.GroupMember.GetItems()).
+                Where(s => s.GroupID.ToString() == key && s.StatusRequest==StatusRequest.Joined);
+
+            foreach (var user in users)
+            {
+                viewMembers.Add(
+                    new Member
+                    {
+                        Email = user.User?.EmailAddress,
+                        FullName = $"{user.User?.FirstName} {user.User?.LastName}",
+                        Institution = user.User?.Institution,
+                        UserId = user.UserID.ToString(),
+                        Role = user.User?.UserRole.ToString()
+                    });
+            }
+
+            return viewMembers;
         }
     }
 }

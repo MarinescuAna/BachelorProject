@@ -18,8 +18,10 @@ namespace TeamWork.DataAccess.Domain.Models.Domain
         [Key]
         public int GroupMemberID { get; set; }
         public StatusRequest StatusRequest { get; set; }
-        public User User { get; set; }
-        public Group Group { get; set; }
+        public int UserID { get; set; }
+        public Guid GroupID { get; set; }
+        public virtual User User { get; set; }
+        public virtual Group Group { get; set; }
 
     }
 }

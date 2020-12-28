@@ -1,14 +1,15 @@
-﻿using TeamWork.DataAccess.Repository;
+﻿
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Repository.Models.Interface;
+using TeamWork.DataAccess.Repository;
 
 namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
 {
-    public abstract class BaseRepository<T> : IBaseRepository<T> where T: class
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected TeamWorkDbContext context;
         public BaseRepository(TeamWorkDbContext ctx)
@@ -19,7 +20,7 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
         {
             T itemFind = await GetItem(expression);
 
-            if(itemFind==null)
+            if (itemFind == null)
             {
                 return false;
             }
@@ -31,12 +32,12 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
 
         public async Task<T> GetItem(Expression<Func<T, bool>> expression)
         {
-            return await context.Set<T>().FirstOrDefaultAsync(expression);
+            return await context.Set<T>().AsNoTracking().FirstOrDefaultAsync(expression);
         }
 
         public virtual async Task<IEnumerable<T>> GetItems()
         {
-            return await context.Set<T>().ToListAsync();
+            return await context.Set<T>().AsNoTracking().ToListAsync();
         }
 
         public async void InsertItem(T item)
@@ -58,6 +59,7 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
             context.Set<T>().Update(itemFind);
 
             return true;
+
         }
     }
 }

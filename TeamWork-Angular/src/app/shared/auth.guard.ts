@@ -16,7 +16,6 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      debugger
       if(next.routeConfig.data?.roles!=null && next.routeConfig.data.roles[0].toLowerCase()==this.authService.decodeJWToken('role').toLowerCase()){
         return true;
       }

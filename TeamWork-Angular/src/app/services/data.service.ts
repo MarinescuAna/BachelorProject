@@ -68,7 +68,7 @@ export class DataService {
    }
 
    // tslint:disable-next-line: typedef
-  update(id: number, entity: any) {
+   update(id: any, entity: any) {
     const body = JSON.stringify(entity);
     const url = `${this.url}/${id}`;
     return this.http.put(url, body, httpOptions).pipe(map((response) => {

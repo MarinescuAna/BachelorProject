@@ -1,1 +1,33 @@
-<p>edit-group works!</p>
+<div fxLayoutAlign="center center">
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <div class="title-style">
+                <h1><strong>Update a group</strong></h1>
+            </div>
+            <div>
+                <form [formGroup]="formCreateGroup" (ngSubmit)="onSubmit()">
+                    <mat-form-field class="input-style" appearance="fill">
+                        <mat-label>Group name</mat-label>
+                        <input matInput [type]="'text'" formControlName='name' required>
+                        <mat-icon matSuffix>edit</mat-icon>
+                        <mat-error *ngIf="formCreateGroup.controls['name'].hasError('required')">
+                            Group name is <strong>required</strong>!
+                        </mat-error>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field class="input-style" appearance="fill">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName='emailTeacher' readonly>
+                        <mat-icon matSuffix>email</mat-icon>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field class="input-style" appearance="fill">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput rows="5" maxlength="255" placeholder="..." formControlName='description'></textarea>
+                    </mat-form-field>
+                </form>
+            </div>
+            <div>
+                <button class="btn-size" color="primary" mat-raised-button (click)="onSubmit()" [disabled]="formCreateGroup.controls['name'].hasError('required')">Save changes</button>
+            </div>
+        </div>
+</div>

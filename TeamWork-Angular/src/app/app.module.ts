@@ -8,6 +8,7 @@ import { RegisterPageComponent } from './components/account/register-page/regist
 import { MainPageComponent } from './components/landing-page/main-page/main-page.component';
 import { JwtModule } from '@auth0/angular-jwt';
 
+import {MatDialogModule} from '@angular/material/dialog';
 import {MatListModule} from '@angular/material/list';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatCardModule} from '@angular/material/card';
@@ -38,6 +39,7 @@ import { GroupMainPageComponent } from './components/group-section/group-details
 import { GroupMenuComponent } from './components/group-section/group-details/group-menu/group-menu.component';
 import { GroupDetailsSectionComponent } from './components/group-section/group-details/group-details-section/group-details-section.component';
 import { EditGroupComponent } from './components/group-section/group-details/edit-group/edit-group.component';
+import { AddMemberComponent } from './components/group-section/group-details/add-member/add-member.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -58,7 +60,8 @@ export function tokenGetter() {
     GroupMainPageComponent,
     GroupMenuComponent,
     GroupDetailsSectionComponent,
-    EditGroupComponent
+    EditGroupComponent,
+    AddMemberComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -78,6 +81,7 @@ export function tokenGetter() {
     ClipboardModule,
     MatListModule,
     MatCardModule,
+    MatDialogModule,
     ToastrModule.forRoot(),
     JwtModule.forRoot({
       config: {

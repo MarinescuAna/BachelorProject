@@ -24,5 +24,6 @@ export class JoinGroupComponent implements OnInit {
     temp.attenderEmail=this.authService.decodeJWRefreshToken('email');
     debugger
     this.groupService.JoinToGroup(temp);
+    this.formJoinGroup.value.key=null;
   }
 }

@@ -57,15 +57,15 @@ namespace TeamWork_API.Controllers
                 user.UserRole.ToString()
                 );
             HttpContext.Session.SetString(Constants.Token, user.AccessToken);
- 
-            int response = await _userService.UpdateUserInformationAsync(user);
+            
+           // int response = await _userService.UpdateUserInformationAsync(user);
 
-            if(response > Codes.Number_0)
+           // if(response > Codes.Number_0)
             {
                 return StatusCode(Codes.Number_201,jWToken);
             }
 
-            return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
+          //  return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
 
         }
 

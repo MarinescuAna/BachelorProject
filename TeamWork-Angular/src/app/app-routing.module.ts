@@ -9,6 +9,7 @@ import { JoinGroupComponent } from './components/group-section/join-group/join-g
 import { GroupsComponent } from './components/group-section/my-groups/groups/groups.component';
 import { AuthService } from './shared/auth.service';
 import { GroupMainPageComponent } from './components/group-section/group-details/group-main-page/group-main-page.component';
+import { ViewMembersComponent } from './components/group-section/group-details/view-members/view-members.component';
 
 const routes: Routes = [
 

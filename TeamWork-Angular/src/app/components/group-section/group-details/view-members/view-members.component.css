@@ -1,0 +1,21 @@
+table {
+    width: 149%;
+    padding: 1px;
+    margin-left: -2%;
+  }
+
+  .paginator{
+    width:149%;
+    color:#1b0438;
+    margin-left: -2%;
+  }
+
+  .color{
+    color:#1b0438;
+    font-size: medium;
+
+  }
+
+  mat-icon{
+    color: red;
+  }

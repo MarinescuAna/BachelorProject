@@ -1,5 +1,16 @@
 .margin{
     margin: 10px;
     width: 100px;
-    background:#2E7D32;
+    background:#459910;
 }
+
+mat-button-toggle-group {
+    margin-left: -64%;
+    margin-top: 1%;
+    width: 224%;
+  }
+
+  mat-button-toggle {
+      width:900%;
+      background:#FF6E40;
+  }

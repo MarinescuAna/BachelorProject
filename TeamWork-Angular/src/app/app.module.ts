@@ -25,7 +25,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CreateGroupComponent } from './components/group-section/create-group/create-group.component';
+import { MatTableModule } from '@angular/material/table';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
+import { MatPaginatorModule } from '@angular/material/paginator';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { AlertService } from 'src/app/services/alert.service'; 
 import { ToastrModule } from 'ngx-toastr';
@@ -40,6 +43,7 @@ import { GroupMenuComponent } from './components/group-section/group-details/gro
 import { GroupDetailsSectionComponent } from './components/group-section/group-details/group-details-section/group-details-section.component';
 import { EditGroupComponent } from './components/group-section/group-details/edit-group/edit-group.component';
 import { AddMemberComponent } from './components/group-section/group-details/add-member/add-member.component';
+import { ViewMembersComponent } from './components/group-section/group-details/view-members/view-members.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -61,7 +65,8 @@ export function tokenGetter() {
     GroupMenuComponent,
     GroupDetailsSectionComponent,
     EditGroupComponent,
-    AddMemberComponent
+    AddMemberComponent,
+    ViewMembersComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -87,6 +92,9 @@ export function tokenGetter() {
       config: {
       tokenGetter: tokenGetter
     }}),
+    MatTableModule,
+    MatPaginatorModule,
+    MatButtonToggleModule
   ],
   providers: [
     AlertService,

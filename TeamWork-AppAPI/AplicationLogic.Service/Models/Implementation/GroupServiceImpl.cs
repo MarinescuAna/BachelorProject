@@ -17,6 +17,11 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         {
             _userService = new UserServiceImpl(uow);
         }
+        public async Task<int> GetNoMembersFromGroupByGuidAsync(Guid key) => (await _unitOfWork
+           .GroupMember
+           .GetItems())
+           .Where(s => s.Group.GroupUniqueID == key)
+           .Count();
         private async Task<User> GetTeacherEmailByGroupIdAsync(Guid guid)
         {
             try {
@@ -114,6 +119,12 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
             }
 
             return viewGroups;
+        }
+        public async Task<bool> DeleteGroupAsync(Guid group)
+        {
+            await _unitOfWork.Group.DeleteItem(u => u.GroupUniqueID == group);
+
+            return await _unitOfWork.Commit(Messages.DeleteGroupAsync) > 0;
         }
         public async Task<bool> DeleteUserFromGroupAsync(User user, Guid group)
         {

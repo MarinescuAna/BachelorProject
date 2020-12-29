@@ -134,6 +134,34 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
             }
 
+            if (await _groupService.GetNoMembersFromGroupByGuidAsync(Guid.Parse(id)) == 0)
+            {
+                await _groupService.DeleteGroupAsync(Guid.Parse(id));
+            }
+
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("GetOutMember")]
+        public async Task<IActionResult> GetOutMember(DeleteUserFromGroup user)
+        {
+            if (user == null)
+            {
+                return StatusCode(Codes.Number_204, NoContent204Error.NoContent);
+            }
+
+            var userr = await _userService.GetUserByEmailAsync(user.Email);
+            if (await _groupService.DeleteUserFromGroupAsync(userr, Guid.Parse(user.GroupKey)) == false)
+            {
+                return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
+            }
+
+            if (await _groupService.GetNoMembersFromGroupByGuidAsync(Guid.Parse(user.GroupKey)) == 0)
+            {
+                await _groupService.DeleteGroupAsync(Guid.Parse(user.GroupKey));
+            }
+
             return Ok();
         }
 

@@ -14,30 +14,30 @@ import { SheetKeyComponent } from '../sheet-key/sheet-key.component';
 export class GroupComponent implements OnInit {
 
   @Input() group: ViewGroupsModule;
-  private alertService:any;
-  constructor(private _bottomSheet: MatBottomSheet, private service: GroupService,private injector: Injector, private route: Router) 
-  { 
-    this.alertService=this.injector.get(AlertService);
+  private alertService: any;
+  constructor(private _bottomSheet: MatBottomSheet, private service: GroupService, private injector: Injector, private route: Router) {
+    this.alertService = this.injector.get(AlertService);
   }
 
   ngOnInit(): void {
   }
 
-  openKeySheet():void{
-    this._bottomSheet.open(SheetKeyComponent, {data:{key:this.group.uniqueKey}});
+  openKeySheet(): void {
+    this._bottomSheet.open(SheetKeyComponent, { data: { key: this.group.uniqueKey } });
   }
 
-  viewGroup():void{
+  viewGroup(): void {
     let navigationExtras: NavigationExtras = {
-      queryParams:this.group
-  };
-    this.route.navigate(['\group-details'],navigationExtras);
+      queryParams: this.group
+    };
+    this.route.navigate(['\group-details'], navigationExtras);
   }
-  onLeaveGroup():void{
-    debugger
-    this.service.LeaveGroup(this.group.uniqueKey).subscribe(cr => {
-      this.alertService.showSucces('You left the group successfully!');
-      this.route.navigateByUrl['\my-groups'];  
-    });;
+  onLeaveGroup(): void {
+    if (confirm("Are you sure?")) {
+      this.service.LeaveGroup(this.group.uniqueKey).subscribe(cr => {
+        this.alertService.showSucces('You left the group successfully!');
+        window.location.reload();
+      });
+    }
   }
 }

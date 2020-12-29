@@ -69,13 +69,16 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                 UserID = groupDetalis.TeacherEmail
             });
 
-            _unitOfWork.GroupMember.InsertItem(new GroupMember
+            if (groupDetalis.TeacherEmail != groupDetalis.StudentCreatorEmail)
             {
-                StatusRequest = StatusRequest.Joined,
-                GroupID = key,
-                GroupMemberID = Guid.NewGuid(),
-                UserID = groupDetalis.StudentCreatorEmail
-            });
+                _unitOfWork.GroupMember.InsertItem(new GroupMember
+                {
+                    StatusRequest = StatusRequest.Joined,
+                    GroupID = key,
+                    GroupMemberID = Guid.NewGuid(),
+                    UserID = groupDetalis.StudentCreatorEmail
+                });
+            }
 
             if (await _unitOfWork.Commit(Messages.CreateGroupByUserAsync) < 3)
             {

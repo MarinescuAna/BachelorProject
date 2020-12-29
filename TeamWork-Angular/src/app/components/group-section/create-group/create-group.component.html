@@ -28,16 +28,21 @@
                         </mat-error>
                     </mat-form-field>
                     <br>
-                    <mat-form-field class="input-style" appearance="fill">
+                    <mat-form-field class="input-style" appearance="fill" required>
                         <mat-label>Description</mat-label>
-                        <textarea matInput rows="5" maxlength="255" placeholder="..." formControlName='description'></textarea>
+                        <textarea matInput rows="5" maxlength="255" placeholder="..."
+                            formControlName='description'></textarea>
                     </mat-form-field>
+                    <mat-error *ngIf="formCreateGroup.controls['description'].hasError('required')">
+                        Description is <strong>required</strong>!
+                    </mat-error>
                 </form>
             </div>
             <div>
                 <button class="btn-size" color="primary" mat-raised-button (click)="onSubmit()" [disabled]="formCreateGroup.controls['emailTeacher'].hasError('required') || 
         formCreateGroup.controls['name'].hasError('required') ||
-        formCreateGroup.controls['emailTeacher'].hasError('pattern')">Create</button>
+        formCreateGroup.controls['emailTeacher'].hasError('pattern') ||
+        formCreateGroup.controls['description'].hasError('required')">Create</button>
             </div>
         </div>
     </mat-card>

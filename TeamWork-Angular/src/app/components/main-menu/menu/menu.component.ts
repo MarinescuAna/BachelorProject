@@ -10,13 +10,13 @@ import { AuthService } from 'src/app/shared/auth.service';
 export class MenuComponent {
 
   @ViewChild('clickMe') clickMe: any;
-  email:string;
+  email: string;
 
-  constructor(public authService: AuthService,private route: Router){
-    this.email=this.authService.decodeJWRefreshToken('unique_name');
+  constructor(public authService: AuthService, private route: Router) {
+    this.email = this.authService.decodeJWRefreshToken('unique_name');
   }
 
-  onSubmit(): void{
+  onSubmit(): void {
     this.authService.doLogout();
   }
 
@@ -24,7 +24,16 @@ export class MenuComponent {
     this.clickMe._elementRef.nativeElement.click();
   }
 
-  redirectTo(url:string):void{
+  redirectTo(url: string): void {
     this.route.navigateByUrl(url);
+  }
+
+  redirectHome() {
+    if (this.authService.isLogged()) {
+      this.route.navigateByUrl('home-logged')
+    }
+    else {
+      this.route.navigateByUrl('landing-page')
+    }
   }
 }

@@ -1,0 +1,20 @@
+<mat-card class="card">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <mat-card-content>
+            <div fxLayout="column" fxLayoutAlign="start">
+                <h1><strong>{{group.groupName}}</strong></h1>
+                <p>{{group.groupDetails}}</p>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <div fxLayout="column">
+                <button mat-raised-button style=" background:#459910;" (click)="onAccept()">
+                    <mat-icon>check</mat-icon>Accept
+                </button>
+                <button mat-raised-button color="warn" (click)="onDecline()">
+                    <mat-icon>clear</mat-icon> Decline
+                </button>
+            </div>
+        </mat-card-actions>
+    </div>
+</mat-card>

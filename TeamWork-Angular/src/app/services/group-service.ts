@@ -29,6 +29,9 @@ export class GroupService extends DataService {
   LeaveGroup(id: any): Observable<any> {
     return super.delete("id=" + id, 'LeaveGroup');
   }
+  Accept(id: any): Observable<any> {
+    return super.update('AcceptInvitation?key=' + id, {});
+  }
   UpdateGroup(data: any): any {
     return super.update('UpdateGroup', data);
   }

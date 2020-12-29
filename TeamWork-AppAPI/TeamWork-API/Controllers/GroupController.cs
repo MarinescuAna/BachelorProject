@@ -141,6 +141,23 @@ namespace TeamWork_API.Controllers
         }
 
         [HttpPut]
+        [Route("AcceptInvitation")]
+        public async Task<IActionResult> AcceptInvitation(string key)
+        {
+            if (string.IsNullOrEmpty(key))
+            {
+                return StatusCode(Codes.Number_204, NoContent204Error.NoContent);
+            }
+
+            if (await _groupService.UpdateGroupMemberAsync(key, ExtractEmailFromJWT()) == false)
+            {
+                return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
+            }
+
+            return Ok();
+        }
+
+        [HttpPut]
         [Route("GetOutMember")]
         public async Task<IActionResult> GetOutMember(DeleteUserFromGroup user)
         {

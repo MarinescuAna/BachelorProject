@@ -10,6 +10,7 @@ import { GroupsComponent } from './components/group-section/my-groups/groups/gro
 import { AuthService } from './shared/auth.service';
 import { GroupMainPageComponent } from './components/group-section/group-details/group-main-page/group-main-page.component';
 import { ViewMembersComponent } from './components/group-section/group-details/view-members/view-members.component';
+import { HomeLoggedComponent } from './components/home-logged/home-logged.component';
 
 const routes: Routes = [
 
@@ -51,6 +52,12 @@ const routes: Routes = [
     component: GroupMainPageComponent,
     canActivate: [AuthGuard],
     data: { roles: ["student"]}
+  },
+  {
+    path: 'home-logged',
+    component: HomeLoggedComponent,
+    canActivate: [AuthGuard]
+    
   }
 ]
 

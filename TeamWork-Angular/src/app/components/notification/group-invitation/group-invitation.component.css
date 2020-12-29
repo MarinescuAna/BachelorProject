@@ -1,0 +1,14 @@
+.card {
+    width: 650px;
+    height: 130px;
+    background-color: #FFF8E1;
+    margin-top: 1%;
+  }
+
+  button{
+      width: 100px;
+  }
+
+  p{
+    width: 500px; 
+  }

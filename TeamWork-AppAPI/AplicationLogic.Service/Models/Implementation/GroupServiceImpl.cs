@@ -152,6 +152,16 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                 });
             return await _unitOfWork.Commit(Messages.UpdateGroupAsync) > 0;
         }
+        public async Task<bool> UpdateGroupMemberAsync(string key, string email)
+        {
+            var groupMember =await _unitOfWork.GroupMember.GetItem(u => u.GroupID.ToString() == key && u.UserID == email);
+            
+            groupMember.StatusRequest = StatusRequest.Joined;
+
+            await _unitOfWork.GroupMember.UpdateItem(u => u.GroupMemberID == groupMember.GroupMemberID,groupMember);
+
+            return await _unitOfWork.Commit(Messages.UpdateGroupMemberAsync) > 0;
+        }
         public async Task<bool> AddMemberByEmailAsync(string userEmail, string groupKey)
         {
             _unitOfWork.GroupMember.InsertItem(new GroupMember

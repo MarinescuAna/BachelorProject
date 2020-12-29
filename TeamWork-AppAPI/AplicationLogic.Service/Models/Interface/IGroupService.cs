@@ -8,6 +8,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
 {
     public interface IGroupService
     {
+        Task<bool> UpdateGroupMemberAsync(string key, string email);
         Task<int> GetNoMembersFromGroupByGuidAsync(Guid key);
         Task<Guid> CreateGroupByUserAsync(GroupDetalisReceived groupDetalis);
         Task<bool> UpdateGroupAsync(GroupUpdateReceived groupDetalis);

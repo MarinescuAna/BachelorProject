@@ -2,7 +2,7 @@
     <mat-toolbar class="menu-style">
         <div class="logo"> <img src="assets/Images/LogoBachelorNoBackground.png" class="image-logo" /></div>
         <div fxLayout="row" class="goleft">
-            <button mat-button [routerLink]="authService.isLogged()?'/my-groups':'/landing-page'">
+            <button mat-button (click)="redirectHome()">
                 <mat-icon>home</mat-icon>Home
             </button>
             <br>

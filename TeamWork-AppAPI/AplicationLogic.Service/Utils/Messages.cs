@@ -11,6 +11,7 @@ namespace TeamWork.ApplicationLogic.Service.Utils
         public static readonly string DeleteUserFromGroupAsync = "GroupServiceImpl -> DeleteUserFromGroupAsync ->";
         public static readonly string DeleteGroupAsync = "GroupServiceImpl -> DeleteGroupAsync ->";
         public static readonly string UpdateGroupAsync = "GroupServiceImpl -> UpdateGroupAsync ->";
+        public static readonly string UpdateGroupMemberAsync = "GroupServiceImpl -> UpdateGroupMemberAsync ->";
         public static readonly string AddMemberByEmailAsync = "GroupServiceImpl -> AddMemberByEmailAsync ->";
         public static readonly string CreateGroupByUserAsync = "GroupServiceImpl -> CreateGroupByUserAsync ->";
     }

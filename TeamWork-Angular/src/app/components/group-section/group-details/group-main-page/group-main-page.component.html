@@ -5,10 +5,10 @@
             <button mat-fab class="margin" (click)="redirectTo('my-groups')">
                 <mat-icon>keyboard_backspace</mat-icon>
             </button>
-            <button mat-fab class="margin" (click)="openDialog()">
+            <button mat-fab class="margin" (click)="openDialog()" *ngIf="isStudent">
                 <mat-icon>create</mat-icon>
             </button>
-            <button mat-fab class="margin" (click)="openDialogAddMember()">
+            <button mat-fab class="margin" (click)="openDialogAddMember()"  *ngIf="isStudent">
                 <mat-icon>group_add</mat-icon>
             </button>
         </div>

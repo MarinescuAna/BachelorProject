@@ -39,12 +39,14 @@ import { GroupComponent } from './components/group-section/my-groups/group/group
 import { GroupsComponent } from './components/group-section/my-groups/groups/groups.component';
 import { SheetKeyComponent } from './components/group-section/my-groups/sheet-key/sheet-key.component';
 import { GroupMainPageComponent } from './components/group-section/group-details/group-main-page/group-main-page.component';
-import { GroupMenuComponent } from './components/group-section/group-details/group-menu/group-menu.component';
 import { GroupDetailsSectionComponent } from './components/group-section/group-details/group-details-section/group-details-section.component';
 import { EditGroupComponent } from './components/group-section/group-details/edit-group/edit-group.component';
 import { AddMemberComponent } from './components/group-section/group-details/add-member/add-member.component';
 import { ViewMembersComponent } from './components/group-section/group-details/view-members/view-members.component';
 import { MessageCardComponent } from './components/message-card/message-card.component';
+import { GroupInvitationsComponent } from './components/notification/group-invitations/group-invitations.component';
+import { GroupInvitationComponent } from './components/notification/group-invitation/group-invitation.component';
+import { HomeLoggedComponent } from './components/home-logged/home-logged.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -63,12 +65,14 @@ export function tokenGetter() {
     GroupsComponent,
     SheetKeyComponent,
     GroupMainPageComponent,
-    GroupMenuComponent,
     GroupDetailsSectionComponent,
     EditGroupComponent,
     AddMemberComponent,
     ViewMembersComponent,
-    MessageCardComponent
+    MessageCardComponent,
+    GroupInvitationsComponent,
+    GroupInvitationComponent,
+    HomeLoggedComponent
   ],
   imports: [
     ReactiveFormsModule,

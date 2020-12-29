@@ -1,0 +1,7 @@
+<div class="all-groups" *ngIf="length!==0">
+    <div fxFlex fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+        <div *ngFor="let group of myGroups">
+            <app-group-invitation [group]='group'></app-group-invitation>
+        </div>
+    </div>
+</div>

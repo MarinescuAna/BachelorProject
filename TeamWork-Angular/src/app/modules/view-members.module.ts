@@ -13,7 +13,6 @@ import { CommonModule } from '@angular/common';
 
 export class ViewMembersModule{
     fullName: string;
-    userId: string;
     email: string;
     role: string;
     institution: string;

@@ -13,7 +13,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
         Task<bool> UpdateGroupAsync(GroupUpdateReceived groupDetalis);
         Task<Group> GetGroupByNameAsync(string name);
         Task<Group> GetGroupByKeyAsync(string key);
-        Task<int> JoinToGroupAsync(JoinGroup group);
+        Task<bool> JoinToGroupAsync(string key, string email);
         Task<GroupMember> GetGroupMemberByKeyIdAsync(string key, string email);
         Task<List<ViewGroups>> GetGroupsAsync(string userEmail, StatusRequest status);
         Task<bool> DeleteUserFromGroupAsync(User user, Guid group);

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { JoinGroupModule } from 'src/app/modules/join-group.module';
 import { GroupService } from 'src/app/services/group-service';
 import { AuthService } from 'src/app/shared/auth.service';
 
@@ -19,11 +18,7 @@ export class JoinGroupComponent implements OnInit {
   }
 
   onSubmit(): void{
-    const temp=new JoinGroupModule();
-    temp.key=this.formJoinGroup.value.key;
-    temp.attenderEmail=this.authService.decodeJWRefreshToken('email');
-    debugger
-    this.groupService.JoinToGroup(temp);
-    this.formJoinGroup.value.key=null;
+    this.groupService.JoinToGroup(this.formJoinGroup.value.key);
+    window.location.reload();
   }
 }

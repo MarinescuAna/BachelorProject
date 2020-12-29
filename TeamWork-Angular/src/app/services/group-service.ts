@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { GroupCreateModule } from '../modules/group-create.module';
 import { GroupCreateResponseModule } from '../modules/group-create-response.module';
 import { DataService } from '../services/data.service';
-import { JoinGroupModule } from 'src/app/modules/join-group.module';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -13,15 +12,12 @@ export class GroupService extends DataService {
     super(injector, 'Group');
   }
 
-  CreateNewGroup(module: GroupCreateModule) {
-    super.post<GroupCreateResponseModule>('CreateGroupByUser', module).subscribe(cr => {
-      this.alertService.showSucces('The group was created!');
-      this.route.navigateByUrl('/my-groups');
-    });
+  CreateNewGroup(module: GroupCreateModule):any {
+    return super.post<GroupCreateResponseModule>('CreateGroupByUser', module)
   }
 
-  JoinToGroup(module: JoinGroupModule) {
-    super.post<any>('JoinToGroup', module).subscribe(cr => {
+  JoinToGroup(module: any) {
+    super.post<any>('JoinToGroup?key='+module, {}).subscribe(cr => {
       this.alertService.showSucces('Success. Welcome to the group!');
     });
   }

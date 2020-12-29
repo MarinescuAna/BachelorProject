@@ -44,6 +44,7 @@ import { GroupDetailsSectionComponent } from './components/group-section/group-d
 import { EditGroupComponent } from './components/group-section/group-details/edit-group/edit-group.component';
 import { AddMemberComponent } from './components/group-section/group-details/add-member/add-member.component';
 import { ViewMembersComponent } from './components/group-section/group-details/view-members/view-members.component';
+import { MessageCardComponent } from './components/message-card/message-card.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -66,7 +67,8 @@ export function tokenGetter() {
     GroupDetailsSectionComponent,
     EditGroupComponent,
     AddMemberComponent,
-    ViewMembersComponent
+    ViewMembersComponent,
+    MessageCardComponent
   ],
   imports: [
     ReactiveFormsModule,

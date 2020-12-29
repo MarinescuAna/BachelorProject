@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GroupCreateModule } from 'src/app/modules/group-create.module'; 
 import { AuthService } from 'src/app/shared/auth.service';
 import { GroupService } from 'src/app/services/group-service';
+import { AlertService } from 'src/app/services/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-group',
@@ -17,7 +19,7 @@ export class CreateGroupComponent implements OnInit {
     emailTeacher: new FormControl('',[Validators.required,Validators.pattern(this.pattern)]),
     description: new FormControl('')
   });
-  constructor(private authService: AuthService,private groupService: GroupService) { }
+  constructor(private authService: AuthService,private groupService: GroupService, private injector: Injector, private route: Router) { }
 
   ngOnInit(): void {
   }
@@ -28,7 +30,9 @@ export class CreateGroupComponent implements OnInit {
     temp.groupName=this.formCreateGroup.value.name;
     temp.studentCreatorEmail=this.authService.decodeJWRefreshToken('email');
     temp.teacherEmail=this.formCreateGroup.value.emailTeacher;
-    debugger
-    this.groupService.CreateNewGroup(temp);
+    this.groupService.CreateNewGroup(temp).subscribe(cr => {
+      this.injector.get(AlertService).showSucces('The group was created!');
+      this.route.navigateByUrl('/my-groups');
+    });
   }
 }

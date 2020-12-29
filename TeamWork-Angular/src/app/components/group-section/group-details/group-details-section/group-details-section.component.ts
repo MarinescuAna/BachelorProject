@@ -8,7 +8,8 @@ import { ViewGroupsModule } from 'src/app/modules/view-groups.module';
 })
 export class GroupDetailsSectionComponent implements OnInit {
   @Input() group: ViewGroupsModule;
-  constructor() { }
+  constructor() { 
+  }
 
   ngOnInit(): void {
   }

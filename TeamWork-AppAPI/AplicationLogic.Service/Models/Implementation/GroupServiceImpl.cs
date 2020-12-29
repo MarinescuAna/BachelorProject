@@ -20,7 +20,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         public async Task<int> GetNoMembersFromGroupByGuidAsync(Guid key) => (await _unitOfWork
            .GroupMember
            .GetItems())
-           .Where(s => s.Group.GroupUniqueID == key)
+           .Where(s => s.Group.GroupUniqueID == key && s.StatusRequest==StatusRequest.Joined)
            .Count();
         private async Task<User> GetTeacherEmailByGroupIdAsync(Guid guid)
         {
@@ -61,21 +61,20 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
             _unitOfWork.Group.InsertItem(group);
 
-            var teacher = await _userService.GetUserByEmailAsync(groupDetalis.TeacherEmail);
-            var student = await _userService.GetUserByEmailAsync(groupDetalis.StudentCreatorEmail);
-
             _unitOfWork.GroupMember.InsertItem(new GroupMember
             {
                 StatusRequest = StatusRequest.Waiting,
-                Group = group,
-                User = teacher
+                GroupID = key,
+                GroupMemberID=Guid.NewGuid(),
+                UserID = groupDetalis.TeacherEmail
             });
 
             _unitOfWork.GroupMember.InsertItem(new GroupMember
             {
                 StatusRequest = StatusRequest.Joined,
-                User = student,
-                Group = group
+                GroupID = key,
+                GroupMemberID = Guid.NewGuid(),
+                UserID = groupDetalis.StudentCreatorEmail
             });
 
             if (await _unitOfWork.Commit(Messages.CreateGroupByUserAsync) < 3)
@@ -85,32 +84,31 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
             return key;
         }
-        public async Task<int> JoinToGroupAsync(JoinGroup group)
+        public async Task<bool> JoinToGroupAsync(string key, string email)
         {
-            var user = await _userService.GetUserByEmailAsync(group.AttenderEmail);
             var newMember = new GroupMember
             {
                 StatusRequest = StatusRequest.Joined,
-                GroupID = Guid.Parse(group.Key),
-                UserID = user.UserEmailId
+                GroupID = Guid.Parse(key),
+                UserID = email
             };
 
             _unitOfWork.GroupMember.InsertItem(newMember);
-            return await _unitOfWork.Commit(Messages.JoinToGroupAsync);
+            return (await _unitOfWork.Commit(Messages.JoinToGroupAsync))>0;
         }
         public async Task<List<ViewGroups>> GetGroupsAsync(string userEmail, StatusRequest status)
         {
-            List<ViewGroups> viewGroups = new List<ViewGroups>();
+            var viewGroups = new List<ViewGroups>();
             var groups = (await _unitOfWork.GroupMember.GetItems()).Where(s => s.User.UserEmailId == userEmail && s.StatusRequest==status);
 
             foreach (var group in groups)
             {
-                var teacher = await GetTeacherEmailByGroupIdAsync(group.Group.GroupUniqueID);
+                var teacher = group.Group?.GroupMembers?.FirstOrDefault(s=>s.User.UserRole==Role.TEACHER && s.StatusRequest==StatusRequest.Joined)?.User;
                 viewGroups.Add(
                     new ViewGroups
                     {
                         GroupName = group.Group.GroupName,
-                        NoMembers = group.Group.GroupMembers.Count.ToString(),
+                        NoMembers = group.Group.GroupMembers.Where(s=>s.StatusRequest==StatusRequest.Joined).Count().ToString(),
                         TeacherName = teacher?.FirstName+" "+teacher?.LastName,
                         UniqueKey = group.Group.GroupUniqueID.ToString(),
                         GroupDetails=group.Group.Description,
@@ -159,8 +157,8 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
             _unitOfWork.GroupMember.InsertItem(new GroupMember
             {
                 StatusRequest = StatusRequest.Waiting,
-                UserID = (await _userService.GetUserByEmailAsync(userEmail)).UserEmailId,
-                GroupID = (await GetGroupByKeyAsync(groupKey)).GroupUniqueID
+                UserID = userEmail,
+                GroupID = Guid.Parse(groupKey)
             });
 
             return await _unitOfWork.Commit(Messages.AddMemberByEmailAsync)>0;
@@ -179,7 +177,6 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                         Email = user.User?.UserEmailId,
                         FullName = $"{user.User?.FirstName} {user.User?.LastName}",
                         Institution = user.User?.Institution,
-                        UserId = user.UserID.ToString(),
                         Role = user.User?.UserRole.ToString()
                     });
             }

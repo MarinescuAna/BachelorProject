@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -69,25 +67,26 @@ namespace TeamWork_API.Controllers
 
         [HttpPost]
         [Route("JoinToGroup")]
-        public async Task<IActionResult> JoinToGroup(JoinGroup joinGroup)
+        public async Task<IActionResult> JoinToGroup(string key)
         {
-            if (joinGroup == null || string.IsNullOrEmpty(joinGroup.Key))
+            if ( string.IsNullOrEmpty(key))
             {
                 return StatusCode(Codes.Number_204, NoContent204Error.NoContent);
             }
 
-            var group = await _groupService.GetGroupByKeyAsync(joinGroup.Key);
+            var group = await _groupService.GetGroupByKeyAsync(key);
             if (group == null)
             {
                 return StatusCode(Codes.Number_404, NotFound404Error.InvalidKey);
             }
 
-            if (await _groupService.GetGroupMemberByKeyIdAsync(joinGroup.Key, joinGroup.AttenderEmail) != null)
+            var userEmail = ExtractEmailFromJWT();
+            if (await _groupService.GetGroupMemberByKeyIdAsync(key, userEmail) != null)
             {
                 return StatusCode(Codes.Number_409, Conflict409Error.PartFromGroup);
             }
 
-            if (await _groupService.JoinToGroupAsync(joinGroup) < Codes.Number_1)
+            if (!(await _groupService.JoinToGroupAsync(key,userEmail)))
             {
                 return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
             }

@@ -14,9 +14,9 @@ namespace TeamWork.DataAccess.Domain.Models.Domain
     public class Item
     {
         [Key]
-        public int ItemID { get; set; }
+        public Guid ItemID { get; set; }
         public string Description { get; set; }
-        public int CheckListID { get; set; }
+        public Guid CheckListID { get; set; }
         public StatusItem Status { get; set; }
 
         public virtual CheckList CheckList { get; set; }

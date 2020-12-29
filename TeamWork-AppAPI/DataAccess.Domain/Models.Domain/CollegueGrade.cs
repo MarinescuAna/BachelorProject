@@ -10,10 +10,10 @@ namespace TeamWork.DataAccess.Domain.Models.Domain
     public class CollegueGrade
     {
         [Key]
-        public int ID { get; set; }
-        public int UserId { get; set; }   
+        public Guid ID { get; set; }
+        public string UserId { get; set; }   
         public float Grade { get; set; }
-        public int AssigmentID { get; set; }
+        public Guid AssigmentID { get; set; }
 
         public virtual User User { get; set; }
         public virtual Assigment Assigment { get; set; }

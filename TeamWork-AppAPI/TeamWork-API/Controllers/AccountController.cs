@@ -45,14 +45,14 @@ namespace TeamWork_API.Controllers
 
             JWToken jWToken = new JWToken
             {
-                AccessToken = user.AccessToken = GenerateAccessToken(user.UserId.ToString(), user.EmailAddress, user.UserRole.ToString())
+                AccessToken = user.AccessToken = GenerateAccessToken( user.FirstName+" "+user.LastName,user.UserEmailId, user.UserRole.ToString())
             };
 
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Codes.Number_2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Codes.Number_2);
             jWToken.RefershToken = user.RefreshToken = GenerateRefreshToken(
                  user.FirstName + " " + user.LastName,
-                user.EmailAddress, 
+                user.UserEmailId, 
                 DateTime.Now.AddMonths(Codes.Number_2).ToString(), 
                 user.UserRole.ToString()
                 );
@@ -85,7 +85,7 @@ namespace TeamWork_API.Controllers
 
             User user = new User
             {
-                EmailAddress = userCredentials.EmailAddress,
+                UserEmailId = userCredentials.EmailAddress,
                 FirstName = userCredentials.FirstName,
                 Institution = userCredentials.Institution,
                 LastName = userCredentials.LastName,
@@ -96,13 +96,13 @@ namespace TeamWork_API.Controllers
             JWToken jWToken = new JWToken();
 
             user.AccessToken = jWToken.AccessToken = GenerateAccessToken(
-                user.UserId.ToString(), 
-                user.EmailAddress, user.UserRole.ToString());
+                user.FirstName + " " + user.LastName, 
+                user.UserEmailId, user.UserRole.ToString());
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Codes.Number_2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Codes.Number_2);
             user.RefreshToken = jWToken.RefershToken = GenerateRefreshToken(
                 user.FirstName+" "+user.LastName, 
-                user.EmailAddress, 
+                user.UserEmailId, 
                 jWToken.RefershTokenExpiration.ToString(), 
                 user.UserRole.ToString()
                 );

@@ -42,10 +42,10 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         public async Task<Group> GetGroupByKeyAsync(string key) => await _unitOfWork
             .Group
             .GetItem(u => u.GroupUniqueID.ToString() == key);
-        public async Task<GroupMember> GetGroupMemberByKeyIdAsync(string key, int id) => await _unitOfWork
+        public async Task<GroupMember> GetGroupMemberByKeyIdAsync(string key, string email) => await _unitOfWork
             .GroupMember
             .GetItem(u => u.Group.GroupUniqueID.ToString() == key
-                          && u.User.UserId == id);
+                          && u.User.UserEmailId == email);
         public async Task<Group> GetGroupByNameAsync(string name) => await _unitOfWork
             .Group
             .GetItem(u => u.GroupName == name);       
@@ -92,16 +92,16 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
             {
                 StatusRequest = StatusRequest.Joined,
                 GroupID = Guid.Parse(group.Key),
-                UserID = user.UserId
+                UserID = user.UserEmailId
             };
 
             _unitOfWork.GroupMember.InsertItem(newMember);
             return await _unitOfWork.Commit(Messages.JoinToGroupAsync);
         }
-        public async Task<List<ViewGroups>> GetGroupsAsync(User user)
+        public async Task<List<ViewGroups>> GetGroupsAsync(string userEmail, StatusRequest status)
         {
             List<ViewGroups> viewGroups = new List<ViewGroups>();
-            var groups = (await _unitOfWork.GroupMember.GetItems()).Where(s => s.User.UserId == user.UserId && s.StatusRequest==StatusRequest.Joined);
+            var groups = (await _unitOfWork.GroupMember.GetItems()).Where(s => s.User.UserEmailId == userEmail && s.StatusRequest==status);
 
             foreach (var group in groups)
             {
@@ -114,7 +114,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                         TeacherName = teacher?.FirstName+" "+teacher?.LastName,
                         UniqueKey = group.Group.GroupUniqueID.ToString(),
                         GroupDetails=group.Group.Description,
-                        TeacherEmail=teacher?.EmailAddress
+                        TeacherEmail=teacher?.UserEmailId
                     });
             }
 
@@ -128,7 +128,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         }
         public async Task<bool> DeleteUserFromGroupAsync(User user, Guid group)
         {
-            var groupMember = await _unitOfWork.GroupMember.GetItem(u => u.Group.GroupUniqueID == group && u.User.EmailAddress == user.EmailAddress);
+            var groupMember = await _unitOfWork.GroupMember.GetItem(u => u.Group.GroupUniqueID == group && u.User.UserEmailId == user.UserEmailId);
 
             if (groupMember == null)
             {
@@ -141,7 +141,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         }
         public async Task<bool> IsMemberToGroupAsync(string userEmail, string groupKey)
         {
-            return await _unitOfWork.GroupMember.GetItem(u => u.User.EmailAddress == userEmail && u.GroupID.ToString() == groupKey)!=null;
+            return await _unitOfWork.GroupMember.GetItem(u => u.User.UserEmailId == userEmail && u.GroupID.ToString() == groupKey)!=null;
         }
         public async Task<bool> UpdateGroupAsync(GroupUpdateReceived groupDetalis)
         {
@@ -159,7 +159,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
             _unitOfWork.GroupMember.InsertItem(new GroupMember
             {
                 StatusRequest = StatusRequest.Waiting,
-                UserID = (await _userService.GetUserByEmailAsync(userEmail)).UserId,
+                UserID = (await _userService.GetUserByEmailAsync(userEmail)).UserEmailId,
                 GroupID = (await GetGroupByKeyAsync(groupKey)).GroupUniqueID
             });
 
@@ -176,7 +176,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                 viewMembers.Add(
                     new Member
                     {
-                        Email = user.User?.EmailAddress,
+                        Email = user.User?.UserEmailId,
                         FullName = $"{user.User?.FirstName} {user.User?.LastName}",
                         Institution = user.User?.Institution,
                         UserId = user.UserID.ToString(),

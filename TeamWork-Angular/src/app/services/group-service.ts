@@ -26,8 +26,8 @@ export class GroupService extends DataService {
     });
   }
 
-  GetMyGroupsStudent(): Observable<any> {
-    return super.getMany<any>('GetMyGroups');
+  GetMyGroupsStudent(id:any): Observable<any> {
+    return super.getMany<any>('GetMyGroups?status='+id);
   }
 
   LeaveGroup(id: any): Observable<any> {

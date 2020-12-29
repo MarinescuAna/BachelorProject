@@ -10,9 +10,9 @@ namespace TeamWork.DataAccess.Domain.Models.Domain
     public class Message
     {
         [Key]
-        public int ID { get; set; }
-        public int ChatID { get; set; }
-        public int UserId { get; set; }
+        public Guid ID { get; set; }
+        public Guid ChatID { get; set; }
+        public string UserId { get; set; }
         public string Content { get; set; }
         public DateTime? DateSent { get; set; }  
         

@@ -15,7 +15,7 @@ export class GroupsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.groupService.GetMyGroupsStudent().subscribe(cr =>{
+    this.groupService.GetMyGroupsStudent(0).subscribe(cr =>{
       this.myGroups= cr as ViewGroupsModule[];
     });
   }

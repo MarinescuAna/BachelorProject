@@ -15,8 +15,8 @@ namespace TeamWork.DataAccess.Domain.Models.Domain
     public class AssigmentMember
     {
         [Key]
-        public int AssigmentMemberID { get; set; }
-        public int AssigmentID { get; set; }
+        public Guid AssigmentMemberID { get; set; }
+        public Guid AssigmentID { get; set; }
         public Guid AssigmentListUniqueID { get; set; }
         public float TeacherGrade { get; set; }
         public StatusAssigment Status { get; set; }

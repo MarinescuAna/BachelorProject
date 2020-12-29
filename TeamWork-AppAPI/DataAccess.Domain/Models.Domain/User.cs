@@ -12,11 +12,10 @@ namespace TeamWork.DataAccess.Domain.Models.Domain
     public class User
     {
         [Key]
-        public int UserId { get; set; }
+        public string UserEmailId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Password { get; set; }
-        public string EmailAddress { get; set; }
         public string Institution { get; set; }
         public Role UserRole { get; set; }
         public string AccessToken { get; set; }
@@ -26,5 +25,10 @@ namespace TeamWork.DataAccess.Domain.Models.Domain
 
 
         public ICollection<GroupMember> GroupMembers { get; set; }
+        public ICollection<Message> Messages { get; set; }
+        public ICollection<CollegueGrade> CollegueGrades { get; set; }
+        public ICollection<CheckList> CheckLists { get; set; }
+        public ICollection<AssigmentList> AssigmentLists { get; set; }
+        public ICollection<Assigment> Assigments { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
     {   
         public UserServiceImpl(IUnitOfWork uow):base(uow)
         {}
-        public Task<User> GetUserByEmailAsync(string userEmail) => _unitOfWork.User.GetItem(u => u.EmailAddress == userEmail);
+        public Task<User> GetUserByEmailAsync(string userEmail) => _unitOfWork.User.GetItem(u => u.UserEmailId == userEmail);
 
         public Task<int> InsertUserAsync(User user)
         {
@@ -20,7 +20,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
         public Task<int> UpdateUserInformationAsync(User user)
         {
-            _unitOfWork.User.UpdateItem(u => u.UserId == user.UserId, user);
+            _unitOfWork.User.UpdateItem(u => u.UserEmailId == user.UserEmailId, user);
 
             return _unitOfWork.Commit("UserServiceImpl -> UpdateUserInformation");
         }

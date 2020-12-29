@@ -16,12 +16,13 @@ namespace TeamWork.DataAccess.Domain.Models.Domain
     public class CheckList
     {
         [Key]
-        public int CheckListID { get; set; }
-        public int UserId { get; set; }
+        public Guid CheckListID { get; set; }
+        public string UserId { get; set; }
         public StatusChecklist Status { get; set; }
         public DateTime? LastUpdate { get; set; }
         public string Description { get; set; }
 
         public virtual User User { get; set; }
+        public ICollection<Item> Items { get; set; }
     }
 }

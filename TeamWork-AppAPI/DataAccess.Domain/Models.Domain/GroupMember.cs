@@ -16,10 +16,11 @@ namespace TeamWork.DataAccess.Domain.Models.Domain
     public class GroupMember
     {
         [Key]
-        public int GroupMemberID { get; set; }
+        public Guid GroupMemberID { get; set; }
         public StatusRequest StatusRequest { get; set; }
-        public int UserID { get; set; }
+        public string UserID { get; set; }
         public Guid GroupID { get; set; }
+
         public virtual User User { get; set; }
         public virtual Group Group { get; set; }
 

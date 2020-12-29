@@ -82,8 +82,7 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Codes.Number_404, NotFound404Error.InvalidKey);
             }
 
-            var user = await _userService.GetUserByEmailAsync(joinGroup.AttenderEmail);
-            if (await _groupService.GetGroupMemberByKeyIdAsync(joinGroup.Key, user.UserId) != null)
+            if (await _groupService.GetGroupMemberByKeyIdAsync(joinGroup.Key, joinGroup.AttenderEmail) != null)
             {
                 return StatusCode(Codes.Number_409, Conflict409Error.PartFromGroup);
             }
@@ -98,13 +97,13 @@ namespace TeamWork_API.Controllers
 
         [HttpGet]
         [Route("GetMyGroups")]
-        public async Task<IActionResult> GetMyGroups()
+        public async Task<IActionResult> GetMyGroups(int status)
         {
             var userEmail = ExtractEmailFromJWT();
 
-            var user = await _userService.GetUserByEmailAsync(userEmail);
+            var statusRequest = status == 0 ? StatusRequest.Joined : status == 1 ? StatusRequest.Waiting : StatusRequest.Declined;
 
-            var groups = await _groupService.GetGroupsAsync(user);
+            var groups = await _groupService.GetGroupsAsync(userEmail,statusRequest);
 
             return StatusCode(Codes.Number_200, groups);
         }

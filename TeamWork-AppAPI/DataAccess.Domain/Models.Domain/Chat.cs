@@ -9,9 +9,10 @@ namespace TeamWork.DataAccess.Domain.Models.Domain
     public class Chat
     {
         [Key]
-        public int ChatID { get; set; }
+        public Guid ChatID { get; set; }
         public Guid GroupUniqueID { get; set; }
 
         public virtual Group Group { get; set; }
+        public ICollection<Message> Messages { get; set; }
     }
 }

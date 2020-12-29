@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeamWork.DataAccess.Repository;
 
-namespace DataAccess.Repository.Migrations
+namespace TeamWork.DataAccess.Repository.Migrations
 {
     [DbContext(typeof(TeamWorkDbContext))]
     partial class TeamWorkDbContextModelSnapshot : ModelSnapshot
@@ -21,10 +21,9 @@ namespace DataAccess.Repository.Migrations
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Assigment", b =>
                 {
-                    b.Property<int>("AssigmentID")
+                    b.Property<Guid>("AssigmentID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ChecklistDeadline")
                         .HasColumnType("datetime2");
@@ -38,8 +37,8 @@ namespace DataAccess.Repository.Migrations
                     b.Property<int>("MaxGroup")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("AssigmentID");
 
@@ -63,6 +62,10 @@ namespace DataAccess.Repository.Migrations
                     b.Property<Guid?>("GroupUniqueID1")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("TeacherUserEmailId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
@@ -70,20 +73,19 @@ namespace DataAccess.Repository.Migrations
 
                     b.HasIndex("GroupUniqueID1");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("TeacherUserEmailId");
 
                     b.ToTable("AssigmentList");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.AssigmentMember", b =>
                 {
-                    b.Property<int>("AssigmentMemberID")
+                    b.Property<Guid>("AssigmentMemberID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("AssigmentID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("AssigmentID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AssigmentListUniqueID")
                         .HasColumnType("uniqueidentifier");
@@ -111,10 +113,9 @@ namespace DataAccess.Repository.Migrations
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Chat", b =>
                 {
-                    b.Property<int>("ChatID")
+                    b.Property<Guid>("ChatID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("GroupUniqueID")
                         .HasColumnType("uniqueidentifier");
@@ -131,10 +132,9 @@ namespace DataAccess.Repository.Migrations
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.CheckList", b =>
                 {
-                    b.Property<int>("CheckListID")
+                    b.Property<Guid>("CheckListID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -145,8 +145,8 @@ namespace DataAccess.Repository.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CheckListID");
 
@@ -157,19 +157,18 @@ namespace DataAccess.Repository.Migrations
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.CollegueGrade", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("AssigmentID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("AssigmentID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<float>("Grade")
                         .HasColumnType("real");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
@@ -199,10 +198,9 @@ namespace DataAccess.Repository.Migrations
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.GroupMember", b =>
                 {
-                    b.Property<int>("GroupMemberID")
+                    b.Property<Guid>("GroupMemberID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("GroupID")
                         .HasColumnType("uniqueidentifier");
@@ -210,8 +208,8 @@ namespace DataAccess.Repository.Migrations
                     b.Property<int>("StatusRequest")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("GroupMemberID");
 
@@ -224,13 +222,12 @@ namespace DataAccess.Repository.Migrations
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Item", b =>
                 {
-                    b.Property<int>("ItemID")
+                    b.Property<Guid>("ItemID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CheckListID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CheckListID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -247,13 +244,12 @@ namespace DataAccess.Repository.Migrations
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Message", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ChatID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ChatID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -261,8 +257,8 @@ namespace DataAccess.Repository.Migrations
                     b.Property<DateTime?>("DateSent")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
@@ -275,19 +271,14 @@ namespace DataAccess.Repository.Migrations
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.User", b =>
                 {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("UserEmailId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("AccessTokenExpiration")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("EmailAddress")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -310,7 +301,7 @@ namespace DataAccess.Repository.Migrations
                     b.Property<int>("UserRole")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId");
+                    b.HasKey("UserEmailId");
 
                     b.ToTable("Users");
                 });
@@ -318,21 +309,19 @@ namespace DataAccess.Repository.Migrations
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Assigment", b =>
                 {
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.User", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Assigments")
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.AssigmentList", b =>
                 {
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.Group", "Group")
-                        .WithMany()
+                        .WithMany("AssigmentLists")
                         .HasForeignKey("GroupUniqueID1");
 
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.User", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("UserID")
+                        .WithMany("AssigmentLists")
+                        .HasForeignKey("TeacherUserEmailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -340,7 +329,7 @@ namespace DataAccess.Repository.Migrations
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.AssigmentMember", b =>
                 {
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.Assigment", "Assigment")
-                        .WithMany()
+                        .WithMany("AssigmentMembers")
                         .HasForeignKey("AssigmentID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -353,32 +342,28 @@ namespace DataAccess.Repository.Migrations
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Chat", b =>
                 {
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.Group", "Group")
-                        .WithMany()
+                        .WithMany("Chats")
                         .HasForeignKey("GroupUniqueID1");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.CheckList", b =>
                 {
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("CheckLists")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.CollegueGrade", b =>
                 {
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.Assigment", "Assigment")
-                        .WithMany()
+                        .WithMany("CollegueGrades")
                         .HasForeignKey("AssigmentID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("CollegueGrades")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.GroupMember", b =>
@@ -391,15 +376,13 @@ namespace DataAccess.Repository.Migrations
 
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.User", "User")
                         .WithMany("GroupMembers")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Item", b =>
                 {
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.CheckList", "CheckList")
-                        .WithMany()
+                        .WithMany("Items")
                         .HasForeignKey("CheckListID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -408,16 +391,14 @@ namespace DataAccess.Repository.Migrations
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Message", b =>
                 {
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.Chat", "Chat")
-                        .WithMany()
+                        .WithMany("Messages")
                         .HasForeignKey("ChatID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Messages")
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

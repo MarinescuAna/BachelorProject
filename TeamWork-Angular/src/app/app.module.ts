@@ -47,6 +47,10 @@ import { MessageCardComponent } from './components/message-card/message-card.com
 import { GroupInvitationsComponent } from './components/notification/group-invitations/group-invitations.component';
 import { GroupInvitationComponent } from './components/notification/group-invitation/group-invitation.component';
 import { HomeLoggedComponent } from './components/home-logged/home-logged.component';
+import { MessageComponent } from './components/chat/message/message.component';
+import { SentMessageComponent } from './components/chat/sent-message/sent-message.component';
+import { ChatComponent } from './components/chat/chat/chat.component';
+import { MessageChangeComponent } from './components/chat/message-change/message-change.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -72,7 +76,11 @@ export function tokenGetter() {
     MessageCardComponent,
     GroupInvitationsComponent,
     GroupInvitationComponent,
-    HomeLoggedComponent
+    HomeLoggedComponent,
+    MessageComponent,
+    SentMessageComponent,
+    ChatComponent,
+    MessageChangeComponent
   ],
   imports: [
     ReactiveFormsModule,

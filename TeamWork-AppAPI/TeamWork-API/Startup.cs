@@ -45,6 +45,7 @@ namespace TeamWork_API
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddScoped<IUserService, UserServiceImpl>();
             services.AddScoped<IGroupService, GroupServiceImpl>();
+            services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

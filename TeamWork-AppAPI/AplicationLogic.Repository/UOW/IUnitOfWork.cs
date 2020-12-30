@@ -7,6 +7,8 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
     public interface IUnitOfWork: IDisposable
     {
         IUserRepository User { get; }
+        IChatRepository Chat { get; }
+        IMessageRepository Message { get; }
         IGroupRepository Group { get; }
         IGroupMemberRepository GroupMember { get; }
         Task<int> Commit(string loggDetails);

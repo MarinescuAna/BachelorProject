@@ -13,6 +13,7 @@ import { EditGroupComponent } from '../edit-group/edit-group.component';
 })
 export class GroupMainPageComponent implements OnInit {
 
+  public collapseChat=true;
   isStudent=true;
   public collapseMembers = true;
   public group: ViewGroupsModule;
@@ -38,8 +39,12 @@ export class GroupMainPageComponent implements OnInit {
     const diagRef = this.dialog.open(AddMemberComponent, { data: { data: this.group } });
   }
 
-
+  redirectToChat(): void {
+    this.collapseChat = !this.collapseChat;
+    this.collapseMembers=true;
+  }
   redirectToMembers(): void {
     this.collapseMembers = !this.collapseMembers;
+    this.collapseChat=true;
   }
 }

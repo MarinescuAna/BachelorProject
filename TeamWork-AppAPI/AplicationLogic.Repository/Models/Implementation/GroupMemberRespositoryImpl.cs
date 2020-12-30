@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Repository.Models.Interface;
 using TeamWork.DataAccess.Domain.Models.Domain;
+using TeamWork.ApplicationLogger;
 
 namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
 {
     public class GroupMemberRespositoryImpl : BaseRepository<GroupMember>, IGroupMemberRepository
     {
-        public GroupMemberRespositoryImpl(TeamWorkDbContext ctx) : base(ctx)
+        public GroupMemberRespositoryImpl(TeamWorkDbContext ctx, ILoggerService loggerService) : base(ctx,loggerService)
         {
 
         }

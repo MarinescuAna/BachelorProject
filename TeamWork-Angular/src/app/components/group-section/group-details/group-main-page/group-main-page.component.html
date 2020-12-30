@@ -18,12 +18,17 @@
             <mat-button-toggle (click)="redirectToMembers()">
                 <mat-icon>groups</mat-icon>
                 Members</mat-button-toggle>
-            <mat-button-toggle value="italic">Italic</mat-button-toggle>
+            <mat-button-toggle (click)="redirectToChat()">
+                <mat-icon>chat</mat-icon>
+                Comments</mat-button-toggle>
             <mat-button-toggle value="underline">Underline</mat-button-toggle>
             <mat-button-toggle value="underline">Underline</mat-button-toggle>
         </mat-button-toggle-group>
     </p>
     <div *ngIf="!collapseMembers">
         <app-view-members [group]="group"></app-view-members>
+    </div>
+    <div *ngIf="!collapseChat">
+        <app-chat [group]="group"></app-chat>
     </div>
 </div>

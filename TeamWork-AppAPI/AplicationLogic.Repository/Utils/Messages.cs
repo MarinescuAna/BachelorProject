@@ -6,6 +6,6 @@ namespace TeamWork.ApplicationLogic.Repository.Utils
 {
     public static class Messages
     {
-        public static readonly string GroupServiceImpl = "(GroupServiceImpl)GetTeacherEmailByGroupIdAsync";
+        public static readonly string Delete = "Delete";
     }
 }

@@ -12,33 +12,14 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 {
     public class GroupServiceImpl : ABaseService, IGroupService
     {
-        private readonly IUserService _userService;
         public GroupServiceImpl(IUnitOfWork uow) : base(uow)
         {
-            _userService = new UserServiceImpl(uow);
         }
         public async Task<int> GetNoMembersFromGroupByGuidAsync(Guid key) => (await _unitOfWork
            .GroupMember
            .GetItems())
            .Where(s => s.Group.GroupUniqueID == key && s.StatusRequest==StatusRequest.Joined)
            .Count();
-        private async Task<User> GetTeacherEmailByGroupIdAsync(Guid guid)
-        {
-            try {
-                var response = (await _unitOfWork
-                   .GroupMember
-                   .GetItems())
-                   .FirstOrDefault(s => s.Group.GroupUniqueID == guid
-                                   && s.User.UserRole == Role.TEACHER)?
-                   .User;
-                return response;
-            }
-            catch (Exception ex)
-            {
-                _unitOfWork.LoggMessageError(Messages.GetTeacherEmailByGroupIdAsync, ex.Message);
-                return null; 
-            }
-         }
         public async Task<Group> GetGroupByKeyAsync(string key) => await _unitOfWork
             .Group
             .GetItem(u => u.GroupUniqueID.ToString() == key);
@@ -146,7 +127,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         }
         public async Task<bool> UpdateGroupAsync(GroupUpdateReceived groupDetalis)
         {
-            await _unitOfWork.Group.UpdateItem(u => u.GroupUniqueID.ToString() == groupDetalis.Id,
+            await _unitOfWork.Group.UpdateItem(
                 new Group
                 {
                     GroupUniqueID = Guid.Parse(groupDetalis.Id),
@@ -161,7 +142,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
             
             groupMember.StatusRequest = StatusRequest.Joined;
 
-            await _unitOfWork.GroupMember.UpdateItem(u => u.GroupMemberID == groupMember.GroupMemberID,groupMember);
+            await _unitOfWork.GroupMember.UpdateItem(groupMember);
 
             return await _unitOfWork.Commit(Messages.UpdateGroupMemberAsync) > 0;
         }

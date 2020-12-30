@@ -14,5 +14,10 @@ namespace TeamWork.ApplicationLogic.Service.Utils
         public static readonly string UpdateGroupMemberAsync = "GroupServiceImpl -> UpdateGroupMemberAsync ->";
         public static readonly string AddMemberByEmailAsync = "GroupServiceImpl -> AddMemberByEmailAsync ->";
         public static readonly string CreateGroupByUserAsync = "GroupServiceImpl -> CreateGroupByUserAsync ->";
+
+        public static readonly string CreateChatAsync = "ChatService -> CreateChatAsync ->";
+        public static readonly string SaveMessageByGroupKeyAsync = "ChatService -> SaveMessageByGroupKeyAsync ->";
+        public static readonly string UpdateMessageAsync = "ChatService -> UpdateMessageAsync ->";
+        public static readonly string DeleteMessageAsync = "ChatService -> DeleteMessageAsync ->";
     }
 }

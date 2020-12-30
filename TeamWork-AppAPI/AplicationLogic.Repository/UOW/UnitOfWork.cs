@@ -13,11 +13,37 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
         private IUserRepository _User;
         private IGroupRepository _Group;
         private IGroupMemberRepository _GroupMember;
+        private IChatRepository _Chat;
+        private IMessageRepository _Message;
         private readonly ILoggerService _loggerService;
         public UnitOfWork(TeamWorkDbContext ctx, ILoggerService loggerService)
         {
             context = ctx;
             _loggerService = loggerService;
+        }
+        public IChatRepository Chat
+        {
+            get
+            {
+                if (_Chat == null)
+                {
+                    _Chat = new ChatRepositoryImpl(context,_loggerService);
+                }
+
+                return _Chat;
+            }
+        }
+        public IMessageRepository Message
+        {
+            get
+            {
+                if (_Message == null)
+                {
+                    _Message = new MessageRepositoryImpl(context, _loggerService);
+                }
+
+                return _Message;
+            }
         }
         public IUserRepository User
         {
@@ -25,7 +51,7 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
             {
                 if (_User == null)
                 {
-                    _User = new UserRepositoryImpl(context);
+                    _User = new UserRepositoryImpl(context, _loggerService);
                 }
 
                 return _User;
@@ -37,7 +63,7 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
             {
                 if (_GroupMember == null)
                 {
-                    _GroupMember = new GroupMemberRespositoryImpl(context);
+                    _GroupMember = new GroupMemberRespositoryImpl(context, _loggerService);
                 }
 
                 return _GroupMember;
@@ -49,7 +75,7 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
             {
                 if (_Group == null)
                 {
-                    _Group = new GroupRepositoryImpl(context);
+                    _Group = new GroupRepositoryImpl(context, _loggerService);
                 }
 
                 return _Group;

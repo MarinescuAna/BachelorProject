@@ -20,7 +20,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
         public Task<int> UpdateUserInformationAsync(User user)
         {
-            _unitOfWork.User.UpdateItem(u => u.UserEmailId == user.UserEmailId, user);
+            _unitOfWork.User.UpdateItem( user);
 
             return _unitOfWork.Commit("UserServiceImpl -> UpdateUserInformation");
         }

@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using TeamWork.ApplicationLogger;
 using TeamWork.ApplicationLogic.Repository.Models.Interface;
+using TeamWork.ApplicationLogic.Repository.Utils;
 using TeamWork.DataAccess.Repository;
 
 namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
@@ -12,9 +14,11 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected TeamWorkDbContext context;
-        public BaseRepository(TeamWorkDbContext ctx)
+        private readonly ILoggerService applicationLogger;
+        public BaseRepository(TeamWorkDbContext ctx, ILoggerService logger)
         {
             context = ctx;
+            applicationLogger = logger;
         }
         public async Task<bool> DeleteItem(Expression<Func<T, bool>> expression)
         {
@@ -25,9 +29,23 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
                 return false;
             }
 
-            context.Set<T>().Remove(itemFind);
+            try
+            {
+                context.Set<T>().Remove(itemFind);
 
-            return true;
+                return true;
+            }
+            catch(Exception ex)
+            {
+                applicationLogger.LogError($"{Messages.Delete} {itemFind.GetType().Name}", ex.Message);
+
+                if (ex.InnerException != null)
+                {
+                    applicationLogger.LogError($"{Messages.Delete} {itemFind.GetType().Name}", ex.InnerException.Message);
+                }
+            }
+
+            return false;
         }
 
         public async Task<T> GetItem(Expression<Func<T, bool>> expression)
@@ -41,25 +59,41 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
         }
 
         public async void InsertItem(T item)
-        {
-            await context.Set<T>().AddAsync(item);
-        }
-
-        public async Task<bool> UpdateItem(Expression<Func<T, bool>> expression, T item)
-        {
-            T itemFind = await GetItem(expression);
-
-            if (itemFind == null)
+        {   
+            try
             {
-                return false;
+                await context.Set<T>().AddAsync(item);
+            }
+            catch (Exception ex)
+            {
+                applicationLogger.LogError($"{Messages.Delete} {item.GetType().Name}", ex.Message);
+
+                if (ex.InnerException != null)
+                {
+                    applicationLogger.LogError($"{Messages.Delete} {item.GetType().Name}", ex.InnerException.Message);
+                }
             }
 
-            itemFind = item;
+        }
 
-            context.Set<T>().Update(itemFind);
+        public async Task<bool> UpdateItem(T item)
+        {
+            try
+            {
+                context.Set<T>().Update(item);
 
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                applicationLogger.LogError($"{Messages.Delete} {item.GetType().Name}", ex.Message);
 
+                if (ex.InnerException != null)
+                {
+                    applicationLogger.LogError($"{Messages.Delete} {item.GetType().Name}", ex.InnerException.Message);
+                }
+            }
+            return false;
         }
     }
 }

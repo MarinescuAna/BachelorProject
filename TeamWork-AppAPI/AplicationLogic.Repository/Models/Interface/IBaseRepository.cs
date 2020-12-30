@@ -11,8 +11,8 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Interface
         Task<IEnumerable<T>> GetItems();
         Task<T> GetItem(Expression<Func<T,Boolean>> expression);
         void InsertItem(T item);
-        Task<Boolean> UpdateItem(Expression<Func<T, Boolean>> expression,T item);
-        Task<Boolean> DeleteItem(Expression<Func<T, Boolean>> expression);
+        Task<bool> UpdateItem(T item);
+        Task<bool> DeleteItem(Expression<Func<T, Boolean>> expression);
 
     }
 }

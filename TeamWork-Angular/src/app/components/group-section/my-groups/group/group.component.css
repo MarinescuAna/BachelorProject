@@ -3,7 +3,15 @@
     min-width: 400px;
     min-height: 200px;
     max-height: 400px;
-    background-image: url("src/assets/Images/bg-groups.jpg");
+    background-color: #FFD54F;
     margin: 5px;
   }
   
+  .color-buttons{
+    background-color: white;
+    color: black;
+  }
+  .color-button{
+    background-color: black;
+    color: white;
+  }

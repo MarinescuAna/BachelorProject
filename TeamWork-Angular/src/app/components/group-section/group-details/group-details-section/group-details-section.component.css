@@ -1,7 +1,9 @@
 .card {
-    width: 600px;
-    height: 230px;
-    background-color: #C5CAE9;
-    margin-top:2%;
+  width: 384px;
+  height: 328px;
+  background-color: #FFD54F;
+  margin-top: 3%;
+  margin-left: 116px;
+  position: fixed;
   }
   

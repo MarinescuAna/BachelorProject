@@ -1,30 +1,23 @@
-<div fxLayout="column" fxLayoutAlign="space-between center">
-    <div fxFlex fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="center center">
-        <app-group-details-section [group]='group'></app-group-details-section>
-        <div fxLayout="column" fxLayoutAlign="space-between center">
-            <button mat-fab class="margin" (click)="redirectTo('my-groups')">
-                <mat-icon>keyboard_backspace</mat-icon>
-            </button>
-            <button mat-fab class="margin" (click)="openDialog()" *ngIf="isStudent">
-                <mat-icon>create</mat-icon>
-            </button>
-            <button mat-fab class="margin" (click)="openDialogAddMember()"  *ngIf="isStudent">
-                <mat-icon>group_add</mat-icon>
-            </button>
-        </div>
-    </div>
-    <p>
-        <mat-button-toggle-group>
-            <mat-button-toggle (click)="redirectToMembers()">
-                <mat-icon>groups</mat-icon>
-                Members</mat-button-toggle>
-            <mat-button-toggle (click)="redirectToChat()">
-                <mat-icon>chat</mat-icon>
-                Comments</mat-button-toggle>
-            <mat-button-toggle value="underline">Underline</mat-button-toggle>
-            <mat-button-toggle value="underline">Underline</mat-button-toggle>
-        </mat-button-toggle-group>
-    </p>
+<div fxLayout="column" fxLayoutAlign="space-between" class="menu-position">
+    <button mat-fab class="margin" (click)="redirectTo('my-groups')">
+        <mat-icon>keyboard_backspace</mat-icon>
+    </button>
+    <button mat-fab class="margin" (click)="openDialog()" *ngIf="isStudent">
+        <mat-icon>create</mat-icon>
+    </button>
+    <button mat-fab class="margin" (click)="openDialogAddMember()" *ngIf="isStudent">
+        <mat-icon>group_add</mat-icon>
+    </button>
+    <button mat-fab class="margin" (click)="redirectToMembers()">
+        <mat-icon>group</mat-icon>
+    </button>
+    <button mat-fab class="margin" matTooltip="Comments" matTooltipClass="example-tooltip-yellow"
+        (click)="redirectToChat()">
+        <mat-icon>chat</mat-icon>
+    </button>
+</div>
+<app-group-details-section [group]='group'></app-group-details-section>
+<div class="collaps-position">
     <div *ngIf="!collapseMembers">
         <app-view-members [group]="group"></app-view-members>
     </div>

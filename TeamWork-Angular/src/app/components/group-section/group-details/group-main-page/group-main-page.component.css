@@ -1,16 +1,23 @@
 .margin{
     margin: 10px;
-    width: 100px;
-    background:#459910;
+    width: 70px;
+    background:black;
+    color: white;
 }
-
-mat-button-toggle-group {
-    margin-left: -64%;
+.menu-position{
+    margin-top: 5%;
+    left: 0;
+    position: fixed;
+}
+.grid-menu{
+    margin-left: 10%;
     margin-top: 1%;
-    width: 224%;
-  }
-
-  mat-button-toggle {
-      width:900%;
-      background:#FF6E40;
+}
+.collaps-position{
+    width: 740px;
+    margin-top: 2%;
+    margin-left: 760px;
+}
+  .example-tooltip-yellow{
+      background: #FFD54F;
   }

@@ -6,7 +6,8 @@
 .btn-size{
     width: 500px;
     height: 40px;
-    background-color: #459910;
+    background-color:black;
+    color: white;
     margin-top: -15px;
 }
 

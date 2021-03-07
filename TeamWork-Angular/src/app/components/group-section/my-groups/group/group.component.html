@@ -9,14 +9,15 @@
         <h3><strong>Number of members:</strong> {{group.noMembers}}</h3>
     </mat-card-content>
     <mat-card-actions>
-        <div fxLayout="row" fxLayoutAlign="end">
-            <button mat-raised-button color="primary" (click)="viewGroup()">Go to<mat-icon>keyboard_arrow_right</mat-icon></button>
-        </div>
+        
         <div fxLayout="row" fxLayoutAlign="end end">
-            <button mat-fab color="primary" (click)="openKeySheet()">
+            <div fxLayout="row" fxLayoutAlign="end">
+                <button  mat-fab class="color-buttons" (click)="viewGroup()"><mat-icon>keyboard_arrow_right</mat-icon></button>
+            </div>
+            <button mat-fab class="color-buttons" (click)="openKeySheet()">
                 <mat-icon>vpn_key</mat-icon>
             </button>
-            <button mat-fab color="warn" (click)="onLeaveGroup()">
+            <button mat-fab class="color-button" (click)="onLeaveGroup()">
                 <mat-icon>exit_to_app</mat-icon>
             </button>
         </div>

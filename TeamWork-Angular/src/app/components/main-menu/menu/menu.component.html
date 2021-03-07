@@ -1,50 +1,60 @@
 <div fxLayoutAlign="center center">
-    <mat-toolbar class="menu-style">
-        <div class="logo"> <img src="assets/Images/LogoBachelorNoBackground.png" class="image-logo" /></div>
-        <div fxLayout="row" class="goleft">
+    <mat-grid-list  class="menu-style" cols="9" rowHeight="60px" rowWidth="20px">
+        <mat-grid-tile>
             <button mat-button (click)="redirectHome()">
                 <mat-icon>home</mat-icon>Home
             </button>
-            <br>
-            <button #clickMe mat-icon-button *ngIf='authService.isLogged()' [matMenuTriggerFor]="menu"
-                (mouseenter)="clickOnHover()">
-                <span class="fill-remaining-space">
-                    Manage_Groups
-                </span>
+        </mat-grid-tile>
+        <mat-grid-tile *ngIf='authService.isLogged()'>
+            <button #clickMe mat-icon-button [matMenuTriggerFor]="menu" (mouseenter)="clickOnHover()">
+                <span>Groups</span>
             </button>
-            <mat-menu #menu="matMenu" [overlapTrigger]="false">
-                <button mat-menu-item (click)="redirectTo('create-group')">
-                    <mat-icon>create</mat-icon>
-                    <span>Create a New Group</span>
-                </button>
-                <button mat-menu-item (click)="redirectTo('join-group')">
-                    <mat-icon>group_add</mat-icon>
-                    <span>Join a Group</span>
-                </button>
-                <button mat-menu-item (click)="redirectTo('my-groups')">
-                    <mat-icon>groups</mat-icon>
-                    <span>My Groups</span>
-                </button>
-            </mat-menu>
-
-            <button mat-button [routerLink]="'/register'" *ngIf='!authService.isLogged()'>
-                Register
+        </mat-grid-tile>
+        <mat-grid-tile *ngIf='authService.isLogged()'>
+            <button mat-button class="goright" (click)="redirectTo('list')">
+                <span>Assignments</span>
             </button>
-            <button mat-button [routerLink]="'/login'" *ngIf='!authService.isLogged()'>
+        </mat-grid-tile>
+        <mat-grid-tile *ngIf='!authService.isLogged()'>
+            <button mat-button [routerLink]="'/login'">
                 Login
             </button>
-        </div> 
-      
-
-        <div class="go-right">
+        </mat-grid-tile>
+        <mat-grid-tile *ngIf='!authService.isLogged()'>
+            <button mat-button [routerLink]="'/register'">
+                Register
+            </button>
+        </mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile *ngIf='authService.isLogged()'>
             <button mat-button *ngIf='authService.isLogged()'>
                 <mat-icon>person</mat-icon>
                 <span>{{email}}</span>
             </button>
-            <button mat-fab color="warn" (click)="onSubmit()" *ngIf='authService.isLogged()' >
+        </mat-grid-tile>
+        <mat-grid-tile *ngIf='authService.isLogged()'>
+            <button mat-fab style="background-color: black; margin-left: 30px;" (click)="onSubmit()" *ngIf='authService.isLogged()'>
                 <mat-icon>exit_to_app</mat-icon>
             </button>
+        </mat-grid-tile>
+    </mat-grid-list>
 
-        </div>
-    </mat-toolbar>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+        <button mat-menu-item (click)="redirectTo('create-group')">
+            <mat-icon>create</mat-icon>
+            <span>Create a New Group</span>
+        </button>
+        <button mat-menu-item (click)="redirectTo('join-group')">
+            <mat-icon>group_add</mat-icon>
+            <span>Join a Group</span>
+        </button>
+        <button mat-menu-item (click)="redirectTo('my-groups')">
+            <mat-icon>groups</mat-icon>
+            <span>My Groups</span>
+        </button>
+    </mat-menu>
 </div>
+<div class="logo"> <img src="assets/Images/logo-bg.png" class="image-logo" (click)="redirectHome()"/></div>

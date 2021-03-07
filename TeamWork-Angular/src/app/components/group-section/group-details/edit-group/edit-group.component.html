@@ -5,7 +5,7 @@
             </div>
             <div>
                 <form [formGroup]="formCreateGroup" (ngSubmit)="onSubmit()">
-                    <mat-form-field class="input-style" appearance="fill">
+                    <mat-form-field class="input-style" >
                         <mat-label>Group name</mat-label>
                         <input matInput [type]="'text'" formControlName='name' required>
                         <mat-icon matSuffix>edit</mat-icon>
@@ -14,20 +14,20 @@
                         </mat-error>
                     </mat-form-field>
                     <br>
-                    <mat-form-field class="input-style" appearance="fill">
+                    <mat-form-field class="input-style" >
                         <mat-label>Email</mat-label>
                         <input matInput formControlName='emailTeacher' readonly>
                         <mat-icon matSuffix>email</mat-icon>
                     </mat-form-field>
                     <br>
-                    <mat-form-field class="input-style" appearance="fill">
+                    <mat-form-field class="input-style" >
                         <mat-label>Description</mat-label>
                         <textarea matInput rows="5" maxlength="255" placeholder="..." formControlName='description'></textarea>
                     </mat-form-field>
                 </form>
             </div>
             <div>
-                <button class="btn-size" color="primary" mat-raised-button (click)="onSubmit()" [disabled]="formCreateGroup.controls['name'].hasError('required')">Save changes</button>
+                <button class="btn-size" mat-raised-button (click)="onSubmit()" [disabled]="formCreateGroup.controls['name'].hasError('required')">Save changes</button>
             </div>
         </div>
 </div>

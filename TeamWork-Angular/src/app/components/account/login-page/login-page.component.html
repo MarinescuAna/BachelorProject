@@ -37,7 +37,7 @@
                 </form>
             </div>
             <div>
-                <button mat-raised-button class="btn-size" color="primary" (click)="onCreateAccount()">
+                <button mat-raised-button class="btn-size color" (click)="onCreateAccount()">
                     Create a new account
                 </button>
                 <button class="btn-size" mat-raised-button (click)="onSubmit()" [disabled]="formLogin.controls['email'].hasError('required') || 

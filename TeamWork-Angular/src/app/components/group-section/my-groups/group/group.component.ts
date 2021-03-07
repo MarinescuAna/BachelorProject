@@ -20,6 +20,12 @@ export class GroupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.group != null) {
+      this.group.teacherName = this.group.teacherName == " " ||
+      this.group.teacherName==null ||
+      this.group.teacherName==""
+      ? "The teacher did not respond to the invitation!" : this.group.teacherName;
+    }
   }
 
   openKeySheet(): void {

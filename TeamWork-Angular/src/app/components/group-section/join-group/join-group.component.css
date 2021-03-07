@@ -2,6 +2,7 @@
     width: 500px;
     margin: 15px;
     font-size: medium;
+    color :black;
 }
 
 .title-style{
@@ -13,10 +14,15 @@
     height: 50px;
 }
 .card-img{
-    background-image:url("src/assets/Images/bg-div.jpg");
+    background-color:#FFD54F;
     background-repeat: no-repeat;
     width:600px;
     height: 360px;
     margin-top: 5%;
     
+}
+
+.color{
+    background-color: black;
+    color: white;
 }

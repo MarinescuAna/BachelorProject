@@ -2,6 +2,7 @@
     width: 500px;
     margin: 15px;
     font-size: small;
+    color: black;
 }
 
 .title-style{
@@ -14,9 +15,14 @@
 }
 
 .card{
-    background-image:url("src/assets/Images/bg-div2.jpg");
+    background-color:#FFD54F;
     background-repeat: no-repeat;
     width:600px;
     height: 650px;
     margin-top: 2%;
+}
+
+.color{
+    background-color: black;
+    color: white;
 }

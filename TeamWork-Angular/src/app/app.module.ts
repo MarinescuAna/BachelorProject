@@ -51,6 +51,10 @@ import { MessageComponent } from './components/chat/message/message.component';
 import { SentMessageComponent } from './components/chat/sent-message/sent-message.component';
 import { ChatComponent } from './components/chat/chat/chat.component';
 import { MessageChangeComponent } from './components/chat/message-change/message-change.component';
+import { ListComponent } from './components/assignment-list/list/list.component';
+import { SideMenuComponent } from './components/assignment-list/side-menu/side-menu.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatTabsModule} from '@angular/material/tabs';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -80,7 +84,9 @@ export function tokenGetter() {
     MessageComponent,
     SentMessageComponent,
     ChatComponent,
-    MessageChangeComponent
+    MessageChangeComponent,
+    ListComponent,
+    SideMenuComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -108,7 +114,9 @@ export function tokenGetter() {
     }}),
     MatTableModule,
     MatPaginatorModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatGridListModule,
+    MatTabsModule
   ],
   providers: [
     AlertService,

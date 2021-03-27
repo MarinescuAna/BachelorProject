@@ -25,9 +25,17 @@
             ],
             "styles": [
               "src/custom-theme.scss",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/slick-carousel/slick/slick.css",
+              "node_modules/@videogular/ngx-videogular/fonts/videogular.css",
+              "node_modules/slick-carousel/slick/slick-theme.css",  
+              "node_modules/ngx-sharebuttons/themes/modern/modern-dark-theme.scss",
+              ""         
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/slick-carousel/slick/slick.min.js"
+            ]
           },
           "configurations": {
             "production": {

@@ -56,11 +56,27 @@ import { SideMenuComponent } from './components/assignment-list/side-menu/side-m
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTabsModule} from '@angular/material/tabs';
 import { AngMusicPlayerModule } from  'ang-music-player';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { CarouselComponent } from './components/landing-pages-components/carousel/carousel.component';
+import {VgCoreModule} from '@videogular/ngx-videogular/core';
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
+import { ShareIconsModule } from 'ngx-sharebuttons/icons';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
 }
+const icons = [
+  // ... other icons
+  faFacebookSquare
+];
 
+const shareProp = {
+  facebook: {
+    icon: ['fab', 'facebook-square']
+  }
+};
 @NgModule({
   declarations: [
     AppComponent,
@@ -87,7 +103,8 @@ export function tokenGetter() {
     ChatComponent,
     MessageChangeComponent,
     ListComponent,
-    SideMenuComponent
+    SideMenuComponent,
+    CarouselComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -118,7 +135,11 @@ export function tokenGetter() {
     MatButtonToggleModule,
     MatGridListModule,
     MatTabsModule,
-    AngMusicPlayerModule
+    AngMusicPlayerModule,
+    SlickCarouselModule,
+    VgCoreModule,
+    ShareIconsModule,
+    ShareButtonsModule.withConfig({ prop: shareProp })
   ],
   providers: [
     AlertService,
@@ -131,4 +152,8 @@ export function tokenGetter() {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(iconLibrary: FaIconLibrary) {
+    iconLibrary.addIcons(...icons);
+  }
+ }

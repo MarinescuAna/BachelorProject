@@ -1,0 +1,14 @@
+.title{
+    width: 81%;
+    height: 50%;
+    background-color: #FFFF8D;
+    margin-top: 1%;
+    border-radius: 10rem;
+}
+
+.Title-twro{
+    text-align: center;
+    font-weight: bold;
+    font-size: 80px;
+    padding: 50px;
+}

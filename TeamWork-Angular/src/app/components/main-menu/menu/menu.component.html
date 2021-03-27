@@ -1,5 +1,5 @@
 <div fxLayoutAlign="center center">
-    <mat-grid-list  class="menu-style" cols="9" rowHeight="60px" rowWidth="20px">
+    <mat-grid-list class="menu-style" cols="9" rowHeight="60px" rowWidth="20px">
         <mat-grid-tile>
             <button mat-button (click)="redirectHome()">
                 <mat-icon>home</mat-icon>Home
@@ -25,10 +25,18 @@
                 Register
             </button>
         </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-button [routerLink]="'/register'">
+                Contact us
+            </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-button [routerLink]="'/register'">
+                About us
+            </button></mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
-        <mat-grid-tile></mat-grid-tile>
-        <mat-grid-tile></mat-grid-tile>
-        <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile>
+        </mat-grid-tile>
         <mat-grid-tile *ngIf='authService.isLogged()'>
             <button mat-button *ngIf='authService.isLogged()'>
                 <mat-icon>person</mat-icon>
@@ -36,7 +44,8 @@
             </button>
         </mat-grid-tile>
         <mat-grid-tile *ngIf='authService.isLogged()'>
-            <button mat-fab style="background-color: black; margin-left: 30px;" (click)="onSubmit()" *ngIf='authService.isLogged()'>
+            <button mat-fab style="background-color: black; margin-left: 30px;" (click)="onSubmit()"
+                *ngIf='authService.isLogged()'>
                 <mat-icon>exit_to_app</mat-icon>
             </button>
         </mat-grid-tile>
@@ -57,7 +66,4 @@
         </button>
     </mat-menu>
 </div>
-<div class="logo"> <img src="assets/Images/logo-bg.png" class="image-logo" (click)="redirectHome()"/>
-<button mat-fab class="music" ><mat-icon>{{!isPlay?"music_off":"music_note"}}</mat-icon></button>
-<ang-music-player [audioList] = audioList></ang-music-player>
-</div>
+<div class="logo"> <img src="assets/Images/logo-bg.png" class="image-logo" (click)="redirectHome()" /></div>

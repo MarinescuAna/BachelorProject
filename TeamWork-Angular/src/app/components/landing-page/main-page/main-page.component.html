@@ -1,3 +1,69 @@
-<div>
-<iframe id="vp1BuxYV" title="Video Player" width="864" height="486" frameborder="0" src="https://s3.amazonaws.com/embed.animoto.com/play.html?w=swf/production/vp1&e=1616219967&f=BuxYV0xxmmc237T0KO7EXg&d=0&m=p&r=360p+480p+720p&volume=100&start_res=720p&i=m&asset_domain=s3-p.animoto.com&animoto_domain=animoto.com&options=autostart/loop" allowfullscreen></iframe>
+<div fxLayout="column" fxLayoutAlign="center center">
+    <mat-card class="title">
+        <app-carousel style="margin: 5%;" [slides]='slidesAllFunctions'></app-carousel>
+        <h1 class="Title-twro">Welcome! </h1>
+    </mat-card>
+    <mat-card style="margin: 3%;
+    background-color: #FFFF8D;border-radius: 40rem;    width: 81%;
+    height: 50%;">
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <div style="width: 40%; font-family: cursive;">
+                <h1><strong>About us</strong>
+                    <mat-icon>flutter_dash</mat-icon>
+                </h1>
+                <p>Take your team and come here to organize your tasks. We offer you a place where you can choose the
+                    topics given by the teachers, where you can keep in touch with the team members and the coordinating
+                    teachers and where you can evaluate each other and be evaluated.</p>
+                <p>If you are a teacher, come here so you can organize your courses better. Here you can evaluate your
+                    students and assign them tasks.</p>
+                <p>Haven't I convinced you yet? Try to realize and explore the possibilities we offer, then decide if
+                    this is the right place for you or not!</p>
+            </div>
+            <iframe id="vp1BuxYV" title="Video Player" width="640" height="360" frameborder="0" style="margin: 4%;"
+                src="https://s3.amazonaws.com/embed.animoto.com/play.html?w=swf/production/vp1&e=1616845259&f=BuxYV0xxmmc237T0KO7EXg&d=0&m=p&r=360p+480p+720p&volume=100&start_res=720p&i=m&asset_domain=s3-p.animoto.com&animoto_domain=animoto.com&options=autostart/loop"
+                allowfullscreen></iframe>
+        </div>
+    </mat-card>
+    <mat-card style="margin: 0%;
+    background-color: #FFFF8D;border-radius: 40rem;    width: 81%;
+    height: 50%;">
+        <div fxLayout="row" fxLayoutAlign="center center">
+
+            <vg-player style="width: 640px;height: 360px; margin: 3%;">
+                <video #media [vgMedia]="media" preload="auto" controls>
+                    <source src="/assets/Video/Login.mp4" type="video/mp4">
+                </video>
+            </vg-player>
+
+            <div style="width: 40%; font-family: cursive;">
+                <h1><strong>Register right now!</strong>
+                    <mat-icon>flutter_dash</mat-icon>
+                </h1>
+                <p>If you don't have an account yet, you can create one very faster by having click on this button: </p>
+                <button mat-button [routerLink]="'/register'" style="color: white;background-color: black;">
+                    Register<mat-icon>login</mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-card>
+    <mat-card style="margin: 3%;
+    background-color: #FFFF8D;border-radius: 40rem;    width: 81%;
+    height: 50%; margin-bottom: 5%;">
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <div style="width: 40%; font-family: cursive;">
+                <h1><strong>Share your experience with someone!</strong>
+                </h1>
+                <p>
+                    <share-buttons [theme]="'modern-dark'"
+                    [include]="['facebook','twitter','linkedin','pinterest','reddit','tumblr','viber','vk','messenger','whatsapp','email','copy']"
+                    [show]="18"
+                    [size]="4"
+                    [url]="'http://localhost:4200/landing-page'"
+                    [autoSetMeta]="false"></share-buttons>
+            </div>
+            <ang-music-player class="music" [audioList]=audioList></ang-music-player>
+
+
+        </div>
+    </mat-card>
 </div>

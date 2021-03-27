@@ -55,6 +55,7 @@ import { ListComponent } from './components/assignment-list/list/list.component'
 import { SideMenuComponent } from './components/assignment-list/side-menu/side-menu.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTabsModule} from '@angular/material/tabs';
+import { AngMusicPlayerModule } from  'ang-music-player';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -116,7 +117,8 @@ export function tokenGetter() {
     MatPaginatorModule,
     MatButtonToggleModule,
     MatGridListModule,
-    MatTabsModule
+    MatTabsModule,
+    AngMusicPlayerModule
   ],
   providers: [
     AlertService,

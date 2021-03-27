@@ -8,9 +8,24 @@ import { AuthService } from 'src/app/shared/auth.service';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent {
-
+  url="\src\assets\audio\music.mp3";
+  isPlay=false;
   @ViewChild('clickMe') clickMe: any;
   email: string;
+  audioList = [
+    {
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      title: "Smaple 1"
+    },
+    {
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3",
+      title: "Sample 2",
+    },
+    {
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3",
+      title: "Sample 3",
+    }
+  ];
 
   constructor(public authService: AuthService, private route: Router) {
     this.email = this.authService.decodeJWRefreshToken('unique_name');

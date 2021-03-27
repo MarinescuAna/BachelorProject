@@ -57,4 +57,7 @@
         </button>
     </mat-menu>
 </div>
-<div class="logo"> <img src="assets/Images/logo-bg.png" class="image-logo" (click)="redirectHome()"/></div>
+<div class="logo"> <img src="assets/Images/logo-bg.png" class="image-logo" (click)="redirectHome()"/>
+<button mat-fab class="music" ><mat-icon>{{!isPlay?"music_off":"music_note"}}</mat-icon></button>
+<ang-music-player [audioList] = audioList></ang-music-player>
+</div>

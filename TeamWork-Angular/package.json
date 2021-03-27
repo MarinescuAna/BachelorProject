@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~10.0.6",
     "@angular/router": "^10.1.1",
     "@auth0/angular-jwt": "^5.0.2",
+    "ang-music-player": "0.0.4",
     "ngx-toastr": "^13.0.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
@@ -30,7 +31,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1100.5",
-    "@angular/cli": "~10.0.5",
+    "@angular/cli": "^11.2.6",
     "@angular/compiler-cli": "~10.0.6",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",

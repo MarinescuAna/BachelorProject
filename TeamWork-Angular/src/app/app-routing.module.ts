@@ -11,6 +11,9 @@ import { AuthService } from './shared/auth.service';
 import { GroupMainPageComponent } from './components/group-section/group-details/group-main-page/group-main-page.component';
 import { ListComponent } from './components/assignment-list/list/list.component';
 import { HomeLoggedComponent } from './components/home-logged/home-logged.component';
+import { AboutPageComponent } from './components/landing-pages-components/about-page/about-page.component';
+import { ContactPageComponent } from './components/landing-pages-components/contact-page/contact-page.component';
+import { ProfilePageComponent } from './components/landing-pages-components/profile-page/profile-page.component';
 
 const routes: Routes = [
 
@@ -62,6 +65,22 @@ const routes: Routes = [
   {
     path: 'home-logged',
     component: HomeLoggedComponent,
+    canActivate: [AuthGuard]
+    
+  },
+  {
+    path: 'about',
+    component: AboutPageComponent
+    
+  },
+  {
+    path: 'contact',
+    component: ContactPageComponent
+    
+  },
+  {
+    path: 'profile',
+    component: ProfilePageComponent,
     canActivate: [AuthGuard]
     
   }

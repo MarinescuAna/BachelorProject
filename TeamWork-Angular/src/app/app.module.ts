@@ -63,6 +63,9 @@ import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
+import { AboutPageComponent } from './components/landing-pages-components/about-page/about-page.component';
+import { ContactPageComponent } from './components/landing-pages-components/contact-page/contact-page.component';
+import { ProfilePageComponent } from './components/landing-pages-components/profile-page/profile-page.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -105,6 +108,9 @@ const shareProp = {
     ListComponent,
     SideMenuComponent,
     CarouselComponent,
+    AboutPageComponent,
+    ContactPageComponent,
+    ProfilePageComponent,
   ],
   imports: [
     ReactiveFormsModule,

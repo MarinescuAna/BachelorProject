@@ -15,6 +15,16 @@
                 <span>Assignments</span>
             </button>
         </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-button [routerLink]="'/about'">
+                About us
+            </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-button [routerLink]="'/contact'">
+                Contact us
+            </button>
+        </mat-grid-tile>
         <mat-grid-tile *ngIf='!authService.isLogged()'>
             <button mat-button [routerLink]="'/login'">
                 Login
@@ -25,15 +35,6 @@
                 Register
             </button>
         </mat-grid-tile>
-        <mat-grid-tile>
-            <button mat-button [routerLink]="'/contact'">
-                Contact us
-            </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <button mat-button [routerLink]="'/about'">
-                About us
-            </button></mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
         <mat-grid-tile>
         </mat-grid-tile>

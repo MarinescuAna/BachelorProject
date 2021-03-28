@@ -70,4 +70,7 @@ export class AuthService extends DataService {
     });
   }
 
+  GetUserInfo(): any {
+    return super.getMany('GetUserInfo');
+  }
 }

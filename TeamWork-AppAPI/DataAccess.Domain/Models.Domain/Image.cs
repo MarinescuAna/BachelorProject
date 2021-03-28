@@ -7,7 +7,6 @@ namespace TeamWork.DataAccess.Domain.Models.Domain
     public class Image
     {
         public Guid ImageId { get; set; }
-        public string ImageName { get; set; }
         public string ImageContent { get; set; }
         public string ImageExtention { get; set; }
         public string UserId { get; set; }

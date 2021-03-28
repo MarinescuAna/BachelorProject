@@ -60,14 +60,14 @@ namespace TeamWork_API.Controllers
                 );
             HttpContext.Session.SetString(Constants.Token, user.AccessToken);
 
-            // int response = await _userService.UpdateUserInformationAsync(user);
+            int response = await _userService.UpdateUserInformationAsync(user);
 
-            // if(response > Codes.Number_0)
+            if(response > Codes.Number_0)
             {
                 return StatusCode(Codes.Number_201, jWToken);
             }
 
-            //  return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
+            return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
 
         }
 
@@ -121,28 +121,62 @@ namespace TeamWork_API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("GetUserInfo")]
         public async Task<IActionResult> GetUserInfo()
         {
             var email = ExtractEmailFromJWT();
 
             var user = await _imageService.GetImageAsync(email);
-
-            return StatusCode(Codes.Number_200, new ProfileUserModel
+            if (user != null)
             {
-                Email = email,
-                FirstName = user?.User?.FirstName,
-                ImageContent = user?.ImageContent,
-                ImageExtention = user?.ImageExtention,
-                ImageName = user?.ImageName,
-                Institution = user?.User?.Institution,
-                LastName = user?.User?.LastName,
-                Password = user?.User?.Password,
-                Role = user?.User?.UserRole.ToString()
-            });
+                if (user.User == null)
+                {
+                    user.User = await _userService.GetUserByEmailAsync(ExtractEmailFromJWT());
+                }
+                return StatusCode(Codes.Number_200, new ProfileUserModel
+                {
+                    Email = email,
+                    FirstName = user?.User?.FirstName,
+                    ImageContent = DecompressImage(user?.ImageContent),
+                    ImageExtention = user?.ImageExtention,
+                    Institution = user?.User?.Institution,
+                    LastName = user?.User?.LastName,
+                    Role = user?.User?.UserRole.ToString()
+                });
+            }
+            else
+            {
+                var user2 = await _userService.GetUserByEmailAsync(ExtractEmailFromJWT());
+                return StatusCode(Codes.Number_200, new ProfileUserModel
+                {
+                    Email = email,
+                    FirstName = user2.FirstName,
+                    Institution = user2.Institution,
+                    LastName = user2.LastName,
+                    Role = user2.UserRole.ToString()
+                });
+            }
         }
 
-        
+        private string DecompressImage(string compressedBase64)
+        {
+            if (string.IsNullOrEmpty(compressedBase64))
+            {
+                return string.Empty;
+            }
+
+            Chilkat.Compression compress = new Chilkat.Compression
+            {
+                Algorithm = "deflate"
+            };
+
+            Chilkat.BinData binDat = new Chilkat.BinData();
+            binDat.AppendEncoded(compressedBase64, "base64");
+            compress.DecompressBd(binDat);
+
+            return binDat.GetEncoded("base64"); 
+        }
 
     }
 }

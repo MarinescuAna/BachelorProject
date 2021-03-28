@@ -14,7 +14,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         public ImageServiceImpl(IUnitOfWork uow) : base(uow)
         {
         }
-        public async Task<Image> GetImageAsync(string userEmail) =>await _unitOfWork.Image.GetItem(u => u.UserId.ToString() == userEmail); 
+        public async Task<Image> GetImageAsync(string userEmail) =>await _unitOfWork.Image.GetItem(u => u.UserId == userEmail); 
         public async Task<bool> InsertImageAsync(Image image)
         {
             _unitOfWork.Image.InsertItem(image);

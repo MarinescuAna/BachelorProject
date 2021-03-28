@@ -66,6 +66,10 @@ import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 import { AboutPageComponent } from './components/landing-pages-components/about-page/about-page.component';
 import { ContactPageComponent } from './components/landing-pages-components/contact-page/contact-page.component';
 import { ProfilePageComponent } from './components/landing-pages-components/profile-page/profile-page.component';
+import { NgxImageZoomModule } from 'ngx-image-zoom';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import { MapComponent } from './components/landing-page/landing-page-components/map/map.component';
+
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -111,6 +115,7 @@ const shareProp = {
     AboutPageComponent,
     ContactPageComponent,
     ProfilePageComponent,
+    MapComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -145,7 +150,9 @@ const shareProp = {
     SlickCarouselModule,
     VgCoreModule,
     ShareIconsModule,
-    ShareButtonsModule.withConfig({ prop: shareProp })
+    ShareButtonsModule.withConfig({ prop: shareProp }),
+    NgxImageZoomModule,
+    LeafletModule
   ],
   providers: [
     AlertService,

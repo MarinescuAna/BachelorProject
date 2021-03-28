@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -14,14 +15,13 @@ using TeamWork_API.Utils;
 namespace TeamWork_API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ImageController : BaseController
     {
-        private readonly IUserService _userService;
         private readonly IImageService _imageService;
-        public ImageController(IConfiguration configuration, IUserService userService, IImageService imageService, IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
+        public ImageController(IConfiguration configuration,IImageService imageService, IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
         {
-            _userService = userService;
             _imageService = imageService;
         }
 
@@ -37,11 +37,10 @@ namespace TeamWork_API.Controllers
             var existentImage = await _imageService.GetImageAsync(ExtractEmailFromJWT());
             if (existentImage != null)
             {
-                existentImage.ImageContent = uploadImageModel.ImageContent;
+                existentImage.ImageContent = CompressImage(uploadImageModel.ImageContent);
                 existentImage.ImageExtention = uploadImageModel.ImageExtention;
-                existentImage.ImageName = uploadImageModel.ImageName;
 
-                if (await _imageService.UpdateImageAsync(existentImage))
+                if (!(await _imageService.UpdateImageAsync(existentImage)))
                 {
                     return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
                 }
@@ -49,19 +48,42 @@ namespace TeamWork_API.Controllers
                 return Ok();
             }
 
-            if (await _imageService.InsertImageAsync(new Image
+            if (!(await _imageService.InsertImageAsync(new Image
             {
-                ImageContent = uploadImageModel.ImageContent,
+                ImageContent = CompressImage(uploadImageModel.ImageContent),
                 UserId = ExtractEmailFromJWT(),
                 ImageExtention = uploadImageModel.ImageExtention,
-                ImageName = uploadImageModel.ImageName,
                 ImageId = Guid.NewGuid()
-            }))
+            })))
             {
                 return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
             }
             return Ok();
 
+        }
+
+        private string CompressImage(string strBase64)
+        {
+            if (string.IsNullOrEmpty(strBase64))
+            {
+                return string.Empty;
+            }
+
+            Chilkat.Compression compress = new Chilkat.Compression
+            {
+                Algorithm = "deflate"
+            };
+
+            Chilkat.BinData binDat = new Chilkat.BinData();
+            // Load the base64 data into a BinData object.
+            // This decodes the base64. The decoded bytes will be contained in the BinData.
+            binDat.AppendEncoded(strBase64, "base64");
+
+            // Compress the BinData.
+            compress.CompressBd(binDat);
+
+            // Get the compressed data in base64 format:
+            return binDat.GetEncoded("base64");
         }
     }
 }

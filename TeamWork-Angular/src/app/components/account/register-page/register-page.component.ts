@@ -44,4 +44,5 @@ export class RegisterPageComponent implements OnInit {
     debugger;
     return this.formRegister.controls['password'].value!==this.formRegister.controls['passwordConfirmation'].value? true: false;
   }
+
 }

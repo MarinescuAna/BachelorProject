@@ -28,7 +28,8 @@
               "src/styles.css",
               "node_modules/slick-carousel/slick/slick.css",
               "node_modules/@videogular/ngx-videogular/fonts/videogular.css",
-              "node_modules/slick-carousel/slick/slick-theme.css"
+              "node_modules/slick-carousel/slick/slick-theme.css",
+              "./node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -92,7 +93,12 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/leaflet/dist/images",
+                "output": "assets/Map/"
+              }
             ],
             "styles": [
               "src/styles.css"

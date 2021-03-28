@@ -50,7 +50,21 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
 
         public async Task<T> GetItem(Expression<Func<T, bool>> expression)
         {
-            return await context.Set<T>().AsNoTracking().FirstOrDefaultAsync(expression);
+            try
+            {
+                return await context.Set<T>().AsNoTracking().FirstOrDefaultAsync(expression);
+            }
+            catch (Exception ex)
+            {
+                applicationLogger.LogError("GetItem", ex.Message);
+
+                if (ex.InnerException != null)
+                {
+                    applicationLogger.LogError("GetItem", ex.InnerException.Message);
+                }
+
+                return null;
+            }
         }
 
         public virtual async Task<IEnumerable<T>> GetItems()

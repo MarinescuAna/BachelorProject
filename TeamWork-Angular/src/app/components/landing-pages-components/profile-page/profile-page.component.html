@@ -1,1 +1,48 @@
-<p>profile-page works!</p>
+<div fxLayout="column" fxLayoutAlign="center center">
+    <mat-card class="title">
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <h1 class="Title-twro">Your Informations</h1>
+            <p class="text-size">
+                <mat-icon matSuffix>email</mat-icon>
+                <mat-label>Email:</mat-label> {{userInfo.email}}
+            </p>
+            <p class="text-size">
+                <mat-icon matSuffix>person</mat-icon>
+                <mat-label>Name:</mat-label> {{userInfo.firstName}} {{userInfo.lastName}}
+            </p>
+            <p class="text-size">
+                <mat-icon matSuffix>supervised_user_circle</mat-icon>
+                <mat-label>Role:</mat-label> {{userInfo.role}}
+            </p>
+            <p class="text-size">
+                <mat-icon matSuffix>school</mat-icon>
+                <mat-label>Institution:</mat-label> {{userInfo.institution}}
+            </p>
+            <div id="map"></div>
+        </div>
+    </mat-card>
+
+    <mat-card class="title2">
+        
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <span class="text-size">
+                <mat-icon>insert_photo</mat-icon> Upload Image
+            </span><br> <input type="file" (change)="onFileChange($event)">
+            <br>
+            <button class="btn-size color" mat-raised-button (click)="onSave()" [disabled]='wasChange'>Sent</button>
+        </div>
+    </mat-card>
+
+    <div fxLayoutAlign="center center">
+        <lib-ngx-image-zoom
+        [thumbImage]=myThumbnail
+        [fullImage]=myFullresImage
+        [magnification]="2"
+        [enableScrollZoom]="true"
+        [enableLens]="true"
+        [lensWidth]="300"
+        [lensHeight]="300"
+        style="margin-bottom: 10%;"
+    ></lib-ngx-image-zoom>
+    </div>
+</div>

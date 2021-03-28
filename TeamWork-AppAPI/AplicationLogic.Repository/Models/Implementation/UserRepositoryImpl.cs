@@ -16,9 +16,6 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
         {
            
         }
-        public override async Task<IEnumerable<User>> GetItems() => await context.Users
-                .Include(s => s.Image)
-                .ToListAsync();
 
     }
 }

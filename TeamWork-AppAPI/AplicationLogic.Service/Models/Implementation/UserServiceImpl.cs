@@ -24,5 +24,6 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
             return _unitOfWork.Commit("UserServiceImpl -> UpdateUserInformation");
         }
+
     }
 }

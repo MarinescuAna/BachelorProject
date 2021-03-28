@@ -7,6 +7,7 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
     public interface IUnitOfWork: IDisposable
     {
         IUserRepository User { get; }
+        IImageRepository Image { get; }
         IChatRepository Chat { get; }
         IMessageRepository Message { get; }
         IGroupRepository Group { get; }

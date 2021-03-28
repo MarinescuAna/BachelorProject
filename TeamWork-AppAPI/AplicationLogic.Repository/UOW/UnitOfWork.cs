@@ -15,11 +15,24 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
         private IGroupMemberRepository _GroupMember;
         private IChatRepository _Chat;
         private IMessageRepository _Message;
+        private IImageRepository _Image;
         private readonly ILoggerService _loggerService;
         public UnitOfWork(TeamWorkDbContext ctx, ILoggerService loggerService)
         {
             context = ctx;
             _loggerService = loggerService;
+        }
+        public IImageRepository Image
+        {
+            get
+            {
+                if (_Image == null)
+                {
+                    _Image = new ImageRepositoryImpl(context, _loggerService);
+                }
+
+                return _Image;
+            }
         }
         public IChatRepository Chat
         {

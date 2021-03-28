@@ -10,9 +10,9 @@ using TeamWork.DataAccess.Domain.Models.Domain;
 
 namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 {
-    public class ChatService:ABaseService, IChatService
+    public class ChatServiceImpl:ABaseService, IChatService
     {
-        public ChatService(IUnitOfWork unitOfWork):base(unitOfWork)
+        public ChatServiceImpl(IUnitOfWork unitOfWork):base(unitOfWork)
         {
         }
 

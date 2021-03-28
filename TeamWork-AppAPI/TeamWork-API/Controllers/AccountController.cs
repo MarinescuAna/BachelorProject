@@ -18,11 +18,13 @@ namespace TeamWork_API.Controllers
     public class AccountController : BaseController
     {
         private readonly IUserService _userService;
-        public AccountController(IConfiguration configuration,IUserService userService, IHttpContextAccessor httpContextAccessor) :base(configuration, httpContextAccessor)
+        private readonly IImageService _imageService;
+        public AccountController(IConfiguration configuration, IUserService userService,IImageService imageService, IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
         {
             _userService = userService;
+            _imageService = imageService;
         }
-    
+
         [HttpPost]
         [Route("/api/Account/Login")]
         public async Task<IActionResult> Login(UserLoginModel credentials)
@@ -36,7 +38,7 @@ namespace TeamWork_API.Controllers
 
             if (user == null)
             {
-                return StatusCode(Codes.Number_404,NotFound404Error.InvalidEmail );
+                return StatusCode(Codes.Number_404, NotFound404Error.InvalidEmail);
             }
             if (user.Password != credentials.Password)
             {
@@ -45,27 +47,27 @@ namespace TeamWork_API.Controllers
 
             JWToken jWToken = new JWToken
             {
-                AccessToken = user.AccessToken = GenerateAccessToken( user.FirstName+" "+user.LastName,user.UserEmailId, user.UserRole.ToString())
+                AccessToken = user.AccessToken = GenerateAccessToken(user.FirstName + " " + user.LastName, user.UserEmailId, user.UserRole.ToString())
             };
 
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Codes.Number_2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Codes.Number_2);
             jWToken.RefershToken = user.RefreshToken = GenerateRefreshToken(
                  user.FirstName + " " + user.LastName,
-                user.UserEmailId, 
-                DateTime.Now.AddMonths(Codes.Number_2).ToString(), 
+                user.UserEmailId,
+                DateTime.Now.AddMonths(Codes.Number_2).ToString(),
                 user.UserRole.ToString()
                 );
             HttpContext.Session.SetString(Constants.Token, user.AccessToken);
-            
-           // int response = await _userService.UpdateUserInformationAsync(user);
 
-           // if(response > Codes.Number_0)
+            // int response = await _userService.UpdateUserInformationAsync(user);
+
+            // if(response > Codes.Number_0)
             {
-                return StatusCode(Codes.Number_201,jWToken);
+                return StatusCode(Codes.Number_201, jWToken);
             }
 
-          //  return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
+            //  return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
 
         }
 
@@ -96,26 +98,51 @@ namespace TeamWork_API.Controllers
             JWToken jWToken = new JWToken();
 
             user.AccessToken = jWToken.AccessToken = GenerateAccessToken(
-                user.FirstName + " " + user.LastName, 
+                user.FirstName + " " + user.LastName,
                 user.UserEmailId, user.UserRole.ToString());
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Codes.Number_2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Codes.Number_2);
             user.RefreshToken = jWToken.RefershToken = GenerateRefreshToken(
-                user.FirstName+" "+user.LastName, 
-                user.UserEmailId, 
-                jWToken.RefershTokenExpiration.ToString(), 
+                user.FirstName + " " + user.LastName,
+                user.UserEmailId,
+                jWToken.RefershTokenExpiration.ToString(),
                 user.UserRole.ToString()
                 );
             HttpContext.Session.SetString(Constants.Token, user.AccessToken);
 
             int response = await _userService.InsertUserAsync(user);
-            
-            if ( response > Codes.Number_0)
+
+            if (response > Codes.Number_0)
             {
                 return StatusCode(Codes.Number_201, jWToken);
             }
 
             return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
         }
+
+        [HttpGet]
+        [Route("GetUserInfo")]
+        public async Task<IActionResult> GetUserInfo()
+        {
+            var email = ExtractEmailFromJWT();
+
+            var user = await _imageService.GetImageAsync(email);
+
+            return StatusCode(Codes.Number_200, new ProfileUserModel
+            {
+                Email = email,
+                FirstName = user?.User?.FirstName,
+                ImageContent = user?.ImageContent,
+                ImageExtention = user?.ImageExtention,
+                ImageName = user?.ImageName,
+                Institution = user?.User?.Institution,
+                LastName = user?.User?.LastName,
+                Password = user?.User?.Password,
+                Role = user?.User?.UserRole.ToString()
+            });
+        }
+
+        
+
     }
 }

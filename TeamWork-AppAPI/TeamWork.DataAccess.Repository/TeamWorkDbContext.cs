@@ -21,6 +21,7 @@ namespace TeamWork.DataAccess.Repository
         public DbSet<GroupMember> GroupMembers { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Image> Images { get; set; }
         public string JwTokenGenerator { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

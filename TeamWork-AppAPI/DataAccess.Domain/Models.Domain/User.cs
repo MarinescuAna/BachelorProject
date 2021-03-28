@@ -22,8 +22,10 @@ namespace TeamWork.DataAccess.Domain.Models.Domain
         public string RefreshToken { get; set; }
         public DateTime? AccessTokenExpiration { get; set; }
         public DateTime? RefreshTokenExpiration { get; set; }
+        public Guid ImageId { get; set; }
 
 
+        public virtual Image Image { get; set; }
         public ICollection<GroupMember> GroupMembers { get; set; }
         public ICollection<Message> Messages { get; set; }
         public ICollection<CollegueGrade> CollegueGrades { get; set; }

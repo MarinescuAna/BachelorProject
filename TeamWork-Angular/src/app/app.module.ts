@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { MenuComponent } from './components/main-menu/menu/menu.component';
+import { MenuComponent } from './components/landing-page/menu/menu.component';
 import { LoginPageComponent } from './components/account/login-page/login-page.component';
 import { RegisterPageComponent } from './components/account/register-page/register-page.component';
 import { MainPageComponent } from './components/landing-page/main-page/main-page.component';
@@ -43,32 +43,32 @@ import { GroupDetailsSectionComponent } from './components/group-section/group-d
 import { EditGroupComponent } from './components/group-section/group-details/edit-group/edit-group.component';
 import { AddMemberComponent } from './components/group-section/group-details/add-member/add-member.component';
 import { ViewMembersComponent } from './components/group-section/group-details/view-members/view-members.component';
-import { MessageCardComponent } from './components/message-card/message-card.component';
-import { GroupInvitationsComponent } from './components/notification/group-invitations/group-invitations.component';
-import { GroupInvitationComponent } from './components/notification/group-invitation/group-invitation.component';
-import { HomeLoggedComponent } from './components/home-logged/home-logged.component';
-import { MessageComponent } from './components/chat/message/message.component';
-import { SentMessageComponent } from './components/chat/sent-message/sent-message.component';
-import { ChatComponent } from './components/chat/chat/chat.component';
-import { MessageChangeComponent } from './components/chat/message-change/message-change.component';
+import { MessageCardComponent } from './components/landing-page/landing-pages-components/message-card/message-card.component';
+import { GroupInvitationsComponent } from './components/landing-page/landing-pages-components/notification/group-invitations/group-invitations.component';
+import { GroupInvitationComponent } from './components/landing-page/landing-pages-components/notification/group-invitation/group-invitation.component';
+import { HomeLoggedComponent } from './components/landing-page/home-logged/home-logged.component';
+import { MessageComponent } from './components/group-section/chat/message/message.component';
+import { SentMessageComponent } from './components/group-section/chat/sent-message/sent-message.component';
+import { ChatComponent } from './components/group-section/chat/chat/chat.component';
+import { MessageChangeComponent } from './components/group-section/chat/message-change/message-change.component';
 import { ListComponent } from './components/assignment-list/list/list.component';
 import { SideMenuComponent } from './components/assignment-list/side-menu/side-menu.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTabsModule} from '@angular/material/tabs';
 import { AngMusicPlayerModule } from  'ang-music-player';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
-import { CarouselComponent } from './components/landing-pages-components/carousel/carousel.component';
+import { CarouselComponent } from './components/landing-page/landing-pages-components/carousel/carousel.component';
 import {VgCoreModule} from '@videogular/ngx-videogular/core';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
-import { AboutPageComponent } from './components/landing-pages-components/about-page/about-page.component';
-import { ContactPageComponent } from './components/landing-pages-components/contact-page/contact-page.component';
-import { ProfilePageComponent } from './components/landing-pages-components/profile-page/profile-page.component';
+import { AboutPageComponent } from './components/about-page/about-page.component';
+import { ContactPageComponent } from './components/contact-page/contact-page.component';
+import { ProfilePageComponent } from './components/account/profile-page/profile-page.component';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
-import { MapComponent } from './components/landing-page/landing-page-components/map/map.component';
+import { MapComponent } from './components/landing-page/landing-pages-components/map/map.component';
 
 
 export function tokenGetter() {

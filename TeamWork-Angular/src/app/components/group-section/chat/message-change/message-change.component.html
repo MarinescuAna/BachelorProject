@@ -1,0 +1,16 @@
+<div fxLayoutAlign="center center">
+        <div fxLayout="column" fxLayoutAlign="center center">
+                <form [formGroup]="formMessage" (ngSubmit)="onSubmit()">
+                    <mat-form-field class="textarea" >
+                        <textarea matInput rows="3" 
+                            formControlName='content'></textarea>
+                    </mat-form-field>
+                </form>
+          
+            <div>
+                <button class="btn-size" mat-raised-button (click)="onSubmit()"
+                 [disabled]="formMessage.controls['content'].hasError('required')">Update</button>
+            </div>
+        </div>
+</div>
+

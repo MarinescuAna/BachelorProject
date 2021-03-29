@@ -29,7 +29,7 @@
               "node_modules/slick-carousel/slick/slick.css",
               "node_modules/@videogular/ngx-videogular/fonts/videogular.css",
               "node_modules/slick-carousel/slick/slick-theme.css",
-              "./node_modules/leaflet/dist/leaflet.css"
+              "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -96,8 +96,8 @@
               "src/assets",
               {
                 "glob": "**/*",
-                "input": "./node_modules/leaflet/dist/images",
-                "output": "assets/Map/"
+                "input": "node_modules/leaflet/dist/images",
+                "output": "assets/"
               }
             ],
             "styles": [

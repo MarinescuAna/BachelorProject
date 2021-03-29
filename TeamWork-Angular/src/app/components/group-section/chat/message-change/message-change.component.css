@@ -1,0 +1,11 @@
+.btn-size{
+    width: 500px;
+    height: 40px;
+    background-color: black;
+    color: white;
+    margin-top: -15px;
+}
+
+.textarea{
+    width: 500px;
+}

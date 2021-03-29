@@ -31,8 +31,4 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  onRedirect(url:string):void{
-    window.location.href = url;
-  }
 }

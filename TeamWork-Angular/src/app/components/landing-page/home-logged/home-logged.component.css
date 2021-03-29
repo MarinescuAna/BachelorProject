@@ -26,3 +26,11 @@
 .end{
   margin-bottom: 25%;
 }
+.footer{
+  margin: 3%;
+  background-color: #FFFF8D;
+  border-radius: 40rem;    
+  width: 81%;
+  height: 50%; 
+  margin-bottom: 5%;
+}

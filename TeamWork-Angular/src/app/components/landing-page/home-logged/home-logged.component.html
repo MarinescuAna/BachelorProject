@@ -21,7 +21,7 @@
                </div>
           </div>
      </mat-card>
-     <mat-card class="section end">
+     <mat-card class="section">
           <div fxLayout="row" fxLayoutAlign="center center">
                <div class="text-style">
                     <h1><strong>How to manage a group!</strong>
@@ -36,6 +36,17 @@
                          <source src="/assets/Video/ManageGroup.mp4" type="video/mp4">
                     </video>
                </vg-player>
+          </div>
+     </mat-card>
+     <mat-card class="footer">
+          <div fxLayout="row" fxLayoutAlign="center center">
+               <h1 style="font-family: cursive;"><strong>Share your experience with someone:</strong>
+               </h1>
+               <p>
+                    <share-buttons [theme]="'modern-dark'"
+                         [include]="['facebook','twitter','linkedin','pinterest','reddit','tumblr','viber','vk','copy']"
+                         [show]="18" [size]="4" [url]="'http://localhost:4200/landing-page'" [autoSetMeta]="false">
+                    </share-buttons>
           </div>
      </mat-card>
 </div>

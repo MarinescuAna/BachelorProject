@@ -12,7 +12,6 @@ import { GroupMainPageComponent } from './components/group-section/group-details
 import { ListComponent } from './components/assignment-list/list/list.component';
 import { HomeLoggedComponent } from './components/landing-page/home-logged/home-logged.component';
 import { AboutPageComponent } from './components/about-page/about-page.component';
-import { ContactPageComponent } from './components/contact-page/contact-page.component';
 import { ProfilePageComponent } from './components/account/profile-page/profile-page.component';
 
 const routes: Routes = [
@@ -71,11 +70,6 @@ const routes: Routes = [
   {
     path: 'about',
     component: AboutPageComponent
-    
-  },
-  {
-    path: 'contact',
-    component: ContactPageComponent
     
   },
   {

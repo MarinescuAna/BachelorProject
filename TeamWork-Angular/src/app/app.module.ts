@@ -64,7 +64,6 @@ import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 import { AboutPageComponent } from './components/about-page/about-page.component';
-import { ContactPageComponent } from './components/contact-page/contact-page.component';
 import { ProfilePageComponent } from './components/account/profile-page/profile-page.component';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
@@ -113,7 +112,6 @@ const shareProp = {
     SideMenuComponent,
     CarouselComponent,
     AboutPageComponent,
-    ContactPageComponent,
     ProfilePageComponent,
     MapComponent,
   ],

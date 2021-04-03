@@ -57,7 +57,7 @@ export class AuthService extends DataService {
     super.post<TokenModule>('Register', user).subscribe(cr => {
       this.setLocalStorage(cr as TokenModule);
       localStorage.setItem('is_logged', 'true');
-      this.route.navigateByUrl('/home-logged');
+      this.route.navigateByUrl('/landing-page');
     });
   }
 
@@ -66,7 +66,7 @@ export class AuthService extends DataService {
     super.post<TokenModule>('Login', user).subscribe(cr => {
       this.setLocalStorage(cr as TokenModule);
       localStorage.setItem('is_logged', 'true');
-      this.route.navigateByUrl('/home-logged');
+      this.route.navigateByUrl('/landing-page');
     });
   }
 

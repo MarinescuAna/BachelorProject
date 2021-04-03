@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-main-page',
@@ -28,6 +29,9 @@ export class MainPageComponent implements OnInit {
       title: "Sample 3",
     }
   ];
+
+  constructor(public authService: AuthService) {
+  }
 
   ngOnInit(): void {
   }

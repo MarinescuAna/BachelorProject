@@ -1,9 +1,10 @@
-.title{
+.carousel{
     width: 81%;
     height: 50%;
     background-color: #FFFF8D;
     margin-top: 1%;
     border-radius: 10rem;
+    margin-bottom: 1%;
 }
 
 .Title-twro{
@@ -12,3 +13,41 @@
     font-size: 80px;
     padding: 50px;
 }
+.section{
+    margin: 0%;
+    background-color: #FFFF8D;
+    border-radius: 40rem;    
+    width: 81%;
+    height: 50%;
+    margin-bottom: 2%;
+}
+
+.notifications{
+    margin: 1.5% !important;
+}
+
+.video-style{
+    width: 640px;
+    height: 360px; 
+    margin: 3%;
+  }
+
+  .text-style{
+    width: 40%; 
+    font-family: cursive;
+    text-align: center;
+  }
+
+  .footer{
+    margin: 0%;
+    background-color: #FFFF8D;
+    border-radius: 40rem;    
+    width: 81%;
+    height: 50%; 
+    margin-bottom: 5%;
+  }
+
+  .text_style_footer{
+    width: 40%;
+     font-family: cursive;
+  }

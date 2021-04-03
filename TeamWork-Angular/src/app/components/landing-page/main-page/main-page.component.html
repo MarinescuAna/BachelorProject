@@ -1,13 +1,53 @@
 <div fxLayout="column" fxLayoutAlign="center center">
-    <mat-card class="title">
+    <mat-card class="carousel">
         <app-carousel style="margin: 5%;" [slides]='slidesAllFunctions'></app-carousel>
         <h1 class="Title-twro">Welcome! </h1>
     </mat-card>
-    <mat-card style="margin: 3%;
-    background-color: #FFFF8D;border-radius: 40rem;    width: 81%;
-    height: 50%;">
-        <div fxLayout="row" fxLayoutAlign="center center">
-            <div style="width: 40%; font-family: cursive;text-align: center;">
+    <mat-card class="section notifications" *ngIf='authService.isLogged()'>
+        <app-group-invitations></app-group-invitations>
+   </mat-card>
+   <mat-card class="section" *ngIf='authService.isLogged()'>
+    <div fxLayout="row" fxLayoutAlign="center center">
+         <vg-player class="video-style">
+              <video #media [vgMedia]="media" preload="auto" controls>
+                   <source src="/assets/Video/GroupCreateAdd.mp4" type="video/mp4">
+              </video>
+         </vg-player>
+
+         <div class="text-style">
+              <h1><strong>How to create or be part of a group!</strong>
+                   <mat-icon>flutter_dash</mat-icon>
+              </h1>
+              <p>Everything is pretty simple! Go to the group option menu and there you can choose to create the
+                   group, or if it already exists, you can give the key to a person you want to add or you can add
+                   it yourself if you go to the group menu and if you know them email address. See? It's very
+                   simple! </p>
+         </div>
+    </div>
+</mat-card>
+<mat-card class="section" *ngIf='authService.isLogged()'>
+    <div fxLayout="row" fxLayoutAlign="center center">
+         <div class="text-style">
+              <h1><strong>How to manage a group!</strong>
+                   <mat-icon>flutter_dash</mat-icon>
+              </h1>
+              <p>What can you do once you are part of a group? Well, it's very simple. You can edit group details,
+                   add or delete members in case you are a student. You can keep in touch with the members of the
+                   group, which you can view. Everything is very simple! </p>
+         </div>
+         <vg-player class="video-style">
+              <video #media [vgMedia]="media" preload="auto" controls>
+                   <source src="/assets/Video/ManageGroup.mp4" type="video/mp4">
+              </video>
+         </vg-player>
+    </div>
+</mat-card>
+    <mat-card class="section">
+        <div fxLayout="row" fxLayoutAlign="center center"> 
+              <iframe id="vp1BuxYV" title="Video Player" width="640" height="360" frameborder="0" style="margin: 4%;"
+                src="https://s3.amazonaws.com/embed.animoto.com/play.html?w=swf/production/vp1&e=1616845259&f=BuxYV0xxmmc237T0KO7EXg&d=0&m=p&r=360p+480p+720p&volume=100&start_res=720p&i=m&asset_domain=s3-p.animoto.com&animoto_domain=animoto.com&options=autostart/loop"
+                allowfullscreen></iframe>
+            <div class="text-style">
                 <h1><strong>About us</strong>
                     <mat-icon>flutter_dash</mat-icon>
                 </h1>
@@ -19,23 +59,12 @@
                 <p>Haven't I convinced you yet? Try to realize and explore the possibilities we offer, then decide if
                     this is the right place for you or not!</p>
             </div>
-            <iframe id="vp1BuxYV" title="Video Player" width="640" height="360" frameborder="0" style="margin: 4%;"
-                src="https://s3.amazonaws.com/embed.animoto.com/play.html?w=swf/production/vp1&e=1616845259&f=BuxYV0xxmmc237T0KO7EXg&d=0&m=p&r=360p+480p+720p&volume=100&start_res=720p&i=m&asset_domain=s3-p.animoto.com&animoto_domain=animoto.com&options=autostart/loop"
-                allowfullscreen></iframe>
+         
         </div>
     </mat-card>
-    <mat-card style="margin: 0%;
-    background-color: #FFFF8D;border-radius: 40rem;    width: 81%;
-    height: 50%;">
+    <mat-card class="section" *ngIf='!authService.isLogged()'>
         <div fxLayout="row" fxLayoutAlign="center center">
-
-            <vg-player style="width: 640px;height: 360px; margin: 3%;">
-                <video #media [vgMedia]="media" preload="auto" controls>
-                    <source src="/assets/Video/Login.mp4" type="video/mp4">
-                </video>
-            </vg-player>
-
-            <div style="width: 40%; font-family: cursive;text-align: center;">
+            <div class="text-style">
                 <h1><strong>Register right now!</strong>
                     <mat-icon>flutter_dash</mat-icon>
                 </h1>
@@ -44,13 +73,16 @@
                     Register<mat-icon>login</mat-icon>
                 </button>
             </div>
+            <vg-player class="video-style">
+                <video #media [vgMedia]="media" preload="auto" controls>
+                    <source src="/assets/Video/Login.mp4" type="video/mp4">
+                </video>
+            </vg-player>
         </div>
     </mat-card>
-    <mat-card style="margin: 3%;
-    background-color: #FFFF8D;border-radius: 40rem;    width: 81%;
-    height: 50%; margin-bottom: 5%;">
+    <mat-card class="footer">
         <div fxLayout="row" fxLayoutAlign="center center">
-            <div style="width: 40%; font-family: cursive;">
+            <div class="text_style_footer">
                 <h1><strong>Share your experience with someone!</strong>
                 </h1>
                 <p>

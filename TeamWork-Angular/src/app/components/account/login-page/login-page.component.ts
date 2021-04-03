@@ -23,7 +23,7 @@ export class LoginPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(): void{
+  onSubmit(): void {
     let userLogin= new UserLoginModule();
     userLogin.emailAddress=this.formLogin.value.email;
     userLogin.password=this.formLogin.value.password;

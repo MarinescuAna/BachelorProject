@@ -46,7 +46,6 @@ import { ViewMembersComponent } from './components/group-section/group-details/v
 import { MessageCardComponent } from './components/landing-page/landing-pages-components/message-card/message-card.component';
 import { GroupInvitationsComponent } from './components/landing-page/landing-pages-components/notification/group-invitations/group-invitations.component';
 import { GroupInvitationComponent } from './components/landing-page/landing-pages-components/notification/group-invitation/group-invitation.component';
-import { HomeLoggedComponent } from './components/landing-page/home-logged/home-logged.component';
 import { MessageComponent } from './components/group-section/chat/message/message.component';
 import { SentMessageComponent } from './components/group-section/chat/sent-message/sent-message.component';
 import { ChatComponent } from './components/group-section/chat/chat/chat.component';
@@ -103,7 +102,6 @@ const shareProp = {
     MessageCardComponent,
     GroupInvitationsComponent,
     GroupInvitationComponent,
-    HomeLoggedComponent,
     MessageComponent,
     SentMessageComponent,
     ChatComponent,

@@ -20,8 +20,6 @@
                 About us
             </button>
         </mat-grid-tile>
-        <mat-grid-tile>
-        </mat-grid-tile>
         <mat-grid-tile *ngIf='!authService.isLogged()'>
             <button mat-button [routerLink]="'/login'">
                 Login
@@ -31,6 +29,8 @@
             <button mat-button [routerLink]="'/register'">
                 Register
             </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
         </mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
         <mat-grid-tile>

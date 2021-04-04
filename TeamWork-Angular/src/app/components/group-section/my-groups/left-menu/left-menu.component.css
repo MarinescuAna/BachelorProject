@@ -5,7 +5,7 @@
     color: white;
 }
 .menu-position{
-    margin-top: 3%;
+    margin-top: 8%;
     left: 0;
     position: fixed;
 }
@@ -13,11 +13,3 @@
     margin-left: 10%;
     margin-top: 1%;
 }
-.collaps-position{
-    width: 740px;
-    margin-top: 2%;
-    margin-left: 760px;
-}
-  .example-tooltip-yellow{
-      background: #FFD54F;
-  }

@@ -23,7 +23,9 @@ export class CreateGroupComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  redirectTo(url: string): void {
+    this.route.navigateByUrl(url);
+  }
   onSubmit(): void{
     const temp=new GroupCreateModule();
     temp.description=this.formCreateGroup.value.description;

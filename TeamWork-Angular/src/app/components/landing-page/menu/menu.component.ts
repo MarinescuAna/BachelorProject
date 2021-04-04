@@ -31,11 +31,6 @@ export class MenuComponent {
   }
 
   redirectHome() {
-    if (this.authService.isLogged()) {
-      this.route.navigateByUrl('home-logged')
-    }
-    else {
       this.route.navigateByUrl('landing-page')
-    }
   }
 }

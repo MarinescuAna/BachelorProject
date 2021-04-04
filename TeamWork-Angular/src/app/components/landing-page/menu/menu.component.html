@@ -2,11 +2,11 @@
     <mat-grid-list class="menu-style" cols="9" rowHeight="60px" rowWidth="20px">
         <mat-grid-tile>
             <button mat-button (click)="redirectHome()">
-                <mat-icon>home</mat-icon>Home
+                Home
             </button>
         </mat-grid-tile>
         <mat-grid-tile *ngIf='authService.isLogged()'>
-            <button #clickMe mat-icon-button [matMenuTriggerFor]="menu" (mouseenter)="clickOnHover()">
+            <button mat-button class="goright" (click)="redirectTo('my-groups')">
                 <span>Groups</span>
             </button>
         </mat-grid-tile>
@@ -48,20 +48,5 @@
             </button>
         </mat-grid-tile>
     </mat-grid-list>
-
-    <mat-menu #menu="matMenu" [overlapTrigger]="false">
-        <button mat-menu-item (click)="redirectTo('create-group')">
-            <mat-icon>create</mat-icon>
-            <span>Create a New Group</span>
-        </button>
-        <button mat-menu-item (click)="redirectTo('join-group')">
-            <mat-icon>group_add</mat-icon>
-            <span>Join a Group</span>
-        </button>
-        <button mat-menu-item (click)="redirectTo('my-groups')">
-            <mat-icon>groups</mat-icon>
-            <span>My Groups</span>
-        </button>
-    </mat-menu>
 </div>
 <div class="logo"> <img src="assets/Images/logo-bg.png" class="image-logo" (click)="redirectHome()" /></div>

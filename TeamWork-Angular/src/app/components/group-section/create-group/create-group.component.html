@@ -1,3 +1,9 @@
+<div class="position-menu">
+    <button mat-fab class="margin" (click)="redirectTo('my-groups')">
+        <mat-icon>keyboard_backspace</mat-icon>
+    </button>
+    <app-left-menu></app-left-menu>
+</div>
 <div fxLayoutAlign="center center">
     <mat-card class="card">
         <div fxLayout="column" fxLayoutAlign="center center">
@@ -6,7 +12,7 @@
             </div>
             <div>
                 <form [formGroup]="formCreateGroup" (ngSubmit)="onSubmit()">
-                    <mat-form-field class="input-style" >
+                    <mat-form-field class="input-style">
                         <mat-label>Group name</mat-label>
                         <input matInput [type]="'text'" formControlName='name' required>
                         <mat-icon matSuffix>edit</mat-icon>
@@ -15,7 +21,7 @@
                         </mat-error>
                     </mat-form-field>
                     <br>
-                    <mat-form-field class="input-style" >
+                    <mat-form-field class="input-style">
                         <mat-label>Email</mat-label>
                         <input matInput placeholder="Ex. pat@example.com" formControlName='emailTeacher' required>
                         <mat-icon matSuffix>email</mat-icon>
@@ -28,7 +34,7 @@
                         </mat-error>
                     </mat-form-field>
                     <br>
-                    <mat-form-field class="input-style" >
+                    <mat-form-field class="input-style">
                         <mat-label>Description</mat-label>
                         <textarea matInput rows="5" maxlength="255" placeholder="..."
                             formControlName='description'></textarea>
@@ -36,7 +42,7 @@
                 </form>
             </div>
             <div>
-                <button class="btn-size color"  mat-raised-button (click)="onSubmit()" [disabled]="formCreateGroup.controls['emailTeacher'].hasError('required') || 
+                <button class="btn-size color" mat-raised-button (click)="onSubmit()" [disabled]="formCreateGroup.controls['emailTeacher'].hasError('required') || 
         formCreateGroup.controls['name'].hasError('required') ||
         formCreateGroup.controls['emailTeacher'].hasError('pattern')">Create</button>
             </div>

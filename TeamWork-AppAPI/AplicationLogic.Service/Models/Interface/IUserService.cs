@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using TeamWork.DataAccess.Domain.Models.Domain;
+using TeamWork.DataAccess.Domain.Models;
 
 namespace TeamWork.ApplicationLogic.Service.Models.Interface
 {

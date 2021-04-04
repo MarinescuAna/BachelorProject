@@ -4,6 +4,7 @@ namespace TeamWork.ApplicationLogger
 {
     public interface ILoggerService
     {
-        void LogError(string path, string message);
+        void LogError(string message);
+        void LogInfo(string message);
     }
 }

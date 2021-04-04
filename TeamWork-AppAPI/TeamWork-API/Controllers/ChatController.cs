@@ -3,14 +3,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using TeamWork_API.Utils;
 using Microsoft.AspNetCore.Http;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
-using TeamWork.DataAccess.Domain.Account.Domain;
-using TeamWork.DataAccess.Domain.Models.Domain;
-using TeamWork_API.ErrorHandler;
-using TeamWork.DataAccess.Domain.Chat.Domain;
 using System.Collections.Generic;
+using TeamWork.DataAccess.Domain.ChatDTO;
+using TeamWork.DataAccess.Domain.Models;
+using TeamWork.Common.ConstantNumbers;
+using TeamWork.Common.ConstantStrings;
+using TeamWork.Common.ConstantStrings.ErrorHandler;
 
 namespace TeamWork_API.Controllers
 {
@@ -33,7 +33,7 @@ namespace TeamWork_API.Controllers
 
             if (chatKey == null)
             {
-                return StatusCode(Codes.Number_200, null);
+                return StatusCode(Number.Number_200, null);
             }
 
             var messages = await _chatService.GetMessagesByChatKeyAsync(chatKey.ChatID.ToString());
@@ -47,10 +47,10 @@ namespace TeamWork_API.Controllers
                     MessageKey = message.ID.ToString(),
                     Content = message.Content,
                     DateSent = message.DateSent.ToString(),
-                    UserName = message.User?.FirstName + " " + message.User?.LastName
+                    UserName = message.User?.FirstName + Constants.BlankSpace + message.User?.LastName
                 });
             }
-            return StatusCode(Codes.Number_200, messagesView);
+            return StatusCode(Number.Number_200, messagesView);
         }
 
         [HttpPost]
@@ -59,7 +59,7 @@ namespace TeamWork_API.Controllers
         {
             if (messageRecevied == null)
             {
-                return StatusCode(Codes.Number_204, NoContent204Error.NoContent);
+                return StatusCode(Number.Number_204, NoContent204Error.NoContent);
             }
 
             var message = new Message
@@ -72,7 +72,7 @@ namespace TeamWork_API.Controllers
 
             if(!(await _chatService.SaveMessageByGroupKeyAsync(messageRecevied.GroupKey,message)))
             {
-                return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
+                return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }
                 
             return Ok();
@@ -84,7 +84,7 @@ namespace TeamWork_API.Controllers
         {
             if (messageUpdate == null)
             {
-                return StatusCode(Codes.Number_204, NoContent204Error.NoContent);
+                return StatusCode(Number.Number_204, NoContent204Error.NoContent);
             }
 
             var messageOld = await _chatService.GetMessageByKeyAsync(messageUpdate.MessageKey);
@@ -92,23 +92,24 @@ namespace TeamWork_API.Controllers
 
             if (!(await _chatService.UpdateMessageAsync(messageOld)))
             {
-                return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
+                return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }
 
             return Ok();
         }
+
         [HttpDelete]
         [Route("DeleteMessage")]
         public async Task<IActionResult> DeleteMessage(string key)
         {
             if (string.IsNullOrEmpty(key))
             {
-                return StatusCode(Codes.Number_204, NoContent204Error.NoContent);
+                return StatusCode(Number.Number_204, NoContent204Error.NoContent);
             }
 
             if (!(await _chatService.DeleteMessageAsync(key)))
             {
-                return StatusCode(Codes.Number_400, BadRequest400Error.SomethingWentWrong);
+                return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }
 
             return Ok();

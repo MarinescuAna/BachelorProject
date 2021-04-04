@@ -5,10 +5,16 @@ namespace TeamWork.ApplicationLogger
     {
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
 
-        public void LogError(string path, string message)
+        public void LogError(string message)
         {
-            logger.Error(path + ": " + message);
+            logger.Error(message);
         }
+
+        public void LogInfo(string message)
+        {
+            logger.Info(message);
+        }
+
     }
 }
 

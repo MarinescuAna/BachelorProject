@@ -16,11 +16,37 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
         private IChatRepository _Chat;
         private IMessageRepository _Message;
         private IImageRepository _Image;
+        private IAssignmentRepository _Assignment;
+        private IListRepository _List;
         private readonly ILoggerService _loggerService;
         public UnitOfWork(TeamWorkDbContext ctx, ILoggerService loggerService)
         {
             context = ctx;
             _loggerService = loggerService;
+        }
+        public IAssignmentRepository Assignment
+        {
+            get
+            {
+                if (_Assignment == null)
+                {
+                    _Assignment = new AssignmentRepository(context, _loggerService);
+                }
+
+                return _Assignment;
+            }
+        }
+        public IListRepository List
+        {
+            get
+            {
+                if (_List == null)
+                {
+                    _List = new ListRepository(context, _loggerService);
+                }
+
+                return _List;
+            }
         }
         public IImageRepository Image
         {
@@ -95,20 +121,21 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
             }
         }
 
-        public async Task<int> Commit(string loggDetails)
+        public async Task<int> Commit()
         {
             try
             {
+                LoggMessageInfo("Try to commit the changes.");
                 return await context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
 
-                LoggMessageError(loggDetails, ex.Message);
+                LoggMessageError($"The commit faild because the follow error occures: {ex.Message}");
                 
                 if(ex.InnerException!=null)
                 {
-                    LoggMessageError(loggDetails, ex.InnerException.Message);
+                    LoggMessageError($" Inner Exception Message: {ex.InnerException.Message}");
                 }
                 
                 Dispose();
@@ -117,12 +144,17 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
             return -1;
         }
 
-        public void LoggMessageError(string path, string message)
+        public void LoggMessageError(string message)
         {
-            _loggerService.LogError(path,message);
+            _loggerService.LogError(message);
+        }
+        public void LoggMessageInfo(string message)
+        {
+            _loggerService.LogInfo(message);
         }
         public async void Dispose()
         {
+            LoggMessageInfo("Dispose.");
             await context.DisposeAsync();
         }
     }

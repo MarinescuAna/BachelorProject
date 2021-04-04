@@ -12,6 +12,7 @@ import { GroupMainPageComponent } from './components/group-section/group-details
 import { ListComponent } from './components/assignment-list/list/list.component';
 import { AboutPageComponent } from './components/about-page/about-page.component';
 import { ProfilePageComponent } from './components/account/profile-page/profile-page.component';
+import { CreateListComponent } from './components/assignment-list/create-list/create-list.component';
 
 const routes: Routes = [
 
@@ -57,6 +58,12 @@ const routes: Routes = [
   {
     path: 'list',
     component: ListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ["teacher"]}
+  },
+  {
+    path: 'create-list',
+    component: CreateListComponent,
     canActivate: [AuthGuard],
     data: { roles: ["teacher"]}
   },

@@ -32,11 +32,11 @@ export class DataService {
     this.url=`${environment.baseApiUrl}${url}`;
    }
 
-   getAll<T>(): Observable<T[]>{
+   protected getAll<T>(): Observable<T[]>{
      return this.getMany<T>('');
    }
 
-   getMany<T>(path: string): Observable<T[]>{
+   protected getMany<T>(path: string): Observable<T[]>{
      const url=`${this.url}/${path}`;
      return this.http.get<[]>(url,httpOptions)
      .pipe(map((response) => {
@@ -46,7 +46,7 @@ export class DataService {
      }));
    }
 
-   getOne<T>(url: string):Observable<T>{
+   protected getOne<T>(url: string):Observable<T>{
       const path=`${this.url}/${url}`;
       return this.http.get(path)
         .pipe(map((response) => {
@@ -56,7 +56,7 @@ export class DataService {
         }));
    }
 
-   post<T>(path: string, data: any): Observable<T>{
+   protected post<T>(path: string, data: any): Observable<T>{
      const url =`${this.url}/${path}`;
      const body = JSON.stringify(data);
      return this.http.post(url, body, httpOptions)
@@ -68,7 +68,7 @@ export class DataService {
    }
 
    // tslint:disable-next-line: typedef
-   update(id: any, entity: any) {
+   protected update(id: any, entity: any) {
     const body = JSON.stringify(entity);
     const url = `${this.url}/${id}`;
     return this.http.put(url, body, httpOptions).pipe(map((response) => {
@@ -79,7 +79,7 @@ export class DataService {
         }));
   }
 
-  add<T>(entity: any): Observable<T> {
+  protected add<T>(entity: any): Observable<T> {
     const body = JSON.stringify(entity);
     const url = `${this.url}`;
     return this.http.post<T>(url, body, httpOptions).pipe(map((response) => {
@@ -90,7 +90,7 @@ export class DataService {
       }));
   }
 
-  delete(id: string, path: string): Observable<any> {
+  protected delete(id: string, path: string): Observable<any> {
     const url = `${this.url}/${path}?${id}`;
     return this.http.delete<any>(url, httpOptions).pipe(map((response) => {
       return response;
@@ -101,7 +101,7 @@ export class DataService {
   }
 
 
-   public handleError(error: any){
+  protected handleError(error: any){
     switch (error.status) {
       case 400: {
         throw this.appHandler.handleError(new BadRequestError(error.error));

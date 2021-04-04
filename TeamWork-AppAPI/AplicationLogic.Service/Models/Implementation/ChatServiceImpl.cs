@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Repository.UOW;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
-using TeamWork.ApplicationLogic.Service.Utils;
-using TeamWork.DataAccess.Domain.Models.Domain;
+using TeamWork.DataAccess.Domain.Models;
 
 namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 {
@@ -44,21 +42,21 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
             _unitOfWork.Message.InsertItem(message);
 
-            return (await _unitOfWork.Commit(Messages.SaveMessageByGroupKeyAsync)) > 0;            
+            return await _unitOfWork.Commit() > 0;            
         }
 
         public async Task<bool> UpdateMessageAsync(Message message)
         {
             await _unitOfWork.Message.UpdateItem(message);
 
-            return (await _unitOfWork.Commit(Messages.UpdateMessageAsync)) > 0;
+            return (await _unitOfWork.Commit()) > 0;
         }
 
         public async Task<bool> DeleteMessageAsync(string messageKey)
         {
             await _unitOfWork.Message.DeleteItem(u=>u.ID.ToString()==messageKey);
 
-            return (await _unitOfWork.Commit(Messages.DeleteMessageAsync)) > 0;
+            return (await _unitOfWork.Commit()) > 0;
         }
     }
 }

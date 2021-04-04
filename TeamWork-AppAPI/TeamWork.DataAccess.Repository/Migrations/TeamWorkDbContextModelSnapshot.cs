@@ -19,9 +19,41 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Assigment", b =>
+            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.AssignedTask", b =>
                 {
-                    b.Property<Guid>("AssigmentID")
+                    b.Property<Guid>("AssignedTaskID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AssignmentID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GroupID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ListID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SolutionLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("TeacherGrade")
+                        .HasColumnType("real");
+
+                    b.HasKey("AssignedTaskID");
+
+                    b.HasIndex("AssignmentID");
+
+                    b.HasIndex("GroupID");
+
+                    b.HasIndex("ListID");
+
+                    b.ToTable("AssignedTasks");
+                });
+
+            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Assignment", b =>
+                {
+                    b.Property<Guid>("AssignmentID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -34,81 +66,28 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MaxGroup")
+                    b.Property<int>("GroupsMax")
                         .HasColumnType("int");
+
+                    b.Property<int>("GroupsTake")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ListID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("AssigmentID");
+                    b.HasKey("AssignmentID");
+
+                    b.HasIndex("ListID");
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Assigments");
-                });
-
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.AssigmentList", b =>
-                {
-                    b.Property<Guid>("AssigmentListUniqueID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("DomainName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("GroupUniqueID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("GroupUniqueID1")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("TeacherUserEmailId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("AssigmentListUniqueID");
-
-                    b.HasIndex("GroupUniqueID1");
-
-                    b.HasIndex("TeacherUserEmailId");
-
-                    b.ToTable("AssigmentList");
-                });
-
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.AssigmentMember", b =>
-                {
-                    b.Property<Guid>("AssigmentMemberID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AssigmentID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AssigmentListUniqueID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AssigmentListUniqueID1")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("SolutionLink")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<float>("TeacherGrade")
-                        .HasColumnType("real");
-
-                    b.HasKey("AssigmentMemberID");
-
-                    b.HasIndex("AssigmentID");
-
-                    b.HasIndex("AssigmentListUniqueID1");
-
-                    b.ToTable("AssigmentMembers");
+                    b.ToTable("Assignments");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Chat", b =>
@@ -264,6 +243,42 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.List", b =>
+                {
+                    b.Property<Guid>("ListID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Domain")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("GroupUniqueID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ListDeadline")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ListID");
+
+                    b.HasIndex("GroupUniqueID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("List");
+                });
+
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Message", b =>
                 {
                     b.Property<Guid>("ID")
@@ -328,37 +343,36 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Assigment", b =>
+            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.AssignedTask", b =>
                 {
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.User", "Teacher")
-                        .WithMany("Assigments")
-                        .HasForeignKey("UserID");
-                });
+                    b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.Assignment", "Assignment")
+                        .WithMany("AssignedTasks")
+                        .HasForeignKey("AssignmentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.AssigmentList", b =>
-                {
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.Group", "Group")
-                        .WithMany("AssigmentLists")
-                        .HasForeignKey("GroupUniqueID1");
-
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.User", "Teacher")
-                        .WithMany("AssigmentLists")
-                        .HasForeignKey("TeacherUserEmailId")
+                        .WithMany()
+                        .HasForeignKey("GroupID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.List", "List")
+                        .WithMany()
+                        .HasForeignKey("ListID");
                 });
 
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.AssigmentMember", b =>
+            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Assignment", b =>
                 {
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.Assigment", "Assigment")
-                        .WithMany("AssigmentMembers")
-                        .HasForeignKey("AssigmentID")
+                    b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.List", "List")
+                        .WithMany("Assignments")
+                        .HasForeignKey("ListID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.AssigmentList", "AssigmentList")
-                        .WithMany()
-                        .HasForeignKey("AssigmentListUniqueID1");
+                    b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.User", "Teacher")
+                        .WithMany("Assignments")
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Chat", b =>
@@ -377,7 +391,7 @@ namespace TeamWork.DataAccess.Repository.Migrations
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.CollegueGrade", b =>
                 {
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.Assigment", "Assigment")
+                    b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.Assignment", "Assigment")
                         .WithMany("CollegueGrades")
                         .HasForeignKey("AssigmentID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -415,6 +429,17 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         .HasForeignKey("CheckListID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.List", b =>
+                {
+                    b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.Group", null)
+                        .WithMany("Lists")
+                        .HasForeignKey("GroupUniqueID");
+
+                    b.HasOne("TeamWork.DataAccess.Domain.Models.Domain.User", "Teacher")
+                        .WithMany("Lists")
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Domain.Message", b =>

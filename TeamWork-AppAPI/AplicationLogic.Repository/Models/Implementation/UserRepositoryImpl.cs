@@ -1,12 +1,7 @@
 ﻿using TeamWork.DataAccess.Repository;
 using TeamWork.ApplicationLogic.Repository.Models.Interface;
-using TeamWork.DataAccess.Domain.Models.Domain;
 using TeamWork.ApplicationLogger;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-using System;
+using TeamWork.DataAccess.Domain.Models;
 
 namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
 {

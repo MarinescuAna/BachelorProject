@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TeamWork.DataAccess.Domain.Group.Domain;
-using TeamWork.DataAccess.Domain.Models.Domain;
+using TeamWork.Common.Enums;
+using TeamWork.DataAccess.Domain.GroupDTO;
+using TeamWork.DataAccess.Domain.Models;
 
 namespace TeamWork.ApplicationLogic.Service.Models.Interface
 {

@@ -68,6 +68,7 @@ import { NgxImageZoomModule } from 'ngx-image-zoom';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import { MapComponent } from './components/landing-page/landing-pages-components/map/map.component';
 import { LeftMenuComponent } from './components/group-section/my-groups/left-menu/left-menu.component';
+import { CreateListComponent } from './components/assignment-list/create-list/create-list.component';
 
 
 export function tokenGetter() {
@@ -114,6 +115,7 @@ const shareProp = {
     ProfilePageComponent,
     MapComponent,
     LeftMenuComponent,
+    CreateListComponent,
   ],
   imports: [
     ReactiveFormsModule,

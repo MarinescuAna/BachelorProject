@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Repository.UOW;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
-using TeamWork.DataAccess.Domain.Models.Domain;
+using TeamWork.DataAccess.Domain.Models;
 
 namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 {
@@ -15,14 +15,14 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         {
             _unitOfWork.User.InsertItem(user);
 
-            return _unitOfWork.Commit("UserServiceImpl -> InsertUser");
+            return _unitOfWork.Commit();
         }
 
         public Task<int> UpdateUserInformationAsync(User user)
         {
             _unitOfWork.User.UpdateItem( user);
 
-            return _unitOfWork.Commit("UserServiceImpl -> UpdateUserInformation");
+            return _unitOfWork.Commit();
         }
 
     }

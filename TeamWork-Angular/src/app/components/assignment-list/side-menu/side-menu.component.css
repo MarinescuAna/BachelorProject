@@ -1,20 +1,11 @@
-
-  
-
-  
-  .example-container {
-  width: 0px;
-  height: 0px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+.margin{
+  margin: 10px;
+  width: 70px;
+  background:black;
+  color: white;
 }
-
-.example-sidenav-content {
-  display: flex;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-}
-
-.example-sidenav {
-  padding: 20px;
+.menu-position{
+  margin-top: 5%;
+  left: 0;
+  position: fixed;
 }

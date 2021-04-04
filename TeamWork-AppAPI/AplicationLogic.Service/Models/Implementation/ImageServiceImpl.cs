@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Repository.UOW;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
-using TeamWork.ApplicationLogic.Service.Utils;
-using TeamWork.DataAccess.Domain.Models.Domain;
+using TeamWork.DataAccess.Domain.Models;
 
 namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 {
@@ -19,14 +15,14 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         {
             _unitOfWork.Image.InsertItem(image);
 
-            return (await _unitOfWork.Commit(Messages.InsertImageAsync))>0;
+            return (await _unitOfWork.Commit())>0;
         }
 
         public async Task<bool> UpdateImageAsync(Image image)
         {
             await _unitOfWork.Image.UpdateItem(image);
 
-            return (await _unitOfWork.Commit(Messages.UpdateImageAsync)) > 0;
+            return (await _unitOfWork.Commit()) > 0;
         }
     }
 }

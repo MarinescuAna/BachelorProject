@@ -9,10 +9,10 @@ import { JoinGroupComponent } from './components/group-section/join-group/join-g
 import { GroupsComponent } from './components/group-section/my-groups/groups/groups.component';
 import { AuthService } from './shared/auth.service';
 import { GroupMainPageComponent } from './components/group-section/group-details/group-main-page/group-main-page.component';
-import { ListComponent } from './components/assignment-list/list/list.component';
 import { AboutPageComponent } from './components/about-page/about-page.component';
 import { ProfilePageComponent } from './components/account/profile-page/profile-page.component';
 import { CreateListComponent } from './components/assignment-list/create-list/create-list.component';
+import { ListsComponent } from './components/assignment-list/lists/lists.component';
 
 const routes: Routes = [
 
@@ -57,7 +57,7 @@ const routes: Routes = [
   },
   {
     path: 'list',
-    component: ListComponent,
+    component: ListsComponent,
     canActivate: [AuthGuard],
     data: { roles: ["teacher"]}
   },

@@ -1,8 +1,8 @@
 <div class="position-menu">
+    <app-side-menu></app-side-menu>
     <button mat-fab class="margin" (click)="redirectTo('list')">
         <mat-icon>keyboard_backspace</mat-icon>
     </button>
-    <app-left-menu></app-left-menu>
 </div>
 <div fxLayoutAlign="center center">
     <div class="card-img">
@@ -28,7 +28,7 @@
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field class="input-style">
-                        <mat-label>Deadline</mat-label>
+                        <mat-label>Overall deadline</mat-label>
                         <input matInput type="datetime-local" formControlName='deadline'>
                         <mat-icon matSuffix>time</mat-icon>
                     </mat-form-field>

@@ -1,4 +1,4 @@
-<app-left-menu></app-left-menu>
+<app-left-menu ></app-left-menu>
 
 <div class="all-groups" *ngIf="length!==0">
     <div fxFlex fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="center center">
@@ -8,6 +8,6 @@
     </div>
   </div>
 
-<div  *ngIf="length===0">
-  <app-message-card [text]='text'></app-message-card>
+<div  *ngIf="length===0" >
+  <app-message-card class="text-style" [text]='text'></app-message-card>
 </div>

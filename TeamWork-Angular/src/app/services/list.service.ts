@@ -9,8 +9,12 @@ export class ListService  extends DataService {
     super(injector, 'List');
   }
 
-  CreateList(message: any): any {
+  public CreateList(message: any): any {
     return super.post<any>('CreateList', message);
+  }
+
+  public GetLists():any{
+    return super.getMany<any>('GetLists');
   }
 
 }

@@ -1,14 +1,14 @@
 mat-card{
     padding: 31px;
-    margin-top: 10%;
+    margin-top: 16%;
     height: 160px;
-    width: 40%;
+    width: 575px;
 }
 
 .image-logo{
     position: fixed;
     width: 160px;
-    margin-top: 7%;
+    margin-top: 3%;
     margin-left: 9px;
    
 }

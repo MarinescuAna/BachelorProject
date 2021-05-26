@@ -69,7 +69,9 @@ import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import { MapComponent } from './components/landing-page/landing-pages-components/map/map.component';
 import { LeftMenuComponent } from './components/group-section/my-groups/left-menu/left-menu.component';
 import { CreateListComponent } from './components/assignment-list/create-list/create-list.component';
-
+import { ListsComponent } from './components/assignment-list/lists/lists.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { CreateTaskComponent } from './components/assignment-list/create-task/create-task.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -116,6 +118,8 @@ const shareProp = {
     MapComponent,
     LeftMenuComponent,
     CreateListComponent,
+    ListsComponent,
+    CreateTaskComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -152,7 +156,8 @@ const shareProp = {
     ShareIconsModule,
     ShareButtonsModule.withConfig({ prop: shareProp }),
     NgxImageZoomModule,
-    LeafletModule
+    LeafletModule,
+    MatExpansionModule
   ],
   providers: [
     AlertService,

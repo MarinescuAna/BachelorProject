@@ -1,4 +1,7 @@
-﻿using TeamWork.ApplicationLogger;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using TeamWork.ApplicationLogger;
 using TeamWork.ApplicationLogic.Repository.Models.Interface;
 using TeamWork.DataAccess.Domain.Models;
 using TeamWork.DataAccess.Repository;
@@ -11,5 +14,10 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
         {
 
         }
+
+        public override async Task<IEnumerable<List>> GetItems() => await context.List
+             .Include(s => s.Teacher)
+             .ToListAsync();
     }
 }
+

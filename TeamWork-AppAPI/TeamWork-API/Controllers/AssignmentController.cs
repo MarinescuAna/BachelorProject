@@ -1,15 +1,84 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TeamWork.ApplicationLogic.Service.Models.Interface;
+using TeamWork.Common.ConstantNumbers;
+using TeamWork.Common.ConstantStrings.ErrorHandler;
+using TeamWork.DataAccess.Domain.AssignmentDTO;
+using TeamWork.DataAccess.Domain.Models;
 
 namespace TeamWork_API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AssignmentController : ControllerBase
     {
+        private readonly IAssignmentService _assignmentService;
+        public AssignmentController(IAssignmentService assignmentService)
+        {
+            _assignmentService = assignmentService;
+        }
+        [HttpGet]
+        [Route("GetTasks")]
+        public async Task<IActionResult> GetTasks(string listId)
+        {
+            var listReturn = new List<AssignmentDisplay>();
+            if (string.IsNullOrEmpty(listId))
+            {
+                return StatusCode(Number.Number_200, listReturn);
+            }
+
+            var lists = await _assignmentService.GetAssignmentsByListIdAsync(Guid.Parse(listId));
+            foreach (var list in lists)
+            {
+                listReturn.Add(new AssignmentDisplay
+                {
+                    Deadline = list.Deadline.ToString(),
+                    AssignmentId = list.AssignmentID.ToString(),
+                    ChecklistDeadline = list.ChecklistDeadline.ToString(),
+                    CreatedDate = list.CreatedDate.ToString(),
+                    Description = list.Description,
+                    GroupsMax = list.GroupsMax==-1?"unset":list.GroupsMax.ToString(),
+                    GroupsTake = list.AssignedTasks?.Count.ToString(),
+                    Title = list.Title,
+                    ListID = list.ListID.ToString()
+                });
+            }
+
+            return StatusCode(Number.Number_200, listReturn);
+        }
+        [HttpPost]
+        [Route("CreateTask")]
+        public async Task<IActionResult> CreateTask(CreateAssignment assignment)
+        {
+            if (assignment == null || string.IsNullOrEmpty(assignment.Title))
+            {
+                return StatusCode(Number.Number_204, NoContent204Error.NoContent);
+            }
+
+            if (!await _assignmentService.InsertTaskAsync(new Assignment {
+                AssignmentID = Guid.NewGuid(),
+                ChecklistDeadline = string.IsNullOrEmpty(assignment.ChecklistDeadline) ? DateTime.Now : DateTime.Parse(assignment.ChecklistDeadline),
+                ListID = Guid.Parse(assignment.ListId),
+                Title = assignment.Title,
+                GroupsMax=!string.IsNullOrEmpty(assignment.GroupsMax)? int.Parse(assignment.GroupsMax):-1,
+                Deadline=DateTime.Parse(assignment.Deadline),
+                Description=assignment.Description,
+                CreatedDate=DateTime.Now,
+                GroupsTake=0,
+            }))
+            {
+                return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
+            }
+
+            return Ok();
+        }
     }
+
+
 }

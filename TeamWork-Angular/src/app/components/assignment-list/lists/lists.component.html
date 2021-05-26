@@ -1,0 +1,14 @@
+<app-side-menu></app-side-menu>
+<div fxLayoutAlign="center center">
+  <div class="list-style" *ngIf="length!==0">
+    <div fxFlex fxLayout="row wrap" fxLayoutGap="10px">
+      <div *ngFor="let list of myLists">
+        <app-list [list]='list'></app-list>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="length===0">
+    <app-message-card [text]='text'></app-message-card>
+  </div>
+</div>

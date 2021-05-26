@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TeamWork.DataAccess.Repository.Migrations
 {
-    public partial class ChangesMoreTables : Migration
+    public partial class CreateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 columns: table => new
                 {
                     GroupUniqueID = table.Column<Guid>(nullable: false),
-                    GroupName = table.Column<string>(nullable: false),
+                    GroupName = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -25,9 +25,9 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 columns: table => new
                 {
                     UserEmailId = table.Column<string>(nullable: false),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
                     Institution = table.Column<string>(nullable: true),
                     UserRole = table.Column<int>(nullable: false),
                     AccessToken = table.Column<string>(nullable: true),
@@ -52,60 +52,10 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 {
                     table.PrimaryKey("PK_Chats", x => x.ChatID);
                     table.ForeignKey(
-                        name: "FK_Chats_Groups_GroupUniqueID1",
+                        name: "FK_Chats_Groups_GroupUniqueID",
                         column: x => x.GroupUniqueID1,
                         principalTable: "Groups",
                         principalColumn: "GroupUniqueID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AssigmentList",
-                columns: table => new
-                {
-                    AssigmentListUniqueID = table.Column<Guid>(nullable: false),
-                    DomainName = table.Column<string>(nullable: true),
-                    GroupUniqueID = table.Column<Guid>(nullable: false),
-                    UserID = table.Column<int>(nullable: false),
-                    GroupUniqueID1 = table.Column<Guid>(nullable: true),
-                    TeacherUserEmailId = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AssigmentList", x => x.AssigmentListUniqueID);
-                    table.ForeignKey(
-                        name: "FK_AssigmentList_Groups_GroupUniqueID1",
-                        column: x => x.GroupUniqueID1,
-                        principalTable: "Groups",
-                        principalColumn: "GroupUniqueID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AssigmentList_Users_TeacherUserEmailId",
-                        column: x => x.TeacherUserEmailId,
-                        principalTable: "Users",
-                        principalColumn: "UserEmailId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Assigments",
-                columns: table => new
-                {
-                    AssigmentID = table.Column<Guid>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    Deadline = table.Column<DateTime>(nullable: true),
-                    ChecklistDeadline = table.Column<DateTime>(nullable: true),
-                    MaxGroup = table.Column<int>(nullable: false),
-                    UserID = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Assigments", x => x.AssigmentID);
-                    table.ForeignKey(
-                        name: "FK_Assigments_Users_UserID",
-                        column: x => x.UserID,
-                        principalTable: "Users",
-                        principalColumn: "UserEmailId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -127,7 +77,7 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserEmailId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -153,7 +103,56 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserEmailId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    ImageId = table.Column<Guid>(nullable: false),
+                    ImageContent = table.Column<string>(nullable: true),
+                    ImageExtention = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.ImageId);
+                    table.ForeignKey(
+                        name: "FK_Images_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserEmailId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "List",
+                columns: table => new
+                {
+                    ListID = table.Column<Guid>(nullable: false),
+                    Domain = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    UserID = table.Column<string>(nullable: true),
+                    ListDeadline = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    GroupUniqueID = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_List", x => x.ListID);
+                    table.ForeignKey(
+                        name: "FK_List_Groups_GroupUniqueID",
+                        column: x => x.GroupUniqueID,
+                        principalTable: "Groups",
+                        principalColumn: "GroupUniqueID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_List_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserEmailId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,61 +183,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AssigmentMembers",
-                columns: table => new
-                {
-                    AssigmentMemberID = table.Column<Guid>(nullable: false),
-                    AssigmentID = table.Column<Guid>(nullable: false),
-                    AssigmentListUniqueID = table.Column<Guid>(nullable: false),
-                    TeacherGrade = table.Column<float>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
-                    SolutionLink = table.Column<string>(nullable: true),
-                    AssigmentListUniqueID1 = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AssigmentMembers", x => x.AssigmentMemberID);
-                    table.ForeignKey(
-                        name: "FK_AssigmentMembers_Assigments_AssigmentID",
-                        column: x => x.AssigmentID,
-                        principalTable: "Assigments",
-                        principalColumn: "AssigmentID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AssigmentMembers_AssigmentList_AssigmentListUniqueID1",
-                        column: x => x.AssigmentListUniqueID1,
-                        principalTable: "AssigmentList",
-                        principalColumn: "AssigmentListUniqueID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CollegueGrades",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
-                    Grade = table.Column<float>(nullable: false),
-                    AssigmentID = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CollegueGrades", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_CollegueGrades_Assigments_AssigmentID",
-                        column: x => x.AssigmentID,
-                        principalTable: "Assigments",
-                        principalColumn: "AssigmentID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CollegueGrades_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserEmailId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Items",
                 columns: table => new
                 {
@@ -258,30 +202,109 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_AssigmentList_GroupUniqueID1",
-                table: "AssigmentList",
-                column: "GroupUniqueID1");
+            migrationBuilder.CreateTable(
+                name: "Assignments",
+                columns: table => new
+                {
+                    AssignmentID = table.Column<Guid>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Deadline = table.Column<DateTime>(nullable: true),
+                    ChecklistDeadline = table.Column<DateTime>(nullable: true),
+                    GroupsMax = table.Column<int>(nullable: false),
+                    GroupsTake = table.Column<int>(nullable: false),
+                    ListID = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Assignments", x => x.AssignmentID);
+                    table.ForeignKey(
+                        name: "FK_Assignments_List_ListID",
+                        column: x => x.ListID,
+                        principalTable: "List",
+                        principalColumn: "ListID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AssignedTasks",
+                columns: table => new
+                {
+                    AssignedTaskID = table.Column<Guid>(nullable: false),
+                    AssignmentID = table.Column<Guid>(nullable: false),
+                    GroupID = table.Column<Guid>(nullable: false),
+                    TeacherGrade = table.Column<float>(nullable: false),
+                    SolutionLink = table.Column<string>(nullable: true),
+                    ListID = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AssignedTasks", x => x.AssignedTaskID);
+                    table.ForeignKey(
+                        name: "FK_AssignedTasks_Assignments_AssignmentID",
+                        column: x => x.AssignmentID,
+                        principalTable: "Assignments",
+                        principalColumn: "AssignmentID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AssignedTasks_Groups_GroupID",
+                        column: x => x.GroupID,
+                        principalTable: "Groups",
+                        principalColumn: "GroupUniqueID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AssignedTasks_List_ListID",
+                        column: x => x.ListID,
+                        principalTable: "List",
+                        principalColumn: "ListID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CollegueGrades",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    Grade = table.Column<float>(nullable: false),
+                    AssigmentID = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CollegueGrades", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_CollegueGrades_Assignments_AssigmentID",
+                        column: x => x.AssigmentID,
+                        principalTable: "Assignments",
+                        principalColumn: "AssignmentID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CollegueGrades_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserEmailId",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssigmentList_TeacherUserEmailId",
-                table: "AssigmentList",
-                column: "TeacherUserEmailId");
+                name: "IX_AssignedTasks_AssignmentID",
+                table: "AssignedTasks",
+                column: "AssignmentID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssigmentMembers_AssigmentID",
-                table: "AssigmentMembers",
-                column: "AssigmentID");
+                name: "IX_AssignedTasks_GroupID",
+                table: "AssignedTasks",
+                column: "GroupID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssigmentMembers_AssigmentListUniqueID1",
-                table: "AssigmentMembers",
-                column: "AssigmentListUniqueID1");
+                name: "IX_AssignedTasks_ListID",
+                table: "AssignedTasks",
+                column: "ListID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Assigments_UserID",
-                table: "Assigments",
-                column: "UserID");
+                name: "IX_Assignments_ListID",
+                table: "Assignments",
+                column: "ListID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Chats_GroupUniqueID1",
@@ -314,9 +337,24 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Images_UserId",
+                table: "Images",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Items_CheckListID",
                 table: "Items",
                 column: "CheckListID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_List_GroupUniqueID",
+                table: "List",
+                column: "GroupUniqueID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_List_UserID",
+                table: "List",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ChatID",
@@ -332,7 +370,7 @@ namespace TeamWork.DataAccess.Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AssigmentMembers");
+                name: "AssignedTasks");
 
             migrationBuilder.DropTable(
                 name: "CollegueGrades");
@@ -341,16 +379,16 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 name: "GroupMembers");
 
             migrationBuilder.DropTable(
+                name: "Images");
+
+            migrationBuilder.DropTable(
                 name: "Items");
 
             migrationBuilder.DropTable(
                 name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "AssigmentList");
-
-            migrationBuilder.DropTable(
-                name: "Assigments");
+                name: "Assignments");
 
             migrationBuilder.DropTable(
                 name: "CheckLists");
@@ -359,10 +397,13 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 name: "Chats");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "List");
 
             migrationBuilder.DropTable(
                 name: "Groups");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

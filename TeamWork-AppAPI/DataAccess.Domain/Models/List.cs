@@ -11,11 +11,13 @@ namespace TeamWork.DataAccess.Domain.Models
         public Guid ListID { get; set; }
         public string Domain { get; set; }
         public string Title { get; set; }
-        public string UserID { get; set; }
-        public DateTime ListDeadline { get; set; }
+        public string? UserID { get; set; }
+        public DateTime? ListDeadline { get; set; }
+        public Guid? GroupID { get; set; }
         public Status Status { get; set; }
 
         public virtual User Teacher { get; set; }
+        public virtual Group Group { get; set; }
         public ICollection<Assignment> Assignments { get; set; }
     }
 }

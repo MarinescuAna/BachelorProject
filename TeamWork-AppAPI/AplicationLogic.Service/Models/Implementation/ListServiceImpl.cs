@@ -27,6 +27,6 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                 .Where(u => u.UserID == email)
                 .ToList();
         public async Task<DateTime> GetListOverroleDeadline(Guid listId) =>
-            (await _unitOfWork.List.GetItem(u => u.ListID == listId)).ListDeadline;
+            (DateTime)(await _unitOfWork.List.GetItem(u => u.ListID == listId)).ListDeadline;
     }
 }

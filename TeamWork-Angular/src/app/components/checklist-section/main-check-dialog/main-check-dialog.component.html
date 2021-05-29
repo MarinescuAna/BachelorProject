@@ -1,0 +1,7 @@
+<div class="list-style">
+    <div fxFlex fxLayout="column" fxLayoutAlign="center center">
+        <div *ngFor="let member of membersList">
+            <app-student-check-section [student]='member' [assignedTaskId]='assignedTaskId'></app-student-check-section>
+        </div>
+    </div>
+</div>

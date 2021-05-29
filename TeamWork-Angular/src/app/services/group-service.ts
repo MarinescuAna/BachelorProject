@@ -47,4 +47,9 @@ export class GroupService extends DataService {
   GetOutMember(data: any): any {
     return super.update('GetOutMember', data);
   }
+
+  
+  GetMembersByAssignedTaskIdKey(data: any): any {
+    return super.getMany('GetMembersByAssignedTaskIdKey?key='+data);
+  }
 }

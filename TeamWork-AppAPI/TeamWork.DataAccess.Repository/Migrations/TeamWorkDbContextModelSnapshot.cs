@@ -108,11 +108,8 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AssignedTaskID")
+                    b.Property<Guid>("AssignedTaskID")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AssignedTaskId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -353,7 +350,9 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 {
                     b.HasOne("TeamWork.DataAccess.Domain.Models.AssignedTask", "AssignedTask")
                         .WithMany("Checks")
-                        .HasForeignKey("AssignedTaskID");
+                        .HasForeignKey("AssignedTaskID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TeamWork.DataAccess.Domain.Models.User", "User")
                         .WithMany("Checks")

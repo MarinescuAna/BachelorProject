@@ -12,7 +12,7 @@ namespace TeamWork.DataAccess.Domain.Models
         [Key]
         public Guid CheckID { get; set; }
         public string UserId { get; set; }
-        public string AssignedTaskID { get; set; }
+        public Guid AssignedTaskID { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime LastUpdate { get; set; }
         public string Description { get; set; }

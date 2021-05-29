@@ -1,0 +1,15 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+    <div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <mat-form-field class="input-style">
+                <mat-label>Description</mat-label>
+                <textarea matInput rows="4" formControlName='description' required></textarea>
+                <mat-icon matSuffix>edit</mat-icon>
+            </mat-form-field>
+        </form>
+    </div>
+    <div>
+        <button class="btn-size" mat-raised-button (click)="onSubmit()"
+            [disabled]="form.controls['description'].hasError('required')">Save</button>
+    </div>
+</div>

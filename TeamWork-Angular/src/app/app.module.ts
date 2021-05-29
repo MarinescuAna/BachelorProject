@@ -78,6 +78,10 @@ import { CreateListStudentComponent } from './components/assignment-list/create-
 import { SelectAssignmentComponent } from './components/group-section/select-assignment/select-assignment.component';
 import { UpdateAssignedTaskComponent } from './components/group-section/update-assigned-task/update-assigned-task.component';
 import { RedirectSolutionDialogComponent } from './components/group-section/redirect-solution-dialog/redirect-solution-dialog.component';
+import { MainCheckDialogComponent } from './components/checklist-section/main-check-dialog/main-check-dialog.component';
+import { StudentCheckSectionComponent } from './components/checklist-section/student-check-section/student-check-section.component';
+import { CreateCheckDialogComponent } from './components/checklist-section/create-check-dialog/create-check-dialog.component';
+import { UpdateCheckDialogComponent } from './components/checklist-section/update-check-dialog/update-check-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -132,6 +136,10 @@ const shareProp = {
     SelectAssignmentComponent,
     UpdateAssignedTaskComponent,
     RedirectSolutionDialogComponent,
+    MainCheckDialogComponent,
+    StudentCheckSectionComponent,
+    CreateCheckDialogComponent,
+    UpdateCheckDialogComponent,
   ],
   imports: [
     ReactiveFormsModule,

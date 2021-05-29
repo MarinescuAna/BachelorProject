@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogger;
@@ -21,5 +22,8 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
                .Include(s => s.List)
                .Include(s => s.Assignment)
                .ToListAsync();
+        public override async Task<AssignedTask> GetItem(Expression<Func<AssignedTask, bool>> expression) => await context.AssignedTasks
+            .Include(s => s.List)
+            .Include(s => s.Assignment).AsNoTracking().FirstOrDefaultAsync(expression);
     }
 }

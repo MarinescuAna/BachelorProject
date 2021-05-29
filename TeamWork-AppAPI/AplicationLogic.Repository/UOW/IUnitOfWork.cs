@@ -11,6 +11,7 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
         IAssignmentRepository Assignment { get; }
         IImageRepository Image { get; }
         IChatRepository Chat { get; }
+        ICheckRepository Checks { get; }
         IMessageRepository Message { get; }
         IGroupRepository Group { get; }
         IAssignedTaskRepository AssignedTasks { get; }

@@ -1,0 +1,28 @@
+.card {
+    width: 890px;
+    height: auto;
+    background-color: #FFD54F;
+    margin-left: 0%;
+    margin-top: 1%;
+  }
+  
+  .color-buttons{
+    background-color: white;
+    color: black;
+  }
+  .color-button{
+    background-color: black;
+    color: white;
+  }
+
+  table {
+    width: 100%;
+    margin-top: 1%;
+  }
+
+  .paginator{
+    width: 100%;
+  }
+
+  
+

@@ -21,6 +21,23 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "List",
+                columns: table => new
+                {
+                    ListID = table.Column<Guid>(nullable: false),
+                    Domain = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    UserID = table.Column<string>(nullable: true),
+                    ListDeadline = table.Column<string>(nullable: true),
+                    GroupID = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_List", x => x.ListID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -60,24 +77,28 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CheckLists",
+                name: "Assignments",
                 columns: table => new
                 {
-                    CheckListID = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
-                    Status = table.Column<int>(nullable: false),
-                    LastUpdate = table.Column<DateTime>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    AssignmentID = table.Column<Guid>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Deadline = table.Column<DateTime>(nullable: true),
+                    ChecklistDeadline = table.Column<DateTime>(nullable: true),
+                    GroupsMax = table.Column<int>(nullable: false),
+                    GroupsTake = table.Column<int>(nullable: false),
+                    ListID = table.Column<Guid>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CheckLists", x => x.CheckListID);
+                    table.PrimaryKey("PK_Assignments", x => x.AssignmentID);
                     table.ForeignKey(
-                        name: "FK_CheckLists_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserEmailId",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_Assignments_List_ListID",
+                        column: x => x.ListID,
+                        principalTable: "List",
+                        principalColumn: "ListID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,35 +148,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "List",
-                columns: table => new
-                {
-                    ListID = table.Column<Guid>(nullable: false),
-                    Domain = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true),
-                    UserID = table.Column<string>(nullable: true),
-                    ListDeadline = table.Column<DateTime>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
-                    GroupUniqueID = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_List", x => x.ListID);
-                    table.ForeignKey(
-                        name: "FK_List_Groups_GroupUniqueID",
-                        column: x => x.GroupUniqueID,
-                        principalTable: "Groups",
-                        principalColumn: "GroupUniqueID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_List_Users_UserID",
-                        column: x => x.UserID,
-                        principalTable: "Users",
-                        principalColumn: "UserEmailId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Messages",
                 columns: table => new
                 {
@@ -183,59 +175,14 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Items",
-                columns: table => new
-                {
-                    ItemID = table.Column<Guid>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    CheckListID = table.Column<Guid>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Items", x => x.ItemID);
-                    table.ForeignKey(
-                        name: "FK_Items_CheckLists_CheckListID",
-                        column: x => x.CheckListID,
-                        principalTable: "CheckLists",
-                        principalColumn: "CheckListID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Assignments",
-                columns: table => new
-                {
-                    AssignmentID = table.Column<Guid>(nullable: false),
-                    Title = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Deadline = table.Column<DateTime>(nullable: true),
-                    ChecklistDeadline = table.Column<DateTime>(nullable: true),
-                    GroupsMax = table.Column<int>(nullable: false),
-                    GroupsTake = table.Column<int>(nullable: false),
-                    ListID = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Assignments", x => x.AssignmentID);
-                    table.ForeignKey(
-                        name: "FK_Assignments_List_ListID",
-                        column: x => x.ListID,
-                        principalTable: "List",
-                        principalColumn: "ListID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AssignedTasks",
                 columns: table => new
                 {
                     AssignedTaskID = table.Column<Guid>(nullable: false),
                     AssignmentID = table.Column<Guid>(nullable: false),
-                    GroupID = table.Column<Guid>(nullable: false),
+                    ListID = table.Column<Guid>(nullable: false),
                     TeacherGrade = table.Column<float>(nullable: false),
-                    SolutionLink = table.Column<string>(nullable: true),
-                    ListID = table.Column<Guid>(nullable: true)
+                    SolutionLink = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -247,17 +194,11 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         principalColumn: "AssignmentID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AssignedTasks_Groups_GroupID",
-                        column: x => x.GroupID,
-                        principalTable: "Groups",
-                        principalColumn: "GroupUniqueID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_AssignedTasks_List_ListID",
                         column: x => x.ListID,
                         principalTable: "List",
                         principalColumn: "ListID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -286,15 +227,39 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Checks",
+                columns: table => new
+                {
+                    CheckID = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    AssignedTaskID = table.Column<Guid>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    LastUpdate = table.Column<DateTime>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    IsChecked = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Checks", x => x.CheckID);
+                    table.ForeignKey(
+                        name: "FK_Checks_AssignedTasks_AssignedTaskID",
+                        column: x => x.AssignedTaskID,
+                        principalTable: "AssignedTasks",
+                        principalColumn: "AssignedTaskID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Checks_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserEmailId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AssignedTasks_AssignmentID",
                 table: "AssignedTasks",
                 column: "AssignmentID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AssignedTasks_GroupID",
-                table: "AssignedTasks",
-                column: "GroupID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AssignedTasks_ListID",
@@ -307,13 +272,18 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 column: "ListID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Chats_GroupUniqueID1",
+                name: "IX_Chats_GroupUniqueID",
                 table: "Chats",
                 column: "GroupUniqueID1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CheckLists_UserId",
-                table: "CheckLists",
+                name: "IX_Checks_AssignedTaskID",
+                table: "Checks",
+                column: "AssignedTaskID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Checks_UserId",
+                table: "Checks",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -342,21 +312,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Items_CheckListID",
-                table: "Items",
-                column: "CheckListID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_List_GroupUniqueID",
-                table: "List",
-                column: "GroupUniqueID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_List_UserID",
-                table: "List",
-                column: "UserID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Messages_ChatID",
                 table: "Messages",
                 column: "ChatID");
@@ -370,7 +325,7 @@ namespace TeamWork.DataAccess.Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AssignedTasks");
+                name: "Checks");
 
             migrationBuilder.DropTable(
                 name: "CollegueGrades");
@@ -382,28 +337,25 @@ namespace TeamWork.DataAccess.Repository.Migrations
                 name: "Images");
 
             migrationBuilder.DropTable(
-                name: "Items");
-
-            migrationBuilder.DropTable(
                 name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "Assignments");
-
-            migrationBuilder.DropTable(
-                name: "CheckLists");
+                name: "AssignedTasks");
 
             migrationBuilder.DropTable(
                 name: "Chats");
 
             migrationBuilder.DropTable(
-                name: "List");
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Assignments");
 
             migrationBuilder.DropTable(
                 name: "Groups");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "List");
         }
     }
 }

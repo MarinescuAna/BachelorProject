@@ -48,6 +48,7 @@ namespace TeamWork_API
             services.AddScoped<IImageService, ImageServiceImpl>();
             services.AddScoped<IChatService, ChatServiceImpl>();
             services.AddScoped<IListService, ListServiceImpl>();
+            services.AddScoped<ICheckService, CheckServiceImpl>();
             services.AddScoped<IAssignmentService, AssignmentServiceImpl>();
             services.AddScoped<IAssignedTaskService, AssignedTaskServiceImpl>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

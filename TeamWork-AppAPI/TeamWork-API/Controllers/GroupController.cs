@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,11 +20,13 @@ namespace TeamWork_API.Controllers
     {
         private readonly IGroupService _groupService;
         private readonly IUserService _userService;
-        public GroupController(IGroupService group, IUserService user, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+        private readonly IAssignedTaskService _assignedTaskService;
+        public GroupController(IAssignedTaskService assignedTaskService,IGroupService group, IUserService user, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
             : base(configuration, httpContextAccessor)
         {
             _groupService = group;
             _userService = user;
+            _assignedTaskService = assignedTaskService;
         }
 
         [HttpPost]
@@ -113,6 +116,22 @@ namespace TeamWork_API.Controllers
             var groups = await _groupService.GetGroupMembersByKeyAsync(key);
 
             return StatusCode(Number.Number_200, groups);
+        }
+
+        [HttpGet]
+        [Route("GetMembersByAssignedTaskIdKey")]
+        public async Task<IActionResult> GetMembersByAssignedTaskIdKey(string key)
+        {
+            var members = new System.Collections.Generic.List<Member>();
+            if (string.IsNullOrEmpty(key))
+            {
+                return StatusCode(Number.Number_200, members);
+            }
+
+            var assignedTask = await _assignedTaskService.GetAssignedByIdAsync(Guid.Parse(key));
+            members = (await _groupService.GetGroupMembersByKeyAsync(assignedTask.List.GroupID));
+
+            return StatusCode(Number.Number_200, members.Where(u=>u.Role==Role.STUDENT.ToString()));
         }
 
         [HttpDelete]

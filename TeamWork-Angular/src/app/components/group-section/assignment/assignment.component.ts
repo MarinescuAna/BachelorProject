@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { RedirectSolutionDialogComponent } from '../redirect-solution-dialog/redirect-solution-dialog.component';
 import { AuthService } from 'src/app/shared/auth.service';
 import { ListService } from 'src/app/services/list.service';
+import { MainCheckDialogComponent } from '../../checklist-section/main-check-dialog/main-check-dialog.component';
 @Component({
   selector: 'app-assignment',
   templateUrl: './assignment.component.html',
@@ -20,7 +21,7 @@ export class AssignmentComponent implements OnInit {
   dataSource: any;
   @Input() list: ListDisplayModule;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['title', 'description', 'deadline', 'checklistDeadline', 'state', 'grade','solution', 'symbol'];
+  displayedColumns: string[] = ['title', 'description', 'deadline', 'checklistDeadline', 'state', 'grade','solution', 'check', 'symbol'];
   isTeacher=false;
   constructor( private assignedTService: AssignedTaskService,private authService: AuthService,public listService:ListService,  private dialog: MatDialog) {
     this.isTeacher=this.authService.decodeJWToken("role")==="STUDENT"?false:true;
@@ -39,6 +40,9 @@ export class AssignmentComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       });
     }
+  }
+  onCheckList(id:any){
+    const diagRef = this.dialog.open(MainCheckDialogComponent, {  width: '60%',height:'80%',data: { data:id } });
   }
   onCreateTask() {
     const diagRef = this.dialog.open(SelectAssignmentComponent, {  width: '60%',data: { data: this.list.key } });

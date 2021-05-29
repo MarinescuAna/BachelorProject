@@ -49,7 +49,7 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
             return false;
         }
 
-        public async Task<T> GetItem(Expression<Func<T, bool>> expression)
+        public virtual async Task<T> GetItem(Expression<Func<T, bool>> expression)
         {
             try
             {

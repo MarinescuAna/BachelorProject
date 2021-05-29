@@ -10,8 +10,8 @@ using TeamWork.DataAccess.Repository;
 namespace TeamWork.DataAccess.Repository.Migrations
 {
     [DbContext(typeof(TeamWorkDbContext))]
-    [Migration("20210527125731_Changes")]
-    partial class Changes
+    [Migration("20210529172603_CreateDatabase")]
+    partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -104,29 +104,37 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.ToTable("Chats");
                 });
 
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.CheckList", b =>
+            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Check", b =>
                 {
-                    b.Property<Guid>("CheckListID")
+                    b.Property<Guid>("CheckID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AssignedTaskID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("LastUpdate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
+                    b.Property<int>("IsChecked")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("CheckListID");
+                    b.HasKey("CheckID");
+
+                    b.HasIndex("AssignedTaskID");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CheckLists");
+                    b.ToTable("Checks");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.CollegueGrade", b =>
@@ -216,28 +224,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Item", b =>
-                {
-                    b.Property<Guid>("ItemID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CheckListID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("ItemID");
-
-                    b.HasIndex("CheckListID");
-
-                    b.ToTable("Items");
-                });
-
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.List", b =>
                 {
                     b.Property<Guid>("ListID")
@@ -247,14 +233,14 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.Property<string>("Domain")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("GroupID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("GroupID")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("ListDeadline")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("ListDeadline")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -263,8 +249,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ListID");
-
-                    b.HasIndex("GroupID");
 
                     b.ToTable("List");
                 });
@@ -364,10 +348,16 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         .HasForeignKey("GroupUniqueID1");
                 });
 
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.CheckList", b =>
+            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Check", b =>
                 {
+                    b.HasOne("TeamWork.DataAccess.Domain.Models.AssignedTask", "AssignedTask")
+                        .WithMany("Checks")
+                        .HasForeignKey("AssignedTaskID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TeamWork.DataAccess.Domain.Models.User", "User")
-                        .WithMany("CheckLists")
+                        .WithMany("Checks")
                         .HasForeignKey("UserId");
                 });
 
@@ -402,22 +392,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.HasOne("TeamWork.DataAccess.Domain.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Item", b =>
-                {
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.CheckList", "CheckList")
-                        .WithMany("Items")
-                        .HasForeignKey("CheckListID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.List", b =>
-                {
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.Group", "Group")
-                        .WithMany("Lists")
-                        .HasForeignKey("GroupID");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Message", b =>

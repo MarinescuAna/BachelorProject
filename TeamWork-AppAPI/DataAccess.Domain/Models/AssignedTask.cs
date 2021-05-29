@@ -17,5 +17,6 @@ namespace TeamWork.DataAccess.Domain.Models
 
         public virtual List List { get; set; }
         public virtual Assignment Assignment { get; set; }
+        public ICollection<Check> Checks { get; set; }
     }
 }

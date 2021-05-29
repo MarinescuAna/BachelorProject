@@ -7,22 +7,18 @@ using System.Text;
 
 namespace TeamWork.DataAccess.Domain.Models
 {
-    public enum StatusChecklist
-    {
-        APPROVE,
-        IN_PROGRESS,
-        UNNECESSARY
-    };
-    public class CheckList
+    public class Check
     {
         [Key]
-        public Guid CheckListID { get; set; }
+        public Guid CheckID { get; set; }
         public string UserId { get; set; }
-        public StatusChecklist Status { get; set; }
-        public DateTime? LastUpdate { get; set; }
+        public string AssignedTaskID { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime LastUpdate { get; set; }
         public string Description { get; set; }
+        public int IsChecked { get; set; }
 
+        public virtual AssignedTask AssignedTask{get;set;}
         public virtual User User { get; set; }
-        public ICollection<Item> Items { get; set; }
     }
 }

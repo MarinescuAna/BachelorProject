@@ -14,19 +14,35 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         {
 
         }
+        public async Task<bool> DeleteListAsync(Guid guid)
+        {
+            await _unitOfWork.List.DeleteItem(u=>u.ListID==guid);
 
+            return await _unitOfWork.Commit() > 0;
+        }
         public async Task<bool> InsertListAsync(List list)
         {
             _unitOfWork.List.InsertItem(list);
 
             return await _unitOfWork.Commit() > 0;
         }
+        public async Task<bool> UpdateListAsync(List list)
+        {
+            await _unitOfWork.List.UpdateItem(list);
 
-        public async Task<List<List>> GetListsAsync(string email) => 
+            return (await _unitOfWork.Commit()) > 0;
+        }
+        public async Task<List<List>> GetListsByEmailAsync(string email) => 
             (await _unitOfWork.List.GetItems())
                 .Where(u => u.UserID == email)
                 .ToList();
-        public async Task<DateTime> GetListOverroleDeadline(Guid listId) =>
-            (DateTime)(await _unitOfWork.List.GetItem(u => u.ListID == listId)).ListDeadline;
+        public async Task<List<List>> GetListsByGroupIdAsync(string groupId) =>
+           (await _unitOfWork.List.GetItems())
+               .Where(u => u.GroupID == groupId)
+               .ToList();
+        public async Task<List> GetListByListIdAsync(Guid listId) =>
+         await _unitOfWork.List.GetItem(u=>u.ListID==listId);
+        public async Task<string> GetListOverroleDeadline(Guid listId) =>
+            (await _unitOfWork.List.GetItem(u => u.ListID == listId)).ListDeadline;
     }
 }

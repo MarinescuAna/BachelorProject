@@ -106,14 +106,14 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
             }
         }
 
-        public async Task<bool> UpdateItem(T item)
+        public Task<bool> UpdateItem(T item)
         {
             try
             {
                 applicationLogger.LogInfo("Try to update the record into database.");
                 context.Set<T>().Update(item);
 
-                return true;
+                return Task.FromResult(true);
             }
             catch (Exception ex)
             {
@@ -124,7 +124,7 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
                     applicationLogger.LogError($"Inner Exception Message: {ex.InnerException.Message}");
                 }
             }
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

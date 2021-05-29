@@ -24,6 +24,5 @@ namespace TeamWork.DataAccess.Domain.Models
         public ICollection<Message> Messages { get; set; }
         public ICollection<CollegueGrade> CollegueGrades { get; set; }
         public ICollection<CheckList> CheckLists { get; set; }
-        public ICollection<List> Lists { get; set; }
     }
 }

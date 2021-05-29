@@ -33,20 +33,23 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_200, listReturn);
             }
 
-            var lists = await _assignmentService.GetAssignmentsByListIdAsync(Guid.Parse(listId));
-            foreach (var list in lists)
+            var assignments = await _assignmentService.GetAssignmentsByListIdAsync(Guid.Parse(listId));
+
+            foreach (var assignment in assignments)
             {
                 listReturn.Add(new AssignmentDisplay
                 {
-                    Deadline = list.Deadline.ToString(),
-                    AssignmentId = list.AssignmentID.ToString(),
-                    ChecklistDeadline = list.ChecklistDeadline.ToString(),
-                    CreatedDate = list.CreatedDate.ToString(),
-                    Description = list.Description,
-                    GroupsMax = list.GroupsMax==-1?"unset":list.GroupsMax.ToString(),
-                    GroupsTake = list.AssignedTasks?.Count.ToString(),
-                    Title = list.Title,
-                    ListID = list.ListID.ToString()
+                    Deadline = assignment.Deadline.ToString(),
+                    AssignmentId = assignment.AssignmentID.ToString(),
+                    ChecklistDeadline = assignment.ChecklistDeadline.ToString(),
+                    CreatedDate = assignment.CreatedDate.ToString(),
+                    Description = assignment.Description,
+                    GroupsMax = assignment.GroupsMax == -1 ? "unset" : assignment.GroupsMax.ToString(),
+                    GroupsTake = assignment.GroupsMax == -1 ? "unset" : (assignment.GroupsMax - assignment.GroupsTake).ToString(),
+                    Title = assignment.Title,
+                    ListID = assignment.ListID.ToString(),
+                    Status = DateTime.Compare((DateTime)assignment.Deadline, DateTime.Now) < 0 ? "PASS" :
+                        assignment.GroupsTake == assignment.GroupsMax ? "TAKEN" : "ACTIVE"
                 });
             }
 
@@ -61,23 +64,56 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_204, NoContent204Error.NoContent);
             }
 
-            if (!await _assignmentService.InsertTaskAsync(new Assignment {
+            if (string.IsNullOrEmpty(assignment.Deadline))
+            {
+                return StatusCode(Number.Number_409, Conflict409Error.DeadlineNotSetedExist);
+            }
+
+            var assignmentExist = await _assignmentService.GetAssignmentByAssignmentTitleAsync(assignment.Title);
+            if (assignmentExist != null)
+            {
+                if (assignmentExist?.ListID.ToString() == assignment.ListId)
+                {
+                    return StatusCode(Number.Number_409, Conflict409Error.AssignmentAlreadyExist);
+                }
+            }
+
+            if (!await _assignmentService.InsertTaskAsync(new Assignment
+            {
                 AssignmentID = Guid.NewGuid(),
                 ChecklistDeadline = string.IsNullOrEmpty(assignment.ChecklistDeadline) ? DateTime.Now : DateTime.Parse(assignment.ChecklistDeadline),
                 ListID = Guid.Parse(assignment.ListId),
                 Title = assignment.Title,
-                GroupsMax=!string.IsNullOrEmpty(assignment.GroupsMax)? int.Parse(assignment.GroupsMax):-1,
-                Deadline=DateTime.Parse(assignment.Deadline),
-                Description=assignment.Description,
-                CreatedDate=DateTime.Now,
-                GroupsTake=0,
+                GroupsMax = !string.IsNullOrEmpty(assignment.GroupsMax) ? int.Parse(assignment.GroupsMax) : -1,
+                Deadline = DateTime.Parse(assignment.Deadline),
+                Description = assignment.Description,
+                CreatedDate = DateTime.Now,
+                GroupsTake = 0,
             }))
+            {
+                return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
+            }
+
+
+            return Ok();
+        }
+        [HttpDelete]
+        [Route("DeleteAssignment")]
+        public async Task<IActionResult> DeleteAssignment(string assignmentId)
+        {
+            if (string.IsNullOrEmpty(assignmentId))
+            {
+                return StatusCode(Number.Number_204, NoContent204Error.NoContent);
+            }
+
+            if (await _assignmentService.DeleteAssignmentAsync(Guid.Parse(assignmentId)) == false)
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }
 
             return Ok();
         }
+
     }
 
 

@@ -1,8 +1,7 @@
 import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { MatDialog } from '@angular/material/dialog';
-import { NavigationExtras, Router } from '@angular/router';
-import { from } from 'rxjs';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import{AssignedTasksPerGroupModule} from 'src/app/modules/assigned-tasks-per-group.module';
 import { ListDisplayModule } from 'src/app/modules/list-display.module';
 import { ListService } from 'src/app/services/list.service';
 import { SheetKeyComponent } from '../../group-section/my-groups/sheet-key/sheet-key.component';
@@ -10,6 +9,11 @@ import { CreateTaskComponent } from '../create-task/create-task.component';
 import { AssignmentsListModule } from 'src/app/modules/assigments-list.module';
 import { AssignmentService } from 'src/app/services/assignment.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import {AssignedTaskService} from 'src/app/services/assigned-task.service';
+import { RedirectSolutionDialogComponent } from '../../group-section/redirect-solution-dialog/redirect-solution-dialog.component';
+import { UpdateAssignedTaskComponent } from '../../group-section/update-assigned-task/update-assigned-task.component';
+
 
 @Component({
   selector: 'app-list',
@@ -18,15 +22,36 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class ListComponent implements OnInit {
   panelOpenState = false;
-  dataSource: AssignmentsListModule[];
+  panelOpenStateGroup = false;
+
+  dataSource: any;
+  dataSourceGroups: any;
+
   @Input() list: ListDisplayModule;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['title', 'description', 'groupsMax', 'groupsTake', 'deadline', 'checklistDeadline', 'createdDate', 'symbol'];
-  displayTable = false;
-  constructor(private _bottomSheet: MatBottomSheet, private service: ListService, private assignmentService: AssignmentService, private route: Router, private dialog: MatDialog) {
+  @ViewChild(MatPaginator) paginatorGroups: MatPaginator;
+
+  displayedColumns: string[] = ['title', 'description', 'groupsMax', 'groupsTake', 'status','deadline', 'checklistDeadline', 'createdDate', 'symbol'];
+  displayedColumnsGroup: string[] = [ 'name','title', 'status','deadline', 'checklistDeadline','solution','grade','addgrade', 'symbol'];
+  
+  constructor(private _bottomSheet: MatBottomSheet,
+     private assignmentService: AssignmentService,
+     private assignTaskService: AssignedTaskService,
+      private dialog: MatDialog,
+      public listService:ListService) {
   }
 
   ngOnInit(): void {
+  }
+
+  onGoTo(link:any){
+    const diagRef = this.dialog.open(RedirectSolutionDialogComponent, {width: '40%', data: { data: link } });
+  }
+
+  onUpdate(id:any){
+    const diagRef = this.dialog.open(UpdateAssignedTaskComponent, { data: { data: id } });
+    this.dataSourceGroups = null;
   }
 
   openKeySheet(): void {
@@ -37,29 +62,44 @@ export class ListComponent implements OnInit {
     this.panelOpenState = true
     if (this.dataSource==null || this.dataSource.length <= 0) {
       this.assignmentService.GetAssignments(this.list.key).subscribe(cr => {
-        this.dataSource = cr as AssignmentsListModule[];
+        this.dataSource =new MatTableDataSource<AssignmentsListModule>(cr as AssignmentsListModule[]);
+        this.dataSource.paginator = this.paginator;
       });
     }
-    this.displayTable = true;
   }
 
   onCreateTask() {
-    const diagRef = this.dialog.open(CreateTaskComponent, { data: { data: this.list } });
+    const diagRef = this.dialog.open(CreateTaskComponent, { width: '40%',data: { data: this.list } });
+    this.dataSource=null;
   }
-  viewGroup(): void {
-    let navigationExtras: NavigationExtras = {
-      queryParams: this.list
-    };
-    this.route.navigate(['\list-details'], navigationExtras);
+  
+  onExpandGroupSection(){
+    this.panelOpenStateGroup=true;
+    if (this.dataSourceGroups==null || this.dataSourceGroups.length <= 0) {
+      this.assignTaskService.GetTasksPerGroup(this.list.key).subscribe(cr => {
+        this.dataSourceGroups =new MatTableDataSource<AssignedTasksPerGroupModule>(cr as AssignedTasksPerGroupModule[]);
+        this.dataSourceGroups.paginator = this.paginatorGroups;
+      });
+    }
   }
 
-  onLeaveGroup(): void {
-    /*if (confirm("Are you sure?")) {
-      this.service.LeaveGroup(this.group.uniqueKey).subscribe(cr => {
-        this.alertService.showSucces('You left the group successfully!');
+  onDelete(id:any): void {
+    if (confirm("Are you sure?")) {
+      this.assignmentService.DeleteAssignment(id).subscribe(cr => {
+        this.assignmentService.alertService.showSucces('The assignment was removed!');
         window.location.reload();
       });
-    }*/
+    }
+
+  }
+
+  onDeleteList(): void {
+    if (confirm("Are you sure?")) {
+      this.listService.DeleteList(this.list.key).subscribe(cr => {
+        this.assignmentService.alertService.showSucces('The list was removed!');
+        window.location.reload();
+      });
+    }
 
   }
 }

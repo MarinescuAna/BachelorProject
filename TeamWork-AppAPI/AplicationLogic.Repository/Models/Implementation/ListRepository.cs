@@ -14,10 +14,6 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
         {
 
         }
-
-        public override async Task<IEnumerable<List>> GetItems() => await context.List
-             .Include(s => s.Teacher)
-             .ToListAsync();
     }
 }
 

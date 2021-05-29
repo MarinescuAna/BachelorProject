@@ -204,3 +204,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       width: 25em;
     }
   }
+
+  .width-400{
+    width: 400px;
+  }
+  .width-50{
+    width: 50px;
+  }
+  .width-30{
+    width: 30px;
+  }
+
+  th,td{
+    padding: 5px !important;
+  }

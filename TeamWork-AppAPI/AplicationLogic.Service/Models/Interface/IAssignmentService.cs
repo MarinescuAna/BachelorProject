@@ -8,8 +8,11 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
 {
     public interface IAssignmentService
     {
+        Task<bool> UpdateAssignmentAsync(Assignment assignment);
+        Task<Assignment> GetAssignmentByAssignmentIdAsync(Guid assignmentid);
         Task<bool> InsertTaskAsync(Assignment list);
         Task<List<Assignment>> GetAssignmentsByListIdAsync(Guid listId);
-        Task<int> TasksAssingedToListAsync(Guid listId);
+        Task<Assignment> GetAssignmentByAssignmentTitleAsync(string title);
+        Task<bool> DeleteAssignmentAsync(Guid assignmentId);
     }
 }

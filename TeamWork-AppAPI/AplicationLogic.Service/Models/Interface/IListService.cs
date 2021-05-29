@@ -7,8 +7,12 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
 {
     public interface IListService
     {
+        Task<bool> DeleteListAsync(Guid guid);
         Task<bool> InsertListAsync(List list);
-        Task<List<List>> GetListsAsync(string email);
-        Task<DateTime> GetListOverroleDeadline(Guid listId);
+        Task<List<List>> GetListsByEmailAsync(string email);
+        Task<List<List>> GetListsByGroupIdAsync(string groupId);
+        Task<string> GetListOverroleDeadline(Guid listId);
+        Task<bool> UpdateListAsync(List list);
+        Task<List> GetListByListIdAsync(Guid listId);
     }
 }

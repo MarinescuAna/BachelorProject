@@ -30,6 +30,7 @@ export class CreateListComponent implements OnInit {
     list.domain=this.formlist.value.domain;
     list.title=this.formlist.value.title;
     list.listDeadline=this.formlist.value.deadline;
+    list.groupId="";
     this.listService.CreateList(list).subscribe(cr=>{
     this.route.navigateByUrl('/list');
     this.listService.alertService.showSucces("The list was created!");

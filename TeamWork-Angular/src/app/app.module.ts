@@ -72,6 +72,12 @@ import { CreateListComponent } from './components/assignment-list/create-list/cr
 import { ListsComponent } from './components/assignment-list/lists/lists.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { CreateTaskComponent } from './components/assignment-list/create-task/create-task.component';
+import { AssignmentComponent } from './components/group-section/assignment/assignment.component';
+import { AssignmentListComponent } from './components/group-section/assignment-list/assignment-list.component';
+import { CreateListStudentComponent } from './components/assignment-list/create-list-student/create-list-student.component';
+import { SelectAssignmentComponent } from './components/group-section/select-assignment/select-assignment.component';
+import { UpdateAssignedTaskComponent } from './components/group-section/update-assigned-task/update-assigned-task.component';
+import { RedirectSolutionDialogComponent } from './components/group-section/redirect-solution-dialog/redirect-solution-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -120,6 +126,12 @@ const shareProp = {
     CreateListComponent,
     ListsComponent,
     CreateTaskComponent,
+    AssignmentComponent,
+    AssignmentListComponent,
+    CreateListStudentComponent,
+    SelectAssignmentComponent,
+    UpdateAssignedTaskComponent,
+    RedirectSolutionDialogComponent,
   ],
   imports: [
     ReactiveFormsModule,

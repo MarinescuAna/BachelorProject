@@ -15,4 +15,5 @@ export class CreateListModule {
     title: string;
     domain: string;
     listDeadline:string;
+    groupId:string;
 }

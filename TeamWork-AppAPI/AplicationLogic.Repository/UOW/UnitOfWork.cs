@@ -18,11 +18,24 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
         private IImageRepository _Image;
         private IAssignmentRepository _Assignment;
         private IListRepository _List;
+        private IAssignedTaskRepository _AssignedTask;
         private readonly ILoggerService _loggerService;
         public UnitOfWork(TeamWorkDbContext ctx, ILoggerService loggerService)
         {
             context = ctx;
             _loggerService = loggerService;
+        }
+        public IAssignedTaskRepository AssignedTasks
+        {
+            get
+            {
+                if (_AssignedTask == null)
+                {
+                    _AssignedTask = new AssignedTaskRepositoryImpl(context, _loggerService);
+                }
+
+                return _AssignedTask;
+            }
         }
         public IAssignmentRepository Assignment
         {

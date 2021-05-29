@@ -15,5 +15,6 @@ namespace TeamWork.DataAccess.Domain.AssignmentDTO
         public string GroupsTake { get; set; }
         public string ListID { get; set; }
         public string CreatedDate { get; set; }
+        public string Status { get; set; }
     }
 }

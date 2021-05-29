@@ -18,7 +18,7 @@ export class ListsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.listService.GetLists().subscribe(cr =>{
+    this.listService.GetLists("").subscribe(cr =>{
       this.myLists= cr as ListDisplayModule[];
       this.length=this.myLists.length;
     });

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
 using TeamWork.Common.ConstantNumbers;
@@ -25,6 +26,25 @@ namespace TeamWork_API.Controllers
             _listService = listService;
             _assignmentService = assignmentService;
         }
+        [HttpPut]
+        [Route("DeleteList")]
+        public async Task<IActionResult> DeleteList(string listId)
+        {
+            if (string.IsNullOrEmpty(listId))
+            {
+                return StatusCode(Number.Number_204, NoContent204Error.NoContent);
+            }
+
+            var list = await _listService.GetListByListIdAsync(Guid.Parse(listId));
+            list.IsDeleted = true;
+
+            if (!await _listService.UpdateListAsync(list))
+            {
+                return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
+            }
+
+            return Ok();
+        }
 
         [HttpPost]
         [Route("CreateList")]
@@ -35,12 +55,13 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_204, NoContent204Error.NoContent);
             }
 
-            if (!await _listService.InsertListAsync(new List { 
-                Domain=list.Domain,
-                ListDeadline=string.IsNullOrEmpty(list.ListDeadline)? DateTime.Now : DateTime.Parse(list.ListDeadline),
-                ListID=Guid.NewGuid(),
-                Title=list.Title,
-                UserID=ExtractEmailFromJWT()
+            if (!await _listService.InsertListAsync(new List {
+                Domain = list.Domain,
+                ListDeadline = list.ListDeadline,
+                ListID = Guid.NewGuid(),
+                Title = list.Title,
+                UserID = string.IsNullOrEmpty(list.GroupId) ? ExtractEmailFromJWT() : string.Empty,
+                GroupID = list.GroupId,
             }))
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
@@ -51,24 +72,27 @@ namespace TeamWork_API.Controllers
 
         [HttpGet]
         [Route("GetLists")]
-        public async Task<IActionResult> GetLists()
+        public async Task<IActionResult> GetLists(string groupId)
         {
-            var lists = await _listService.GetListsAsync(ExtractEmailFromJWT());
+            var lists = string.IsNullOrEmpty(groupId)? await _listService.GetListsByEmailAsync(ExtractEmailFromJWT()):
+                await _listService.GetListsByGroupIdAsync(groupId);
             var listReturn = new List<DisplayList>();
 
-            foreach(var list in lists)
+            foreach(var list in lists.Where(u=>u.IsDeleted==false))
             {
                 listReturn.Add(new DisplayList
                 {
-                    Deadline = list.ListDeadline.ToString(),
+                    Deadline = !string.IsNullOrEmpty(list.ListDeadline) ?
+                        list.ListDeadline.Contains(".")? list.ListDeadline.Split(".")[0] : list.ListDeadline.ToString():"UNSET",
                     Domain = list.Domain,
                     Key = list.ListID.ToString(),
-                    Tasks = await _assignmentService.TasksAssingedToListAsync(list.ListID),
-                    Title=list.Title
-                });
+                    Tasks = (await _assignmentService.GetAssignmentsByListIdAsync(list.ListID)).Count.ToString(),
+                    Title = list.Title
+                }); 
             }
            
             return StatusCode(Number.Number_200,listReturn);
         }
+       
     }
 }

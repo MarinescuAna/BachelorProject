@@ -1,0 +1,26 @@
+<div mat-dialog-content fxLayoutAlign="center center">
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <div>
+                <form [formGroup]="formUpdate" (ngSubmit)="onSubmit()">
+                    <mat-form-field class="input-style" *ngIf="isTeacher">
+                        <mat-label>Group grade</mat-label>
+                        <input matInput [type]="'Number'" formControlName='grade' required>
+                        <mat-icon matSuffix>grade</mat-icon>
+                    </mat-form-field>
+                    <mat-form-field class="input-style" *ngIf="!isTeacher">
+                        <mat-label>Add solution</mat-label>
+                        <input matInput [type]="'text'" formControlName='solution' required>
+                        <mat-icon matSuffix>emoji_objects</mat-icon>
+                    </mat-form-field>
+                </form>
+            </div>
+            <div *ngIf="!isTeacher">
+                <button class="btn-size" mat-raised-button (click)="onSubmit()"
+                    [disabled]="formUpdate.controls['solution'].hasError('required')">Save</button>
+            </div>
+            <div *ngIf="isTeacher">
+                <button class="btn-size" mat-raised-button (click)="onSubmit()"
+                    [disabled]="formUpdate.controls['grade'].hasError('required')">Save</button>
+            </div>
+        </div>
+</div>

@@ -194,7 +194,7 @@ namespace TeamWork_API.Controllers
                 var group = await _groupService.GetGroupByNameAsync(detalisReceived.GroupName);
                 if (group != null)
                 {
-                    return StatusCode(Number.Number_404, Conflict409Error.GroupAlreadyExist);
+                    return StatusCode(Number.Number_409, Conflict409Error.GroupAlreadyExist);
                 }
             }
 
@@ -218,7 +218,7 @@ namespace TeamWork_API.Controllers
 
             if (await _groupService.IsMemberToGroupAsync(detalisReceived.AttenderEmail, detalisReceived.GroupKey))
             {
-                return StatusCode(Number.Number_404, Conflict409Error.UserIsPartFromGroup);
+                return StatusCode(Number.Number_409, Conflict409Error.UserIsPartFromGroup);
             }
 
             if (!(await _groupService.AddMemberByEmailAsync(detalisReceived.AttenderEmail,detalisReceived.GroupKey)))

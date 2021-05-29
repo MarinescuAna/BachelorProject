@@ -13,6 +13,5 @@ namespace TeamWork.DataAccess.Domain.Models
 
         public ICollection<GroupMember> GroupMembers { get; set; }
         public ICollection<Chat> Chats { get; set; }
-        public ICollection<List> Lists { get; set; }
     }
 }

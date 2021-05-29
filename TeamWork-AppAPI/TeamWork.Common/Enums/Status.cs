@@ -9,12 +9,6 @@ namespace TeamWork.Common.Enums
         STUDENT,
         TEACHER
     };
-    public enum Status
-    {
-        PASS,
-        ACTIVE
-    }
-
     public enum StatusRequest
     {
         Joined,

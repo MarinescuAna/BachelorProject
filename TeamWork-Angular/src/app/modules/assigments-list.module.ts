@@ -21,4 +21,5 @@ export class AssignmentsListModule {
     groupsMax: string;
     createdDate:string;
     groupsTake:string;
+    status:string;
 }

@@ -12,9 +12,14 @@ export class ListService  extends DataService {
   public CreateList(message: any): any {
     return super.post<any>('CreateList', message);
   }
-
-  public GetLists():any{
-    return super.getMany<any>('GetLists');
+  public DeleteForeverList(id:any):any{
+    return super.update('DeleteForeverList?listId='+id, '');
+  }
+  public DeleteList(id:any):any{
+    return super.update('DeleteList?listId='+id, '');
+  }
+  public GetLists(groupId:string):any{
+    return super.getMany<any>('GetLists?groupId='+groupId);
   }
 
 }

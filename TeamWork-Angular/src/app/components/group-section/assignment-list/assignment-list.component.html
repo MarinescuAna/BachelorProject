@@ -1,0 +1,7 @@
+    <div class="list-style" >
+        <div fxFlex fxLayout="row wrap" fxLayoutGap="10px">
+            <div *ngFor="let list of myLists">
+                <app-assignment [list]='list'></app-assignment>
+            </div>
+        </div>
+    </div>

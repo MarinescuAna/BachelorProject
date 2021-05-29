@@ -1,6 +1,6 @@
-import { Component, Inject, Injector, OnInit, Optional } from '@angular/core';
+import { Component, Inject,  OnInit, Optional } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {CreateTaskModule} from 'src/app/modules/create-task.module';
 import { ListDisplayModule } from 'src/app/modules/list-display.module';
 import { AssignmentService } from 'src/app/services/assignment.service';
@@ -22,10 +22,10 @@ export class CreateTaskComponent implements OnInit {
 
   assignment:ListDisplayModule;
   noDeadline=false;
-  constructor(private injector: Injector,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any, private service: AssignmentService) {
+  constructor(@Optional() @Inject(MAT_DIALOG_DATA) public data: any, private service: AssignmentService,
+  public dialogRef: MatDialogRef<CreateTaskComponent>) {
     this.assignment=this.data.data as ListDisplayModule;
-    this.noDeadline=this.assignment.deadline!=''? false:true;
+    this.noDeadline=this.assignment.deadline!='' && this.assignment.deadline!='UNSET'? false:true;
    }
 
   ngOnInit(): void {
@@ -39,8 +39,10 @@ export class CreateTaskComponent implements OnInit {
     task.deadline=this.noDeadline==false? this.assignment.deadline:this.formlist.value.deadline;
     task.groupsMax=this.formlist.value.max;
     task.listId=this.assignment.key;
+    
     this.service.CreateTask(task).subscribe(cr=>{
     this.service.alertService.showSucces("The assignment was created!");
+    this.dialogRef.close();
   });
 }
 }

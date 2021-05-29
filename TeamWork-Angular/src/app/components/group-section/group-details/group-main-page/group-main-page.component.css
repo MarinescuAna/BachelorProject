@@ -21,3 +21,13 @@
   .example-tooltip-yellow{
       background: #FFD54F;
   }
+  .btn-size{
+    width: 414px;
+    height: 50px;
+    margin-left: -87%;
+}
+
+.color{
+    background-color: black;
+    color: white;
+}

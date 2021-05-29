@@ -1,0 +1,28 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+    <div class="title-style">
+        <h1><strong>Create a list</strong></h1>
+    </div>
+    <form [formGroup]="formlist" (ngSubmit)="onSubmit()">
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <mat-form-field class="input-style">
+                <mat-label>Title</mat-label>
+                <input matInput [type]="'text'" formControlName='title' required>
+                <mat-error *ngIf="formlist.controls['title'].hasError('required')">
+                    Title is <strong>required</strong>!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="input-style">
+                <mat-label>Domain</mat-label>
+                <input matInput [type]="'text'" formControlName='domain' required>
+                <mat-icon matSuffix>pencil</mat-icon>
+                <mat-error *ngIf="formlist.controls['domain'].hasError('required')">
+                    Domain is <strong>required</strong>!
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+    <div>
+        <button class="btn-size color" mat-raised-button (click)="onSubmit()" [disabled]=" formlist.controls['title'].hasError('required') ||
+                    formlist.controls['domain'].hasError('required')">Create</button>
+    </div>
+</div>

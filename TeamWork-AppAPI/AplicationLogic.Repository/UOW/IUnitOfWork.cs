@@ -13,6 +13,7 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
         IChatRepository Chat { get; }
         IMessageRepository Message { get; }
         IGroupRepository Group { get; }
+        IAssignedTaskRepository AssignedTasks { get; }
         IGroupMemberRepository GroupMember { get; }
         Task<int> Commit();
         void LoggMessageError(string message);

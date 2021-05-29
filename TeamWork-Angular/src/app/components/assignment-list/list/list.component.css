@@ -22,6 +22,11 @@
     margin-top: 1%;
   }
 
+
   .paginator{
     width: 100%;
+  }
+
+  mat-expansion-panel{
+    margin: 1px;
   }

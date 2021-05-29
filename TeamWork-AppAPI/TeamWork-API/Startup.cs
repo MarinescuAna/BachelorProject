@@ -49,6 +49,7 @@ namespace TeamWork_API
             services.AddScoped<IChatService, ChatServiceImpl>();
             services.AddScoped<IListService, ListServiceImpl>();
             services.AddScoped<IAssignmentService, AssignmentServiceImpl>();
+            services.AddScoped<IAssignedTaskService, AssignedTaskServiceImpl>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

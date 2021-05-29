@@ -28,10 +28,7 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.Property<Guid>("AssignmentID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("GroupID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ListID")
+                    b.Property<Guid>("ListID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("SolutionLink")
@@ -43,8 +40,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.HasKey("AssignedTaskID");
 
                     b.HasIndex("AssignmentID");
-
-                    b.HasIndex("GroupID");
 
                     b.HasIndex("ListID");
 
@@ -250,26 +245,22 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.Property<string>("Domain")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("GroupID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("GroupID")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("ListDeadline")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("ListDeadline")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ListID");
-
-                    b.HasIndex("GroupID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("List");
                 });
@@ -346,15 +337,11 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TeamWork.DataAccess.Domain.Models.List", "List")
                         .WithMany()
-                        .HasForeignKey("ListID");
+                        .HasForeignKey("ListID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Assignment", b =>
@@ -420,17 +407,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         .HasForeignKey("CheckListID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.List", b =>
-                {
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.Group", "Group")
-                        .WithMany("Lists")
-                        .HasForeignKey("GroupID");
-
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.User", "Teacher")
-                        .WithMany("Lists")
-                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Message", b =>

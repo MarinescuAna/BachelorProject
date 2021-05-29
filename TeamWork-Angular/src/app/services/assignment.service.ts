@@ -16,4 +16,8 @@ export class AssignmentService  extends DataService {
   public GetAssignments(list:string):any{ 
     return super.getMany<any>('GetTasks?listId='+list);
   }
+
+  DeleteAssignment(id: any): any {
+    return super.delete("assignmentId=" + id, 'DeleteAssignment');
+  }
 }

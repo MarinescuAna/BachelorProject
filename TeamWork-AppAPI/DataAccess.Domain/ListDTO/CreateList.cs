@@ -5,5 +5,6 @@
         public string Domain { get; set; }
         public string Title { get; set; }
         public string ListDeadline { get; set; }
+        public string GroupId { get; set; }
     }
 }

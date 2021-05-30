@@ -9,5 +9,6 @@ namespace TeamWork.DataAccess.Domain.CheckDTO
         public string AssignedTaskId { get; set; }
         public string Email { get; set; }
         public string Description { get; set; }
+        public string CreateBy { get; set; }
     }
 }

@@ -11,5 +11,7 @@ namespace TeamWork.DataAccess.Domain.CheckDTO
         public string LastUpdate { get; set; }
         public string Description { get; set; }
         public string IsChecked { get; set; }
+        public string CreateBy { get; set; }
+
     }
 }

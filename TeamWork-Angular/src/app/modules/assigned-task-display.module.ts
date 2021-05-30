@@ -22,4 +22,5 @@ export class AssignedTaskModule {
     teacherGrade: string;
     solutionLink:string;
     statusTask:string;
+    statusChecklist:string;
 }

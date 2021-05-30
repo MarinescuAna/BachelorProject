@@ -22,16 +22,23 @@ export class StudentCheckSectionComponent implements OnInit {
   panelOpenState = false;
   dataSource: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['checked', 'description','update', 'creationDate', 'symbol'];
+  displayedColumns: string[] = ['checked', 'description','create','update', 'creationDate', 'symbol'];
   isTeacher = false;
   @Input() student: ViewMembersModule;
   @Input() assignedTaskId: string;
+  @Input() status: string;
+  @Input() statusDeadline: string;
+  isCurrentPerson=false;
+  display=false;
 
   constructor(private authService: AuthService, public checkService: CheckService, private dialog: MatDialog) {
     this.isTeacher = this.authService.decodeJWToken("role") === "STUDENT" ? false : true;
+
   }
 
   ngOnInit(): void {
+    this.isCurrentPerson= this.authService.decodeJWRefreshToken('email')==this.student.email;
+    this.display=this.status=="ACTIVE"||this.status==""?true:false;
   }
 
   onExpand() {
@@ -44,16 +51,22 @@ export class StudentCheckSectionComponent implements OnInit {
       });
     }
   }
+
   onCreateCheck(){
     let newCheck=new InsertCheckModule();
     newCheck.email=this.student.email;
     newCheck.assignedTaskId=this.assignedTaskId;
+    newCheck.createBy=this.authService.decodeJWRefreshToken('unique_name');
     const diagRef = this.dialog.open(CreateCheckDialogComponent, {width: '40%', data: { data: newCheck } });
     this.dataSource=null;
   }
 
+  onCheck(id:any){
+    this.checkService.Check(id).subscribe(cr=>{
+    });
+  }
+
   onUpdate(element:any){
-    debugger
     let newCheck=new UpdateCheckModule();
     newCheck.checkID=element.checkID;
     newCheck.description=element.description;

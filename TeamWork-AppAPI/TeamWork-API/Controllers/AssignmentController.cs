@@ -81,7 +81,7 @@ namespace TeamWork_API.Controllers
             if (!await _assignmentService.InsertTaskAsync(new Assignment
             {
                 AssignmentID = Guid.NewGuid(),
-                ChecklistDeadline = string.IsNullOrEmpty(assignment.ChecklistDeadline) ? DateTime.Now : DateTime.Parse(assignment.ChecklistDeadline),
+                ChecklistDeadline = string.IsNullOrEmpty(assignment.ChecklistDeadline) ? DateTime.Parse(assignment.Deadline) : DateTime.Parse(assignment.ChecklistDeadline),
                 ListID = Guid.Parse(assignment.ListId),
                 Title = assignment.Title,
                 GroupsMax = !string.IsNullOrEmpty(assignment.GroupsMax) ? int.Parse(assignment.GroupsMax) : -1,

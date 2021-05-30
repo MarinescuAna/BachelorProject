@@ -41,8 +41,8 @@ export class AssignmentComponent implements OnInit {
       });
     }
   }
-  onCheckList(id:any){
-    const diagRef = this.dialog.open(MainCheckDialogComponent, {  width: '60%',height:'80%',data: { data:id } });
+  onCheckList(id:any,status:any,statusD:any){
+    const diagRef = this.dialog.open(MainCheckDialogComponent, {  width: '60%',height:'80%',data: { data:id, status: status, statusDeadline:statusD} });
   }
   onCreateTask() {
     const diagRef = this.dialog.open(SelectAssignmentComponent, {  width: '60%',data: { data: this.list.key } });

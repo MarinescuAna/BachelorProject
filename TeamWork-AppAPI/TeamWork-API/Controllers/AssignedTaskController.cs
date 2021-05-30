@@ -54,8 +54,10 @@ namespace TeamWork_API.Controllers
                     SolutionLink=list.SolutionLink,
                     StatusTask= string.IsNullOrEmpty(list.SolutionLink) ?
                         DateTime.Compare((DateTime)(list.Assignment?.Deadline), DateTime.Now) > 0 ? "ACTIVE" : "PASS" :
-                        "DONE"
-            });
+                        "DONE",
+                    StatusChecklist= string.IsNullOrEmpty(list.Assignment?.ChecklistDeadline.ToString())?"ACTIVE":
+                        DateTime.Compare((DateTime)(list.Assignment?.ChecklistDeadline), DateTime.Now)>0?"ACTIVE":"PASS"
+                });
             }
 
             return StatusCode(Number.Number_200, listReturn);

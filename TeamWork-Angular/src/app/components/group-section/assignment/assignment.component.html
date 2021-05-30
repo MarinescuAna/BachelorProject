@@ -62,7 +62,7 @@
                             <th mat-header-cell *matHeaderCellDef>Checklist</th>
                             <td mat-cell *matCellDef="let element;">
                                 <button  mat-icon-button
-                                    (click)='onCheckList(element.assignedTaskId)'>
+                                    (click)='onCheckList(element.assignedTaskId,element.statusChecklist,element.statusTask)'>
                                     <mat-icon matSuffix>checklist</mat-icon>
                                 </button>
                             </td>

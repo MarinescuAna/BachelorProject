@@ -13,6 +13,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {AssignedTaskService} from 'src/app/services/assigned-task.service';
 import { RedirectSolutionDialogComponent } from '../../group-section/redirect-solution-dialog/redirect-solution-dialog.component';
 import { UpdateAssignedTaskComponent } from '../../group-section/update-assigned-task/update-assigned-task.component';
+import { MainCheckDialogComponent } from '../../checklist-section/main-check-dialog/main-check-dialog.component';
 
 
 @Component({
@@ -93,6 +94,10 @@ export class ListComponent implements OnInit {
 
   }
 
+  onCheckList(id:any){
+    const diagRef = this.dialog.open(MainCheckDialogComponent, {  width: '60%',height:'80%',data: { data:id } });
+  }
+  
   onDeleteList(): void {
     if (confirm("Are you sure?")) {
       this.listService.DeleteList(this.list.key).subscribe(cr => {

@@ -46,7 +46,8 @@ namespace TeamWork_API.Controllers
                     CreationDate = list.CreationDate.ToString(),
                     Description = list.Description,
                     IsChecked =list.IsChecked.ToString(),
-                    LastUpdate=list.LastUpdate.ToString()
+                    LastUpdate=list.LastUpdate.ToString(),
+                    CreateBy=list.CreateBy
                 });
             }
 
@@ -70,7 +71,8 @@ namespace TeamWork_API.Controllers
                 Description=check.Description,
                 IsChecked=0,
                 LastUpdate=DateTime.Now,
-                UserId=check.Email
+                UserId=check.Email,
+                CreateBy=check.CreateBy
             }))
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);

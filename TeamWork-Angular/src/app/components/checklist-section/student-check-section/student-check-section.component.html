@@ -9,8 +9,9 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <mat-card-actions>
+                <h2>Grade based on items done:</h2>
                 <div fxLayout="row" fxLayoutAlign="end end">
-                    <button mat-fab class="color-buttons" (click)="onCreateCheck()" *ngIf="!isTeacher">
+                    <button mat-fab class="color-buttons" (click)="onCreateCheck()" [disabled]="statusDeadline!='ACTIVE'" *ngIf="isTeacher || (isCurrentPerson && display)">
                         <mat-icon>add_circle_outline</mat-icon>
                     </button>
                 </div>
@@ -19,12 +20,17 @@
                         <ng-container matColumnDef="checked">
                             <th mat-header-cell *matHeaderCellDef></th>
                             <td mat-cell *matCellDef="let element"> 
-                                <mat-checkbox [checked]="element.isChecked"></mat-checkbox>
+                               <input mat-checkbox type="checkbox" (click)="onCheck(element.checkID)" 
+                               [disabled]="!isCurrentPerson || statusDeadline!='ACTIVE'" [checked]="element.isChecked==1">
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="description">
                             <th mat-header-cell *matHeaderCellDef> <strong>Description</strong></th>
                             <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="create">
+                            <th mat-header-cell *matHeaderCellDef> <strong>Create By</strong></th>
+                            <td mat-cell *matCellDef="let element"> {{element.createBy}} </td>
                         </ng-container>
                         <ng-container matColumnDef="update">
                             <th mat-header-cell *matHeaderCellDef> <strong>Last update</strong></th>
@@ -37,10 +43,10 @@
                         <ng-container matColumnDef="symbol">
                             <th mat-header-cell *matHeaderCellDef> </th>
                             <td mat-cell *matCellDef="let element;">                 
-                                <button mat-icon-button class="color-buttons" (click)="onUpdate(element)" *ngIf="!isTeacher">
+                                <button mat-icon-button class="color-buttons" [disabled]="statusDeadline!='ACTIVE'" (click)="onUpdate(element)" *ngIf="isTeacher || isCurrentPerson">
                                     <mat-icon>edit</mat-icon>
                                 </button>    
-                                <button mat-icon-button class="color-buttons" (click)="onDelete(element.checkID)" *ngIf="!isTeacher">
+                                <button mat-icon-button class="color-buttons" [disabled]="statusDeadline!='ACTIVE'" (click)="onDelete(element.checkID)" *ngIf="isTeacher || isCurrentPerson">
                                     <mat-icon>clear</mat-icon>
                                 </button>              
                             </td>

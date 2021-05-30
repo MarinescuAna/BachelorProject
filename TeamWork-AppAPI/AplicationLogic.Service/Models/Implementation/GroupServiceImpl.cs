@@ -157,11 +157,11 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
             return await _unitOfWork.Commit()>0;
         }
-        public async Task<List<Member>> GetGroupMembersByKeyAsync(string key)
+        public async Task<List<Member>> GetGroupMembersByKeyAsync(Guid key)
         {
             var viewMembers = new List<Member>();
             var users = (await _unitOfWork.GroupMember.GetItems()).
-                Where(s => s.GroupID.ToString() == key && s.StatusRequest==StatusRequest.Joined);
+                Where(s => s.GroupID == key && s.StatusRequest==StatusRequest.Joined);
 
             foreach (var user in users)
             {

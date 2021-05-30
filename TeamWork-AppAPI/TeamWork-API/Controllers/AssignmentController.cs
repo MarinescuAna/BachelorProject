@@ -55,6 +55,7 @@ namespace TeamWork_API.Controllers
 
             return StatusCode(Number.Number_200, listReturn);
         }
+        //TODO testata
         [HttpPost]
         [Route("CreateTask")]
         public async Task<IActionResult> CreateTask(CreateAssignment assignment)
@@ -69,7 +70,8 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_409, Conflict409Error.DeadlineNotSetedExist);
             }
 
-            var assignmentExist = await _assignmentService.GetAssignmentByAssignmentTitleAsync(assignment.Title);
+            //TODO adauga si emailul pentru a nu intra peste alti profesori
+            var assignmentExist = await _assignmentService.GetAssignmentByAssignmentTitleListIdAsync(assignment.Title,Guid.Parse(assignment.ListId));
             if (assignmentExist != null)
             {
                 if (assignmentExist?.ListID.ToString() == assignment.ListId)

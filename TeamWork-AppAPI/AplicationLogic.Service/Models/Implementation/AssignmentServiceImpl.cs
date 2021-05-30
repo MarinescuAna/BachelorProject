@@ -35,8 +35,8 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
             return (await _unitOfWork.Commit()) > 0;
         }
-        public async Task<Assignment> GetAssignmentByAssignmentTitleAsync(string title) =>
-            await _unitOfWork.Assignment.GetItem(u => u.Title == title);
+        public async Task<Assignment> GetAssignmentByAssignmentTitleListIdAsync(string title, Guid listId) =>
+            await _unitOfWork.Assignment.GetItem(u => u.Title == title && u.ListID==listId);
         public async Task<List<Assignment>> GetAssignmentsByListIdAsync(Guid listId) =>
             (await _unitOfWork.Assignment.GetItems()).Where(u => u.ListID == listId).ToList();
     }

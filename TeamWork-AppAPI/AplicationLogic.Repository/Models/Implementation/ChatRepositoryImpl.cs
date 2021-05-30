@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogger;
 using TeamWork.ApplicationLogic.Repository.Models.Interface;
@@ -15,9 +17,14 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
 
         }
 
-        public override async Task<IEnumerable<Chat>> GetItems() => await context.Chats
+        public override async Task<IEnumerable<Chat>> GetItems() => 
+            await context.Chats
                .Include(s => s.Group)
                .ToListAsync();
-
+        public override async Task<Chat> GetItem(Expression<Func<Chat, bool>> expression) =>
+           await context.Chats
+           .Include(s => s.Group)
+           .AsNoTracking()
+           .FirstOrDefaultAsync(expression);
     }
 }

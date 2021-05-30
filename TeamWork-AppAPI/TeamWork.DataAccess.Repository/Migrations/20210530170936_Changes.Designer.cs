@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeamWork.DataAccess.Repository;
 
 namespace TeamWork.DataAccess.Repository.Migrations
 {
     [DbContext(typeof(TeamWorkDbContext))]
-    partial class TeamWorkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210530170936_Changes")]
+    partial class Changes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -264,8 +266,8 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("ListDeadline")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("ListDeadline")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");

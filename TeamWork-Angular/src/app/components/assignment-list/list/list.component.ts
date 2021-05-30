@@ -1,7 +1,7 @@
 import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import{AssignedTasksPerGroupModule} from 'src/app/modules/assigned-tasks-per-group.module';
+import { AssignedTasksPerGroupModule } from 'src/app/modules/assigned-tasks-per-group.module';
 import { ListDisplayModule } from 'src/app/modules/list-display.module';
 import { ListService } from 'src/app/services/list.service';
 import { SheetKeyComponent } from '../../group-section/my-groups/sheet-key/sheet-key.component';
@@ -10,10 +10,11 @@ import { AssignmentsListModule } from 'src/app/modules/assigments-list.module';
 import { AssignmentService } from 'src/app/services/assignment.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import {AssignedTaskService} from 'src/app/services/assigned-task.service';
+import { AssignedTaskService } from 'src/app/services/assigned-task.service';
 import { RedirectSolutionDialogComponent } from '../../group-section/redirect-solution-dialog/redirect-solution-dialog.component';
 import { UpdateAssignedTaskComponent } from '../../group-section/update-assigned-task/update-assigned-task.component';
 import { MainCheckDialogComponent } from '../../checklist-section/main-check-dialog/main-check-dialog.component';
+import { CheckService } from 'src/app/services/check.service';
 
 
 @Component({
@@ -33,24 +34,25 @@ export class ListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatPaginator) paginatorGroups: MatPaginator;
 
-  displayedColumns: string[] = ['title', 'description', 'groupsMax', 'groupsTake', 'status','deadline', 'checklistDeadline', 'createdDate', 'symbol'];
-  displayedColumnsGroup: string[] = [ 'name','title', 'status','deadline', 'checklistDeadline','solution','grade','addgrade', 'symbol'];
-  
+  displayedColumns: string[] = ['title', 'description', 'groupsMax', 'groupsTake', 'status', 'deadline', 'checklistDeadline', 'createdDate', 'gradechk', 'symbol'];
+  displayedColumnsGroup: string[] = ['name', 'title', 'status', 'deadline', 'checklistDeadline', 'solution', 'grade', 'addgrade', 'symbol'];
+
   constructor(private _bottomSheet: MatBottomSheet,
-     private assignmentService: AssignmentService,
-     private assignTaskService: AssignedTaskService,
-      private dialog: MatDialog,
-      public listService:ListService) {
+    private assignmentService: AssignmentService,
+    private assignTaskService: AssignedTaskService,
+    private checkService: CheckService,
+    private dialog: MatDialog,
+    public listService: ListService) {
   }
 
   ngOnInit(): void {
   }
 
-  onGoTo(link:any){
-    const diagRef = this.dialog.open(RedirectSolutionDialogComponent, {width: '40%', data: { data: link } });
+  onGoTo(link: any) {
+    const diagRef = this.dialog.open(RedirectSolutionDialogComponent, { width: '40%', data: { data: link } });
   }
 
-  onUpdate(id:any){
+  onUpdate(id: any) {
     const diagRef = this.dialog.open(UpdateAssignedTaskComponent, { data: { data: id } });
     this.dataSourceGroups = null;
   }
@@ -61,30 +63,30 @@ export class ListComponent implements OnInit {
 
   onExpand() {
     this.panelOpenState = true
-    if (this.dataSource==null || this.dataSource.length <= 0) {
+    if (this.dataSource == null || this.dataSource.length <= 0) {
       this.assignmentService.GetAssignments(this.list.key).subscribe(cr => {
-        this.dataSource =new MatTableDataSource<AssignmentsListModule>(cr as AssignmentsListModule[]);
+        this.dataSource = new MatTableDataSource<AssignmentsListModule>(cr as AssignmentsListModule[]);
         this.dataSource.paginator = this.paginator;
       });
     }
   }
 
   onCreateTask() {
-    const diagRef = this.dialog.open(CreateTaskComponent, { width: '40%',data: { data: this.list } });
-    this.dataSource=null;
+    const diagRef = this.dialog.open(CreateTaskComponent, { width: '40%', data: { data: this.list } });
+    this.dataSource = null;
   }
-  
-  onExpandGroupSection(){
-    this.panelOpenStateGroup=true;
-    if (this.dataSourceGroups==null || this.dataSourceGroups.length <= 0) {
+
+  onExpandGroupSection() {
+    this.panelOpenStateGroup = true;
+    if (this.dataSourceGroups == null || this.dataSourceGroups.length <= 0) {
       this.assignTaskService.GetTasksPerGroup(this.list.key).subscribe(cr => {
-        this.dataSourceGroups =new MatTableDataSource<AssignedTasksPerGroupModule>(cr as AssignedTasksPerGroupModule[]);
+        this.dataSourceGroups = new MatTableDataSource<AssignedTasksPerGroupModule>(cr as AssignedTasksPerGroupModule[]);
         this.dataSourceGroups.paginator = this.paginatorGroups;
       });
     }
   }
 
-  onDelete(id:any): void {
+  onDelete(id: any): void {
     if (confirm("Are you sure?")) {
       this.assignmentService.DeleteAssignment(id).subscribe(cr => {
         this.assignmentService.alertService.showSucces('The assignment was removed!');
@@ -94,10 +96,10 @@ export class ListComponent implements OnInit {
 
   }
 
-  onCheckList(id:any){
-    const diagRef = this.dialog.open(MainCheckDialogComponent, {  width: '60%',height:'80%',data: { data:id } });
+  onCheckList(id: any) {
+    const diagRef = this.dialog.open(MainCheckDialogComponent, { width: '60%', height: '80%', data: { data: id } });
   }
-  
+
   onDeleteList(): void {
     if (confirm("Are you sure?")) {
       this.listService.DeleteList(this.list.key).subscribe(cr => {
@@ -106,5 +108,12 @@ export class ListComponent implements OnInit {
       });
     }
 
+  }
+
+  onReturnChecklistGrades(id: any) {
+    this.checkService.ReturnCheckListGrade(id).subscribe(cr => {
+      this.checkService.alertService.showSucces("The grades was returned!");
+      window.location.reload();
+    });
   }
 }

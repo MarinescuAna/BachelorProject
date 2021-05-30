@@ -36,13 +36,11 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
             (await _unitOfWork.List.GetItems())
                 .Where(u => u.UserID == email)
                 .ToList();
-        public async Task<List<List>> GetListsByGroupIdAsync(string groupId) =>
+        public async Task<List<List>> GetListsByGroupIdAsync(Guid groupId) =>
            (await _unitOfWork.List.GetItems())
                .Where(u => u.GroupID == groupId)
                .ToList();
         public async Task<List> GetListByListIdAsync(Guid listId) =>
          await _unitOfWork.List.GetItem(u=>u.ListID==listId);
-        public async Task<string> GetListOverroleDeadline(Guid listId) =>
-            (await _unitOfWork.List.GetItem(u => u.ListID == listId)).ListDeadline;
     }
 }

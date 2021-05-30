@@ -15,8 +15,9 @@ namespace TeamWork.DataAccess.Domain.Models
         public float TeacherGrade { get; set; }
         public string SolutionLink { get; set; }
 
-        public virtual List List { get; set; }
         public virtual Assignment Assignment { get; set; }
+        public virtual List List { get; set; }
         public ICollection<Check> Checks { get; set; }
+        public ICollection<CheckListGrade> CheckListGrades { get; set; }
     }
 }

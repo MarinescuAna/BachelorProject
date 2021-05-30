@@ -12,10 +12,12 @@ namespace TeamWork.DataAccess.Domain.Models
         public string Domain { get; set; }
         public string Title { get; set; }
         public string UserID { get; set; }
-        public string ListDeadline { get; set; }
-        public string GroupID { get; set; }
+        public DateTime? ListDeadline { get; set; }
+        public Guid? GroupID { get; set; }
         public bool IsDeleted { get; set; }
 
+        public virtual Group Group { get; set; }
         public ICollection<Assignment> Assignments { get; set; }
+        public ICollection<AssignedTask> AssignedTasks { get; set; }
     }
 }

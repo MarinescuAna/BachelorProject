@@ -20,14 +20,15 @@ namespace TeamWork_API.Controllers
     {
         private readonly IAssignedTaskService _assignedTaskService;
         private readonly IAssignmentService _assignmentService;
-        private readonly IGroupService _groupService;
-        public AssignedTaskController(IGroupService groupService,IAssignedTaskService assignedTaskService, IAssignmentService assignmentService)
+        public AssignedTaskController(
+            IAssignedTaskService assignedTaskService, 
+            IAssignmentService assignmentService)
         {
-            _groupService = groupService;
             _assignedTaskService = assignedTaskService;
             _assignmentService = assignmentService;
         }
 
+        //TODO testata
         [HttpGet]
         [Route("GetTasksGroup")]
         public async Task<IActionResult> GetTasksGroup(string listId)
@@ -38,25 +39,25 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_200, listReturn);
             }
 
-            var lists = await _assignedTaskService.GetAssignedTasksByListIdAsync(Guid.Parse(listId));
-            foreach (var list in lists)
+            var assignedTasks = await _assignedTaskService.GetAssignedTasksByListIdAsync(Guid.Parse(listId));
+            foreach (var assignedTask in assignedTasks)
             {
                 listReturn.Add(new AssignedTaskDisplay
                 {
-                    AssignedTaskId=list.AssignedTaskID.ToString(),
-                    Deadline = list.Assignment?.Deadline.ToString(),
-                    AssignmentId = list.AssignmentID.ToString(),
-                    ChecklistDeadline = list.Assignment?.ChecklistDeadline.ToString(),
-                    Description = list.Assignment?.Description,
-                    Title = list.Assignment?.Title,
-                    ListID=list.Assignment?.ListID.ToString(),
-                    TeacherGrade=list.TeacherGrade.ToString(),
-                    SolutionLink=list.SolutionLink,
-                    StatusTask= string.IsNullOrEmpty(list.SolutionLink) ?
-                        DateTime.Compare((DateTime)(list.Assignment?.Deadline), DateTime.Now) > 0 ? "ACTIVE" : "PASS" :
+                    AssignedTaskId=assignedTask.AssignedTaskID.ToString(),
+                    Deadline = assignedTask.Assignment?.Deadline.ToString(),
+                    AssignmentId = assignedTask.AssignmentID.ToString(),
+                    ChecklistDeadline = assignedTask.Assignment?.ChecklistDeadline.ToString(),
+                    Description = assignedTask.Assignment?.Description,
+                    Title = assignedTask.Assignment?.Title,
+                    ListID=assignedTask.Assignment?.ListID.ToString(),
+                    TeacherGrade=assignedTask.TeacherGrade.ToString(),
+                    SolutionLink=assignedTask.SolutionLink,
+                    StatusTask= string.IsNullOrEmpty(assignedTask.SolutionLink) ?
+                        DateTime.Compare((DateTime)(assignedTask.Assignment?.Deadline), DateTime.Now) > 0 ? "ACTIVE" : "PASS" :
                         "DONE",
-                    StatusChecklist= string.IsNullOrEmpty(list.Assignment?.ChecklistDeadline.ToString())?"ACTIVE":
-                        DateTime.Compare((DateTime)(list.Assignment?.ChecklistDeadline), DateTime.Now)>0?"ACTIVE":"PASS"
+                    StatusChecklist= string.IsNullOrEmpty(assignedTask.Assignment?.ChecklistDeadline.ToString())?"ACTIVE":
+                        DateTime.Compare((DateTime)(assignedTask.Assignment?.ChecklistDeadline), DateTime.Now)>0?"ACTIVE":"PASS"
                 });
             }
 
@@ -78,16 +79,16 @@ namespace TeamWork_API.Controllers
             {
                 listReturn.Add(new AssignedTasksPerGroup
                 {
-                    GroupId=assignedTask.List.GroupID,
+                    GroupId=assignedTask.List.GroupID.ToString(),
                     AssignedTaskId = assignedTask.AssignedTaskID.ToString(),
-                    AssignmentDeadline = assignedTask.Assignment?.Deadline.ToString(),
-                    ChkListDeadline = assignedTask.Assignment?.ChecklistDeadline.ToString(),
-                    AssignmentTitle = assignedTask.Assignment?.Title,
+                    AssignmentDeadline = assignedTask.Assignment.Deadline.ToString(),
+                    ChkListDeadline = assignedTask.Assignment.ChecklistDeadline.ToString(),
+                    AssignmentTitle = assignedTask.Assignment.Title,
                     Grade = assignedTask.TeacherGrade.ToString(),
                     Solution = assignedTask.SolutionLink,
-                    GroupName = (await _groupService.GetGroupByKeyAsync(assignedTask.List.GroupID)).GroupName,
+                    GroupName = assignedTask.List.Group.GroupName,
                     Status = string.IsNullOrEmpty(assignedTask.SolutionLink) ?
-                        DateTime.Compare((DateTime)(assignedTask.Assignment?.Deadline), DateTime.Now) > 0 ? "ACTIVE" : "PASS" :
+                        DateTime.Compare((DateTime)assignedTask.Assignment.Deadline, DateTime.Now) > 0 ? "ACTIVE" : "PASS" :
                         "DONE"
                 }) ;
             }
@@ -95,6 +96,7 @@ namespace TeamWork_API.Controllers
             return StatusCode(Number.Number_200, listReturn);
         }
 
+        //TODO testat
         [HttpPost]
         [Route("AssignTask")]
         public async Task<IActionResult> AssignTask(AssignTask assignment)
@@ -117,6 +119,7 @@ namespace TeamWork_API.Controllers
 
             var assignmentTake = await _assignmentService.GetAssignmentByAssignmentIdAsync(Guid.Parse(assignment.AssignmentId));
             assignmentTake.GroupsTake++;
+            assignmentTake.List = null;            
 
             if(!await _assignmentService.UpdateAssignmentAsync(assignmentTake)){
             

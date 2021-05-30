@@ -7,7 +7,8 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
 {
     public class UserRepositoryImpl :BaseRepository<User>, IUserRepository
     {
-        public UserRepositoryImpl(TeamWorkDbContext ctx, ILoggerService loggerService):base(ctx, loggerService)
+        public UserRepositoryImpl(TeamWorkDbContext ctx, ILoggerService loggerService)
+            :base(ctx, loggerService)
         {
            
         }

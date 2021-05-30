@@ -20,11 +20,24 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
         private IListRepository _List;
         private IAssignedTaskRepository _AssignedTask;
         private ICheckRepository _Check;
+        private ICheckListGradeRepository _CheckListGrade;
         private readonly ILoggerService _loggerService;
         public UnitOfWork(TeamWorkDbContext ctx, ILoggerService loggerService)
         {
             context = ctx;
             _loggerService = loggerService;
+        }
+        public ICheckListGradeRepository CheckListGrades
+        {
+            get
+            {
+                if (_CheckListGrade == null)
+                {
+                    _CheckListGrade = new CheckListGradeRepositoryImpl(context, _loggerService);
+                }
+
+                return _CheckListGrade;
+            }
         }
         public ICheckRepository Checks
         {

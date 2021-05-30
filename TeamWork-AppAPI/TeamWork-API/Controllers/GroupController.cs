@@ -113,11 +113,11 @@ namespace TeamWork_API.Controllers
         [Route("GetMembersByGroupKey")]
         public async Task<IActionResult> GetMembersByGroupKey(string key)
         {
-            var groups = await _groupService.GetGroupMembersByKeyAsync(key);
+            var groups = await _groupService.GetGroupMembersByKeyAsync(Guid.Parse(key));
 
             return StatusCode(Number.Number_200, groups);
         }
-
+        //TODO testata
         [HttpGet]
         [Route("GetMembersByAssignedTaskIdKey")]
         public async Task<IActionResult> GetMembersByAssignedTaskIdKey(string key)
@@ -129,7 +129,7 @@ namespace TeamWork_API.Controllers
             }
 
             var assignedTask = await _assignedTaskService.GetAssignedByIdAsync(Guid.Parse(key));
-            members = (await _groupService.GetGroupMembersByKeyAsync(assignedTask.List.GroupID));
+            members = await _groupService.GetGroupMembersByKeyAsync((Guid)assignedTask.List.GroupID);
 
             return StatusCode(Number.Number_200, members.Where(u=>u.Role==Role.STUDENT.ToString()));
         }

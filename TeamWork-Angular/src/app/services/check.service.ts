@@ -13,6 +13,10 @@ export class CheckService  extends DataService {
     return super.post<any>('CreateCheck', data);
   }
 
+  ReturnCheckListGrade(data: any): any {
+    return super.post<any>('ReturnCheckListGrade?assignmentId='+data,'');
+  }
+
   GetChecks(data: any): any {
     return super.getMany('GetChecks?text='+data);
   }

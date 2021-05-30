@@ -19,9 +19,24 @@ namespace TeamWork_API.Controllers
     public class CheckController : BaseController
     {
         private readonly ICheckService _checkService;
-        public CheckController(IConfiguration configuration, ICheckService checkService, IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
+        private readonly IAssignmentService _assignmentService;
+        private readonly ICheckListGradeService _checkListGradeService;
+        
+        public CheckController(
+            IAssignmentService assignmentService,
+            ICheckListGradeService checkListGradeService,
+            IConfiguration configuration, 
+            ICheckService checkService, 
+            IHttpContextAccessor httpContextAccessor
+            ) 
+            : base(
+                  configuration, 
+                  httpContextAccessor
+                  )
         {
+            _checkListGradeService = checkListGradeService;
             _checkService = checkService;
+            _assignmentService = assignmentService;
         }
 
         [HttpGet]
@@ -82,6 +97,35 @@ namespace TeamWork_API.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("ReturnCheckListGrade")]
+        public async Task<IActionResult> ReturnCheckListGrade(string assignmentId)
+        {
+            if (string.IsNullOrEmpty(assignmentId))
+            {
+                return StatusCode(Number.Number_204, NoContent204Error.NoContent);
+            }
+
+            var members = await _assignmentService.GetAssignmentByAssignmentIdAsync(Guid.Parse(assignmentId)); 
+
+            //if (!await _checkService.InsertCheckAsync(new Check
+            //{
+            //    AssignedTaskID = Guid.Parse(check.AssignedTaskId),
+            //    CheckID = Guid.NewGuid(),
+            //    CreationDate = DateTime.Now,
+            //    Description = check.Description,
+            //    IsChecked = 0,
+            //    LastUpdate = DateTime.Now,
+            //    UserId = check.Email,
+            //    CreateBy = check.CreateBy
+            //}))
+            //{
+            //    return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
+            //}
+
+
+            return Ok();
+        }
         [HttpDelete]
         [Route("DeleteCheck")]
         public async Task<IActionResult> DeleteCheck(string checkId)

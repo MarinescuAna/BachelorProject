@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeamWork.DataAccess.Repository;
 
 namespace TeamWork.DataAccess.Repository.Migrations
 {
     [DbContext(typeof(TeamWorkDbContext))]
-    partial class TeamWorkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210530161830_AddCheckListGradeTable")]
+    partial class AddCheckListGradeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,9 +30,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.Property<Guid>("AssignmentID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ListID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("SolutionLink")
                         .HasColumnType("nvarchar(max)");
 
@@ -40,8 +39,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.HasKey("AssignedTaskID");
 
                     b.HasIndex("AssignmentID");
-
-                    b.HasIndex("ListID");
 
                     b.ToTable("AssignedTasks");
                 });
@@ -258,14 +255,14 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.Property<string>("Domain")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("GroupID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("GroupID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("ListDeadline")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("ListDeadline")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -274,8 +271,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ListID");
-
-                    b.HasIndex("GroupID");
 
                     b.ToTable("List");
                 });
@@ -349,12 +344,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Assignment", "Assignment")
                         .WithMany("AssignedTasks")
                         .HasForeignKey("AssignmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.List", "List")
-                        .WithMany("AssignedTasks")
-                        .HasForeignKey("ListID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -432,13 +421,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.HasOne("TeamWork.DataAccess.Domain.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.List", b =>
-                {
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupID");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Message", b =>

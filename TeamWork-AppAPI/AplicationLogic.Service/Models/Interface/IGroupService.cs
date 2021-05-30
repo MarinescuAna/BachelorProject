@@ -21,7 +21,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
         Task<bool> DeleteUserFromGroupAsync(User user, Guid group);
         Task<bool> IsMemberToGroupAsync(string userEmail, string groupKey);
         Task<bool> AddMemberByEmailAsync(string userEmail, string groupKey);
-        Task<List<Member>> GetGroupMembersByKeyAsync(string key);
+        Task<List<Member>> GetGroupMembersByKeyAsync(Guid key);
         Task<bool> DeleteGroupAsync(Guid group);
     }
 }

@@ -13,6 +13,6 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
         Task<bool> UpdateCheckAsync(Check check);
         Task<bool> InsertCheckAsync(Check check);
         Task<bool> DeleteCheckAsync(Guid checkId);
-
+        Task<(int totalTasks, int tasksDone)> ReportChecksByUserIdAssignedTaskIdAsync(Guid assignedTaskId, string userId);
     }
 }

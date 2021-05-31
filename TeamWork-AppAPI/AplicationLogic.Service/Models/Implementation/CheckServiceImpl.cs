@@ -43,5 +43,19 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
             return (await _unitOfWork.Commit()) > 0;
         }
+
+        public async Task<(int totalTasks,int tasksDone)> ReportChecksByUserIdAssignedTaskIdAsync(Guid assignedTaskId,string userId)
+        {
+            (int totalTasks, int tasksDone) valuesFound = (0,0);
+
+            var checkItems = (await _unitOfWork.Checks.GetItems()).Where(
+                u => u.AssignedTaskID == assignedTaskId && u.UserId == userId
+                ).ToList();
+
+            valuesFound.totalTasks = checkItems.Count();
+            valuesFound.tasksDone = checkItems.Where(u => u.IsChecked == 1).Count();
+
+            return valuesFound;
+        }  
     }
 }

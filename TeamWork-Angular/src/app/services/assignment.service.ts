@@ -20,4 +20,8 @@ export class AssignmentService  extends DataService {
   DeleteAssignment(id: any): any {
     return super.delete("assignmentId=" + id, 'DeleteAssignment');
   }
+
+  MarkAsReturnChecklistGrades(data: any): any {
+    return super.update('MarkAsReturnChecklistGrades?assignmentId='+data,'');
+  }
 }

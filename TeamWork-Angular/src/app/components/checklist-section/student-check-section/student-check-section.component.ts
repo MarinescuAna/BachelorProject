@@ -10,6 +10,7 @@ import { CreateCheckDialogComponent } from '../create-check-dialog/create-check-
 import { MatDialog } from '@angular/material/dialog';
 import{UpdateCheckModule} from 'src/app/modules/update-check.module';
 import { UpdateCheckDialogComponent } from '../update-check-dialog/update-check-dialog.component';
+import {ChecklistGradeService} from 'src/app/services/checklist-grade.service';
 
 @Component({
   selector: 'app-student-check-section',
@@ -30,8 +31,13 @@ export class StudentCheckSectionComponent implements OnInit {
   @Input() statusDeadline: string;
   isCurrentPerson=false;
   display=false;
+  checkListGrade:string;
 
-  constructor(private authService: AuthService, public checkService: CheckService, private dialog: MatDialog) {
+  constructor(
+    private authService: AuthService, 
+    public checkService: CheckService, 
+    private dialog: MatDialog,
+    private checklistGradeService: ChecklistGradeService) {
     this.isTeacher = this.authService.decodeJWToken("role") === "STUDENT" ? false : true;
 
   }
@@ -50,8 +56,20 @@ export class StudentCheckSectionComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       });
     }
+debugger
+    if(this.checkListGrade==null || this.checkListGrade=="UNRETURNED"){
+      let data= this.assignedTaskId+'*'+this.student.email;
+      this.checklistGradeService.GetChecklistGrade(data).subscribe(
+        cr=>{
+          this.checkListGrade=cr as string;
+        }
+      );
+    }
+    if(this.checkListGrade==null){
+      this.checkListGrade="UNRETURNED";
+    }
+    
   }
-
   onCreateCheck(){
     let newCheck=new InsertCheckModule();
     newCheck.email=this.student.email;

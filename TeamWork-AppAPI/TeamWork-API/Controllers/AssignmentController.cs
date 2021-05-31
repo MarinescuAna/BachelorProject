@@ -49,8 +49,9 @@ namespace TeamWork_API.Controllers
                     Title = assignment.Title,
                     ListID = assignment.ListID.ToString(),
                     Status = DateTime.Compare((DateTime)assignment.Deadline, DateTime.Now) < 0 ? "PASS" :
-                        assignment.GroupsTake == assignment.GroupsMax ? "TAKEN" : "ACTIVE"
-                });
+                        assignment.GroupsTake == assignment.GroupsMax ? "TAKEN" : "ACTIVE",
+                    ReturnedGrade = assignment.GradeReturned ? "1" : "0"
+                }) ;
             }
 
             return StatusCode(Number.Number_200, listReturn);
@@ -91,6 +92,7 @@ namespace TeamWork_API.Controllers
                 Description = assignment.Description,
                 CreatedDate = DateTime.Now,
                 GroupsTake = 0,
+                GradeReturned = false
             }))
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
@@ -115,7 +117,25 @@ namespace TeamWork_API.Controllers
 
             return Ok();
         }
+        [HttpPut]
+        [Route("MarkAsReturnChecklistGrades")]
+        public async Task<IActionResult> MarkAsReturnChecklistGrades(string assignmentId)
+        {
+            if (string.IsNullOrEmpty(assignmentId))
+            {
+                return StatusCode(Number.Number_204, NoContent204Error.NoContent);
+            }
 
+            var oldAssignment = await _assignmentService.GetAssignmentByAssignmentIdAsync(Guid.Parse(assignmentId));
+            oldAssignment.GradeReturned = true;
+
+            if (await _assignmentService.UpdateAssignmentAsync(oldAssignment) == false)
+            {
+                return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
+            }
+
+            return Ok();
+        }
     }
 
 

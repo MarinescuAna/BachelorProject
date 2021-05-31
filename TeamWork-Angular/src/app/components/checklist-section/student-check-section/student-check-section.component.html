@@ -9,7 +9,7 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <mat-card-actions>
-                <h2>Grade based on items done:</h2>
+                <h2>Grade based on items done: {{checkListGrade}}</h2>
                 <div fxLayout="row" fxLayoutAlign="end end">
                     <button mat-fab class="color-buttons" (click)="onCreateCheck()" [disabled]="statusDeadline!='ACTIVE'" *ngIf="isTeacher || (isCurrentPerson && display)">
                         <mat-icon>add_circle_outline</mat-icon>

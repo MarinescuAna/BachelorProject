@@ -39,7 +39,7 @@ namespace TeamWork_API.Controllers
             var list = await _listService.GetListByListIdAsync(Guid.Parse(listId));
             list.IsDeleted = true;
 
-            if (!await _listService.DeleteListAsync(Guid.Parse(listId)))
+            if (!await _listService.UpdateListAsync(list))
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }

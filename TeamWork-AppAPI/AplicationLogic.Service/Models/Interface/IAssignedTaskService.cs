@@ -9,6 +9,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
     public interface IAssignedTaskService
     {
         Task<List<AssignedTask>> GetAssignedTasksByListIdAsync(Guid listId);
+        Task<List<AssignedTask>> GetAssignedTasksByAssignmentIdAsync(Guid assignmentId);
         Task<bool> AssignTaskAsync(AssignedTask assigned);
         Task<bool> UpdateTaskAsync(AssignedTask assignedTask);
         Task<AssignedTask> GetAssignedByIdAsync(Guid id);

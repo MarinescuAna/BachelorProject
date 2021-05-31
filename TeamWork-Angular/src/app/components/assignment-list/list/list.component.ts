@@ -15,6 +15,7 @@ import { RedirectSolutionDialogComponent } from '../../group-section/redirect-so
 import { UpdateAssignedTaskComponent } from '../../group-section/update-assigned-task/update-assigned-task.component';
 import { MainCheckDialogComponent } from '../../checklist-section/main-check-dialog/main-check-dialog.component';
 import { CheckService } from 'src/app/services/check.service';
+import { ChecklistGradeService } from 'src/app/services/checklist-grade.service';
 
 
 @Component({
@@ -40,7 +41,7 @@ export class ListComponent implements OnInit {
   constructor(private _bottomSheet: MatBottomSheet,
     private assignmentService: AssignmentService,
     private assignTaskService: AssignedTaskService,
-    private checkService: CheckService,
+    private checklistGradeService: ChecklistGradeService,
     private dialog: MatDialog,
     public listService: ListService) {
   }
@@ -111,9 +112,13 @@ export class ListComponent implements OnInit {
   }
 
   onReturnChecklistGrades(id: any) {
-    this.checkService.ReturnCheckListGrade(id).subscribe(cr => {
-      this.checkService.alertService.showSucces("The grades was returned!");
-      window.location.reload();
-    });
+    if (confirm("Are you sure you want to return the notes? You can only do this once per assignment?")) {
+      this.checklistGradeService.ReturnCheckListGrade(id).subscribe(cr => {
+        this.assignmentService.MarkAsReturnChecklistGrades(id).subscribe(cr => {
+          this.checklistGradeService.alertService.showSucces("The grades was returned!");
+          window.location.reload();
+        });
+      });
+    }
   }
 }

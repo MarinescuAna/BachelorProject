@@ -22,4 +22,5 @@ export class AssignmentsListModule {
     createdDate:string;
     groupsTake:string;
     status:string;
+    returnedGrade:string;
 }

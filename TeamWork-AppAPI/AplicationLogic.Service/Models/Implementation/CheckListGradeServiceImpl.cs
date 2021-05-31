@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Repository.UOW;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
@@ -8,9 +6,9 @@ using TeamWork.DataAccess.Domain.Models;
 
 namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 {
-    public class CheckListGradeServiceImpl: ABaseService, ICheckListGradeService
+    public class CheckListGradeServiceImpl : ABaseService, ICheckListGradeService
     {
-        public CheckListGradeServiceImpl(IUnitOfWork unitOfWork):base(unitOfWork)
+        public CheckListGradeServiceImpl(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }
@@ -21,5 +19,8 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
             return (await _unitOfWork.Commit()) > 0;
         }
+
+        public async Task<CheckListGrade> GetCheckListGradeByUserIdAssignedTaskIDAsync(Guid assignedTaskID, string userID)
+            => await _unitOfWork.CheckListGrades.GetItem(u => u.AssignedTaskID == assignedTaskID && u.UserID == userID);
     }
 }

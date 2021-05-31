@@ -19,24 +19,18 @@ namespace TeamWork_API.Controllers
     public class CheckController : BaseController
     {
         private readonly ICheckService _checkService;
-        private readonly IAssignmentService _assignmentService;
-        private readonly ICheckListGradeService _checkListGradeService;
-        
+
         public CheckController(
-            IAssignmentService assignmentService,
-            ICheckListGradeService checkListGradeService,
-            IConfiguration configuration, 
-            ICheckService checkService, 
+            IConfiguration configuration,
+            ICheckService checkService,
             IHttpContextAccessor httpContextAccessor
-            ) 
+            )
             : base(
-                  configuration, 
+                  configuration,
                   httpContextAccessor
                   )
         {
-            _checkListGradeService = checkListGradeService;
             _checkService = checkService;
-            _assignmentService = assignmentService;
         }
 
         [HttpGet]
@@ -47,11 +41,11 @@ namespace TeamWork_API.Controllers
             var assignedTaskId = Guid.Parse(text.Split("*")[0]);
             var email = text.Split("*")[1];
 
-            if(string.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
             {
                 return StatusCode(Number.Number_200, checks);
             }
-            var lists = await _checkService.GetChecksByEmailAssignedTaskIDAsync(assignedTaskId,email);
+            var lists = await _checkService.GetChecksByEmailAssignedTaskIDAsync(assignedTaskId, email);
 
             foreach (var list in lists)
             {
@@ -60,9 +54,9 @@ namespace TeamWork_API.Controllers
                     CheckID = list.CheckID.ToString(),
                     CreationDate = list.CreationDate.ToString(),
                     Description = list.Description,
-                    IsChecked =list.IsChecked.ToString(),
-                    LastUpdate=list.LastUpdate.ToString(),
-                    CreateBy=list.CreateBy
+                    IsChecked = list.IsChecked.ToString(),
+                    LastUpdate = list.LastUpdate.ToString(),
+                    CreateBy = list.CreateBy
                 });
             }
 
@@ -80,14 +74,14 @@ namespace TeamWork_API.Controllers
 
             if (!await _checkService.InsertCheckAsync(new Check
             {
-                AssignedTaskID=Guid.Parse(check.AssignedTaskId),
-                CheckID=Guid.NewGuid(),
-                CreationDate=DateTime.Now,
-                Description=check.Description,
-                IsChecked=0,
-                LastUpdate=DateTime.Now,
-                UserId=check.Email,
-                CreateBy=check.CreateBy
+                AssignedTaskID = Guid.Parse(check.AssignedTaskId),
+                CheckID = Guid.NewGuid(),
+                CreationDate = DateTime.Now,
+                Description = check.Description,
+                IsChecked = 0,
+                LastUpdate = DateTime.Now,
+                UserId = check.Email,
+                CreateBy = check.CreateBy
             }))
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
@@ -97,35 +91,6 @@ namespace TeamWork_API.Controllers
             return Ok();
         }
 
-        [HttpPost]
-        [Route("ReturnCheckListGrade")]
-        public async Task<IActionResult> ReturnCheckListGrade(string assignmentId)
-        {
-            if (string.IsNullOrEmpty(assignmentId))
-            {
-                return StatusCode(Number.Number_204, NoContent204Error.NoContent);
-            }
-
-            var members = await _assignmentService.GetAssignmentByAssignmentIdAsync(Guid.Parse(assignmentId)); 
-
-            //if (!await _checkService.InsertCheckAsync(new Check
-            //{
-            //    AssignedTaskID = Guid.Parse(check.AssignedTaskId),
-            //    CheckID = Guid.NewGuid(),
-            //    CreationDate = DateTime.Now,
-            //    Description = check.Description,
-            //    IsChecked = 0,
-            //    LastUpdate = DateTime.Now,
-            //    UserId = check.Email,
-            //    CreateBy = check.CreateBy
-            //}))
-            //{
-            //    return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
-            //}
-
-
-            return Ok();
-        }
         [HttpDelete]
         [Route("DeleteCheck")]
         public async Task<IActionResult> DeleteCheck(string checkId)
@@ -147,7 +112,7 @@ namespace TeamWork_API.Controllers
         [Route("UpdateCheck")]
         public async Task<IActionResult> AcceptInvitation(UpdateCheck check)
         {
-            if (check==null || string.IsNullOrEmpty(check.CheckID))
+            if (check == null || string.IsNullOrEmpty(check.CheckID))
             {
                 return StatusCode(Number.Number_204, NoContent204Error.NoContent);
             }
@@ -174,7 +139,7 @@ namespace TeamWork_API.Controllers
             }
 
             var oldCheck = await _checkService.GetCheckByCheckIdAsync(Guid.Parse(checkId));
-            oldCheck.IsChecked = oldCheck.IsChecked==1?0:1;
+            oldCheck.IsChecked = oldCheck.IsChecked == 1 ? 0 : 1;
             oldCheck.LastUpdate = DateTime.Now;
 
             if (await _checkService.UpdateCheckAsync(oldCheck) == false)

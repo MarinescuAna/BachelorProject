@@ -32,6 +32,9 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
             u => u.AssignedTaskID == id);
         public async Task<List<AssignedTask>> GetAssignedTasksByListIdAsync(Guid listId) =>
             (await _unitOfWork.AssignedTasks.GetItems()).Where(u => u.ListID == listId).ToList();
+
+        public async Task<List<AssignedTask>> GetAssignedTasksByAssignmentIdAsync(Guid assignmentId)
+            => (await _unitOfWork.AssignedTasks.GetItems()).Where(u=>u.AssignmentID==assignmentId).ToList();
         public async Task<List<AssignedTask>> GetAssignedTasksPerGroupsByListIdAsync(Guid listId) =>
             (await _unitOfWork.AssignedTasks.GetItems()).Where(u => u.Assignment.ListID == listId).ToList();
         public async Task<bool> UpdateTaskAsync(AssignedTask assignedTask)

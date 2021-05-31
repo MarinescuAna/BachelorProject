@@ -18,6 +18,7 @@ namespace TeamWork.DataAccess.Domain.Models
         public int GroupsTake { get; set; }
         public Guid ListID { get; set; }
         public DateTime CreatedDate { get; set; }
+        public bool GradeReturned { get; set; }
 
         public virtual List List { get; set; }
         public ICollection<CollegueGrade> CollegueGrades { get; set; }

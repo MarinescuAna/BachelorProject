@@ -82,6 +82,11 @@ import { MainCheckDialogComponent } from './components/checklist-section/main-ch
 import { StudentCheckSectionComponent } from './components/checklist-section/student-check-section/student-check-section.component';
 import { CreateCheckDialogComponent } from './components/checklist-section/create-check-dialog/create-check-dialog.component';
 import { UpdateCheckDialogComponent } from './components/checklist-section/update-check-dialog/update-check-dialog.component';
+import { PeerEvaluationDialogComponent } from './components/group-section/peer-evaluation-dialog/peer-evaluation-dialog.component';
+import { DisplayPeerEvaluationDialogComponent } from './components/group-section/display-peer-evaluation-dialog/display-peer-evaluation-dialog.component';
+import { GradeViewExtentionComponent } from './components/assignment-list/grade-view-extention/grade-view-extention.component';
+import { GroupsViewExtentionComponent } from './components/assignment-list/groups-view-extention/groups-view-extention.component';
+import { ListViewExtentionComponent } from './components/assignment-list/list-view-extention/list-view-extention.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -140,6 +145,11 @@ const shareProp = {
     StudentCheckSectionComponent,
     CreateCheckDialogComponent,
     UpdateCheckDialogComponent,
+    PeerEvaluationDialogComponent,
+    DisplayPeerEvaluationDialogComponent,
+    GradeViewExtentionComponent,
+    GroupsViewExtentionComponent,
+    ListViewExtentionComponent,
   ],
   imports: [
     ReactiveFormsModule,

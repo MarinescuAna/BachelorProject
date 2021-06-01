@@ -21,7 +21,6 @@ namespace TeamWork.DataAccess.Domain.Models
         public bool GradeReturned { get; set; }
 
         public virtual List List { get; set; }
-        public ICollection<CollegueGrade> CollegueGrades { get; set; }
         public ICollection<AssignedTask> AssignedTasks { get; set; }
     }
 }

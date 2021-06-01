@@ -11,19 +11,32 @@ import { RedirectSolutionDialogComponent } from '../redirect-solution-dialog/red
 import { AuthService } from 'src/app/shared/auth.service';
 import { ListService } from 'src/app/services/list.service';
 import { MainCheckDialogComponent } from '../../checklist-section/main-check-dialog/main-check-dialog.component';
+import {PeerEvaluationService} from 'src/app/services/peer-evaluation.service';
+import {PeerEvaluationResultModule} from 'src/app/modules/peer-evaluation-result.module';
+import { ViewGroupsModule } from 'src/app/modules/view-groups.module';
+import { PeerEvaluationDialogComponent } from '../peer-evaluation-dialog/peer-evaluation-dialog.component';
+import { DisplayPeerEvaluationDialogComponent } from '../display-peer-evaluation-dialog/display-peer-evaluation-dialog.component';
+
 @Component({
   selector: 'app-assignment',
   templateUrl: './assignment.component.html',
   styleUrls: ['./assignment.component.css']
 })
+
 export class AssignmentComponent implements OnInit {
   panelOpenState = false;
   dataSource: any;
   @Input() list: ListDisplayModule;
+  @Input() group: ViewGroupsModule;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['title', 'description', 'deadline', 'checklistDeadline', 'state', 'grade','solution', 'check', 'symbol'];
+  displayedColumns: string[] = ['title', 'description', 'deadline', 'checklistDeadline', 'state', 'grade','solution', 'peerevaluation','gradepeer','check', 'symbol'];
   isTeacher=false;
-  constructor( private assignedTService: AssignedTaskService,private authService: AuthService,public listService:ListService,  private dialog: MatDialog) {
+  constructor( 
+    private assignedTService: AssignedTaskService,
+    private authService: AuthService,
+    public listService:ListService,  
+    private dialog: MatDialog,
+    private peerEvaluationService:PeerEvaluationService) {
     this.isTeacher=this.authService.decodeJWToken("role")==="STUDENT"?false:true;
   }
 
@@ -62,5 +75,20 @@ export class AssignmentComponent implements OnInit {
         window.location.reload();
       });
     }
+  }
+
+  onPeerEvaluation(assignedTaskId:any){
+    this.peerEvaluationService.GetMemberForEvaluation(assignedTaskId+'*'+this.group.uniqueKey).subscribe(cr => {
+        let evaluationResult= cr as PeerEvaluationResultModule;
+        if(evaluationResult.error!=""){
+          this.peerEvaluationService.alertService.showError(evaluationResult.error);
+        }else{
+          const diagRef = this.dialog.open(PeerEvaluationDialogComponent, {width: '40%', data: { data: evaluationResult } });
+        }
+    });
+  }
+
+  onViewGrade(id:any){
+    const diagRef = this.dialog.open(DisplayPeerEvaluationDialogComponent, {width: '40%', data: { data: id } });
   }
 }

@@ -165,30 +165,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.ToTable("CheckListGrades");
                 });
 
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.CollegueGrade", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AssigmentID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<float>("Grade")
-                        .HasColumnType("real");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("AssigmentID");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("CollegueGrades");
-                });
-
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Group", b =>
                 {
                     b.Property<Guid>("GroupUniqueID")
@@ -310,6 +286,36 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.PeerEvaluation", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AssignedTaskID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EvaluatingUserEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Grade")
+                        .HasColumnType("real");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AssignedTaskID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("PeerEvaluations");
+                });
+
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.User", b =>
                 {
                     b.Property<string>("UserEmailId")
@@ -404,19 +410,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         .HasForeignKey("UserID");
                 });
 
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.CollegueGrade", b =>
-                {
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.Assignment", "Assigment")
-                        .WithMany("CollegueGrades")
-                        .HasForeignKey("AssigmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.User", "User")
-                        .WithMany("CollegueGrades")
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.GroupMember", b =>
                 {
                     b.HasOne("TeamWork.DataAccess.Domain.Models.Group", "Group")
@@ -455,6 +448,19 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.HasOne("TeamWork.DataAccess.Domain.Models.User", "User")
                         .WithMany("Messages")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.PeerEvaluation", b =>
+                {
+                    b.HasOne("TeamWork.DataAccess.Domain.Models.AssignedTask", "AssignedTask")
+                        .WithMany("PeerEvaluations")
+                        .HasForeignKey("AssignedTaskID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TeamWork.DataAccess.Domain.Models.User", "EvaluatedUser")
+                        .WithMany("PeerEvaluations")
+                        .HasForeignKey("UserID");
                 });
 #pragma warning restore 612, 618
         }

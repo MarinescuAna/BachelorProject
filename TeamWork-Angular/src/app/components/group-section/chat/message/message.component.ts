@@ -19,7 +19,6 @@ export class MessageComponent implements OnInit {
   }
 
   onUpdate(): void {
-    debugger
     const diagRef = this.dialog.open(MessageChangeComponent, { data: { data: this.message } });
   }
 

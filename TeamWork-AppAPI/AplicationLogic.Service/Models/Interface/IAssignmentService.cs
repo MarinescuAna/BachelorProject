@@ -12,7 +12,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
         Task<Assignment> GetAssignmentByAssignmentIdAsync(Guid assignmentid);
         Task<bool> InsertTaskAsync(Assignment list);
         Task<List<Assignment>> GetAssignmentsByListIdAsync(Guid listId);
-        Task<Assignment> GetAssignmentByAssignmentTitleListIdAsync(string title,Guid listId);
+        Task<Assignment> GetAssignmentByAssignmentTitleListIdAsync(string title,Guid listId, string email);
         Task<bool> DeleteAssignmentAsync(Guid assignmentId);
     }
 }

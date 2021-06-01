@@ -41,7 +41,6 @@ export class RegisterPageComponent implements OnInit {
     this.route.navigateByUrl('/login');
   }
   isMatch(): boolean{
-    debugger;
     return this.formRegister.controls['password'].value!==this.formRegister.controls['passwordConfirmation'].value? true: false;
   }
 

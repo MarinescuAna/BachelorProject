@@ -9,6 +9,8 @@ namespace TeamWork.Common.ConstantStrings.ErrorHandler
         public static readonly string UserIsPartFromGroup = "The user is already part form this group!";
         public static readonly string GroupAlreadyExist = "A group has already been created using this name!";
         public static readonly string AssignmentAlreadyExist = "An assignment has already been created using this name!";
-        public static readonly string DeadlineNotSetedExist = "The deadline for this assignment has not been set.!";
+        public static readonly string DeadlineNotSetedExist = "The deadline for this assignment has not been set!";
+        public static readonly string EvaluationNotPossible = "The evaluation cannot be done because there are too few members in the group!";
+        public static readonly string EvaluationPeerAlreadyDone = "You have already done the evaluation, you cannot evaluate the second time!";
     }
 }

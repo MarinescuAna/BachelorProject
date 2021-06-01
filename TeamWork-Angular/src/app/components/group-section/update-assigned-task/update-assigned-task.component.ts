@@ -22,7 +22,6 @@ export class UpdateAssignedTaskComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any, 
     private authService: AuthService,
     private assignedService: AssignedTaskService) {
-      debugger
     this.assignedTaskId=data.data as string;
     this.isTeacher=this.authService.decodeJWToken("role")==="STUDENT"?false:true;
    }
@@ -30,7 +29,6 @@ export class UpdateAssignedTaskComponent implements OnInit {
   ngOnInit(): void {
   }
   onSubmit(): void{
-    debugger
     let assignedTask=new UpdateAssignedTaskModule();
     if(this.isTeacher==true){
       assignedTask.teacherGrade=this.formUpdate.value.grade;

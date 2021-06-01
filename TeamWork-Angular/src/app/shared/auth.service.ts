@@ -48,7 +48,6 @@ export class AuthService extends DataService {
   }
 
   doLogout(): void {
-    debugger
     this.removeLocalStorage();
     localStorage.setItem('is_logged', 'false');
     this.route.navigateByUrl('/landing-page');
@@ -63,7 +62,6 @@ export class AuthService extends DataService {
   }
 
   login(user: UserLoginModule): void {
-    debugger
     super.post<TokenModule>('Login', user).subscribe(cr => {
       this.setLocalStorage(cr as TokenModule);
       localStorage.setItem('is_logged', 'true');

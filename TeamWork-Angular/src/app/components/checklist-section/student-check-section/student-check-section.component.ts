@@ -56,7 +56,7 @@ export class StudentCheckSectionComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       });
     }
-debugger
+
     if(this.checkListGrade==null || this.checkListGrade=="UNRETURNED"){
       let data= this.assignedTaskId+'*'+this.student.email;
       this.checklistGradeService.GetChecklistGrade(data).subscribe(
@@ -98,5 +98,4 @@ debugger
       this.dataSource=null;
     });
   }
-
 }

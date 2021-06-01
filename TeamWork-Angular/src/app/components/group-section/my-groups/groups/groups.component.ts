@@ -17,7 +17,6 @@ export class GroupsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    debugger
     this.groupService.GetMyGroupsStudent(0).subscribe(cr =>{
       this.myGroups= cr as ViewGroupsModule[];
       this.length=this.myGroups.length;

@@ -19,7 +19,6 @@ export class EditGroupComponent implements OnInit {
   constructor(private injector: Injector,
     private groupService: GroupService,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
-    debugger
     this.group=this.data;
     this.formCreateGroup = new FormGroup({
       name: new FormControl(this.group['data'].groupName, [Validators.required]),

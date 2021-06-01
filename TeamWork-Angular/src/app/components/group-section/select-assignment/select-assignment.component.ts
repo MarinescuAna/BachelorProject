@@ -35,7 +35,6 @@ export class SelectAssignmentComponent implements OnInit {
     let task=new AssignTaskModule();
     task.listId=this.targhetList;
     task.assignmentId=id;
-    debugger
     this.assignService.AssignTask(task).subscribe(cr => {
       this.assignService.alertService.showSucces("The task was added!");
       this.dialogRef.close();

@@ -28,7 +28,6 @@ export class AddMemberComponent implements OnInit {
   }
 
   onSubmit(): void {    
-    debugger;
     const temp = new AddMemberModule();
     temp.attenderEmail = this.formGroup.value.email;
     temp.groupKey = this.group['data'].uniqueKey;

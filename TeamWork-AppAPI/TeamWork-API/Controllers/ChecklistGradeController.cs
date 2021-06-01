@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
 using TeamWork.Common.ConstantNumbers;
+using TeamWork.Common.ConstantStrings;
 using TeamWork.Common.ConstantStrings.ErrorHandler;
 using TeamWork.Common.Enums;
 using TeamWork.DataAccess.Domain.CheckDTO;
@@ -98,8 +99,8 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_204, NoContent204Error.NoContent);
             }
 
-            var assignedTaskId = Guid.Parse(takeGradeChecklist.Split("*")[0]);
-            var email = takeGradeChecklist.Split("*")[1];
+            var assignedTaskId = Guid.Parse(takeGradeChecklist.Split(Constants.Asterik)[0]);
+            var email = takeGradeChecklist.Split(Constants.Asterik)[1];
 
             var grade = await _checkListGradeService.GetCheckListGradeByUserIdAssignedTaskIDAsync(assignedTaskId, email);
             if (grade == null)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,11 @@ namespace TeamWork_API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class AssignmentController : ControllerBase
+    public class AssignmentController : BaseController
     {
         private readonly IAssignmentService _assignmentService;
-        public AssignmentController(IAssignmentService assignmentService)
+        public AssignmentController(IAssignmentService assignmentService, IConfiguration configuration,
+            IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
         {
             _assignmentService = assignmentService;
         }
@@ -71,8 +73,8 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_409, Conflict409Error.DeadlineNotSetedExist);
             }
 
-            //TODO adauga si emailul pentru a nu intra peste alti profesori
-            var assignmentExist = await _assignmentService.GetAssignmentByAssignmentTitleListIdAsync(assignment.Title,Guid.Parse(assignment.ListId));
+            var assignmentExist = await _assignmentService.GetAssignmentByAssignmentTitleListIdAsync(
+                assignment.Title,Guid.Parse(assignment.ListId), ExtractEmailFromJWT());
             if (assignmentExist != null)
             {
                 if (assignmentExist?.ListID.ToString() == assignment.ListId)

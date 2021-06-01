@@ -9,6 +9,7 @@
   .color-buttons{
     background-color: white;
     color: black;
+    width: 3rem;
   }
   .color-button{
     background-color: black;
@@ -24,4 +25,9 @@
     width: 100%;
   }
 
-  
+  .button-style{  
+    color: white;
+    background-color: black;
+    width: 10rem;
+    height: 3rem;
+  }

@@ -22,7 +22,11 @@ namespace TeamWork_API.Controllers
     {
         private readonly IUserService _userService;
         private readonly IImageService _imageService;
-        public AccountController(IConfiguration configuration, IUserService userService,IImageService imageService, IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
+        public AccountController(
+            IUserService userService,
+            IImageService imageService,
+            IConfiguration configuration,
+            IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
         {
             _userService = userService;
             _imageService = imageService;

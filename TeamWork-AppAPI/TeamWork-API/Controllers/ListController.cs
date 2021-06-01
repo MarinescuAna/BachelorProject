@@ -20,11 +20,9 @@ namespace TeamWork_API.Controllers
     public class ListController : BaseController
     {
         private readonly IListService _listService;
-        private readonly IAssignmentService _assignmentService;
-        public ListController(IAssignmentService assignmentService ,IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IListService listService) : base(configuration, httpContextAccessor)
+        public ListController(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IListService listService) : base(configuration, httpContextAccessor)
         {
             _listService = listService;
-            _assignmentService = assignmentService;
         }
         //TODO testeaza
         [HttpPut]

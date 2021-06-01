@@ -1,0 +1,18 @@
+.input-style{
+    width: 500px;
+    margin: 15px;
+    font-size: medium;
+    color :black;
+}
+
+.title-style{
+    margin: 30px;
+}
+
+.btn-size{
+    width: 200px;
+    height: 50px;
+    background-color: black;
+    color: white;
+    padding: 5px;
+}

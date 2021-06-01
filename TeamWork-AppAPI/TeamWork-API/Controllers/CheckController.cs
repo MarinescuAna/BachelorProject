@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
 using TeamWork.Common.ConstantNumbers;
+using TeamWork.Common.ConstantStrings;
 using TeamWork.Common.ConstantStrings.ErrorHandler;
 using TeamWork.DataAccess.Domain.CheckDTO;
 using TeamWork.DataAccess.Domain.Models;
@@ -38,8 +39,8 @@ namespace TeamWork_API.Controllers
         public async Task<IActionResult> GetChecks(string text)
         {
             var checks = new List<CheckDisplay>();
-            var assignedTaskId = Guid.Parse(text.Split("*")[0]);
-            var email = text.Split("*")[1];
+            var assignedTaskId = Guid.Parse(text.Split(Constants.Asterik)[0]);
+            var email = text.Split(Constants.Asterik)[1];
 
             if (string.IsNullOrEmpty(text))
             {

@@ -21,6 +21,8 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
 
         public override async Task<IEnumerable<AssignedTask>> GetItems() =>
             await context.AssignedTasks
+               .Include(s => s.CheckListGrades)
+               .Include(s => s.PeerEvaluations)
                .Include(s => s.Assignment)
                .Include(s => s.List)
                .Include(s => s.List.Group)

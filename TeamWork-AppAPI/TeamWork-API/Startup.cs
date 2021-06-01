@@ -52,6 +52,7 @@ namespace TeamWork_API
             services.AddScoped<IAssignmentService, AssignmentServiceImpl>();
             services.AddScoped<IAssignedTaskService, AssignedTaskServiceImpl>();
             services.AddScoped<ICheckListGradeService, CheckListGradeServiceImpl>();
+            services.AddScoped<IPeerEvaluationService, PeerEvaluationServiceImpl>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

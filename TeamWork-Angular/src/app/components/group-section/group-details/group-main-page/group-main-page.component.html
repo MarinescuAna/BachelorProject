@@ -1,24 +1,24 @@
 <div fxLayout="column" fxLayoutAlign="space-between" class="menu-position">
-    <button mat-fab class="margin" (click)="redirectTo('my-groups')">
+    <button mat-fab class="margin" matTooltip="Go back" (click)="redirectTo('my-groups')">
         <mat-icon>keyboard_backspace</mat-icon>
     </button>
-    <button mat-fab class="margin" (click)="openDialog()" *ngIf="isStudent">
+    <button mat-fab class="margin" matTooltip="Update group details" (click)="openDialog()" *ngIf="isStudent">
         <mat-icon>create</mat-icon>
     </button>
-    <button mat-fab class="margin" (click)="openDialogAddMember()" *ngIf="isStudent">
+    <button mat-fab class="margin" matTooltip="Add new member" (click)="openDialogAddMember()" *ngIf="isStudent">
         <mat-icon>group_add</mat-icon>
     </button>
-    <button mat-fab class="margin" (click)="redirectToMembers()">
+    <button mat-fab class="margin" matTooltip="View members" (click)="redirectToMembers()">
         <mat-icon>group</mat-icon>
     </button>
     <button mat-fab class="margin" matTooltip="Comments" matTooltipClass="example-tooltip-yellow"
         (click)="redirectToChat()">
         <mat-icon>chat</mat-icon>
     </button>
-    <button mat-fab class="margin" matTooltip="Comments" matTooltipClass="example-tooltip-yellow"
-    (click)="redirectToList()">
-    <mat-icon>queue</mat-icon>
-</button>
+    <button mat-fab class="margin" matTooltip="Assignments" matTooltipClass="example-tooltip-yellow"
+        (click)="redirectToList()">
+        <mat-icon>queue</mat-icon>
+    </button>
 </div>
 <app-group-details-section [group]='group'></app-group-details-section>
 <div class="collaps-position">
@@ -29,7 +29,7 @@
         <app-chat [group]="group"></app-chat>
     </div>
     <div *ngIf="!collapseLists">
-        <button class="btn-size color" mat-raised-button (click)="onCreateList()"  *ngIf="isStudent" >Create list</button>
+        <button class="btn-size color" mat-raised-button (click)="onCreateList()" *ngIf="isStudent">Create list</button>
         <div class="btn-size" *ngIf="!isStudent"></div>
         <app-assignment-list [group]="group"></app-assignment-list>
     </div>

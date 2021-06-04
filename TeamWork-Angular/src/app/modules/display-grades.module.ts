@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 
 export class DisplayGradesModule {
+    assignedTaskId:string
     fullname:string;
     groupName:string;
     assignmentTitle:string;
@@ -19,4 +20,6 @@ export class DisplayGradesModule {
     gradeTeacher:string;
     gradePeerEvaluation:string;
     comment:string;
+    studentID: string;
+    average:string;
 }

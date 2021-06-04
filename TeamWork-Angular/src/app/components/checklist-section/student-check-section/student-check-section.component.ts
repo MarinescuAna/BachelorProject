@@ -34,10 +34,10 @@ export class StudentCheckSectionComponent implements OnInit {
   checkListGrade:string;
 
   constructor(
-    private authService: AuthService, 
     public checkService: CheckService, 
     private dialog: MatDialog,
-    private checklistGradeService: ChecklistGradeService) {
+    private checklistGradeService: ChecklistGradeService,
+    private authService: AuthService) {
     this.isTeacher = this.authService.decodeJWToken("role") === "STUDENT" ? false : true;
 
   }

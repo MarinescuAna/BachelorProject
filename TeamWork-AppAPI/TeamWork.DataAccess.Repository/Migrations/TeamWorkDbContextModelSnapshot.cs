@@ -86,6 +86,29 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.ToTable("Assignments");
                 });
 
+            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Average", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AssignedTaskID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("GradePerAssignedTask")
+                        .HasColumnType("real");
+
+                    b.Property<string>("StudentID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TeacherID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Averages");
+                });
+
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Chat", b =>
                 {
                     b.Property<Guid>("ChatID")
@@ -286,6 +309,25 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Notification", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.PeerEvaluation", b =>
                 {
                     b.Property<Guid>("ID")
@@ -448,6 +490,13 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.HasOne("TeamWork.DataAccess.Domain.Models.User", "User")
                         .WithMany("Messages")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Notification", b =>
+                {
+                    b.HasOne("TeamWork.DataAccess.Domain.Models.User", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.PeerEvaluation", b =>

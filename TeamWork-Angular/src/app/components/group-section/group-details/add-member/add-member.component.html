@@ -20,7 +20,7 @@
             </form>
         </div>
         <div>
-            <button class="btn-size" color="primary" mat-raised-button (click)="onSubmit()" [disabled]="formGroup.controls['email'].hasError('required') ||
+            <button class="btn-size" mat-raised-button (click)="onSubmit()" [disabled]="formGroup.controls['email'].hasError('required') ||
             formGroup.controls['email'].hasError('pattern')">Save changes</button>
         </div>
     </div>

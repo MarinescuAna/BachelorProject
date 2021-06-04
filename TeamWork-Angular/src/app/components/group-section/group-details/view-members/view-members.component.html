@@ -19,7 +19,7 @@
         <ng-container matColumnDef="symbol" *ngIf="isStudent">
             <th mat-header-cell *matHeaderCellDef> </th>
             <td mat-cell *matCellDef="let element;">
-                <button mat-icon-button (click)='deleteUser(element.email)'>
+                <button mat-icon-button matTooltip="Remove person from group" (click)='deleteUser(element.email)'>
                     <mat-icon matSuffix>person_remove</mat-icon>
                 </button>
             </td>

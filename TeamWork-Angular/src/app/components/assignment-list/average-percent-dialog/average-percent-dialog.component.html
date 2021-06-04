@@ -1,0 +1,27 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+    <div class="title-style">
+        <h1><strong>Define formula</strong></h1>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <mat-form-field class="input-style">
+                <mat-label>Teacher grade</mat-label>
+                <input matInput [type]="'number'" formControlName='grade' placeholder="...%" required>
+            </mat-form-field>
+            <mat-form-field class="input-style">
+                <mat-label>Checklist grade</mat-label>
+                <input matInput [type]="'number'" formControlName='chk' placeholder="...%" required>
+            </mat-form-field>
+            <mat-form-field class="input-style">
+                <mat-label>Peer evaluation grade</mat-label>
+                <input matInput [type]="'number'" formControlName='peer' placeholder="...%" required>
+            </mat-form-field>
+        </div>
+    </form>
+    <div>
+        <button class="btn-size" mat-raised-button (click)="onSubmit()"
+            [disabled]="form.controls['grade'].hasError('required') || 
+            form.controls['chk'].hasError('required') ||
+            form.controls['peer'].hasError('required')">Compute average</button>
+    </div>
+</div>

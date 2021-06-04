@@ -1,7 +1,7 @@
 <mat-nav-list class="all-text">
     <div fxLayout="column" fxLayoutAlign="center center">
         <strong>Key: {{data.key}}</strong>
-        <button [cdkCopyToClipboard]="data.key" mat-fab color="accent" class="button">
+        <button [cdkCopyToClipboard]="data.key" mat-fab color="accent" matTooltip="Copy key" class="button">
             <mat-icon>file_copy</mat-icon>
         </button>
     </div>

@@ -12,12 +12,12 @@
         
         <div fxLayout="row" fxLayoutAlign="end end">
             <div fxLayout="row" fxLayoutAlign="end">
-                <button  mat-fab class="color-buttons" (click)="viewGroup()"><mat-icon>keyboard_arrow_right</mat-icon></button>
+                <button  mat-fab class="color-buttons" matTooltip="View group" (click)="viewGroup()"><mat-icon>keyboard_arrow_right</mat-icon></button>
             </div>
-            <button mat-fab class="color-buttons" (click)="openKeySheet()">
+            <button mat-fab class="color-buttons" matTooltip="View key" (click)="openKeySheet()">
                 <mat-icon>vpn_key</mat-icon>
             </button>
-            <button mat-fab class="color-button" (click)="onLeaveGroup()">
+            <button mat-fab class="color-button" matTooltip="Leave group" (click)="onLeaveGroup()">
                 <mat-icon>exit_to_app</mat-icon>
             </button>
         </div>

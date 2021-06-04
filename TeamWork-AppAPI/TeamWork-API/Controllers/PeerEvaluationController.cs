@@ -48,7 +48,7 @@ namespace TeamWork_API.Controllers
                     Guid.Parse(assignedTaskId), 
                     ExtractEmailFromJWT());
 
-            if (string.IsNullOrEmpty(peerEvaluationResultForCurrentUser.Comments))
+            if (string.IsNullOrEmpty(peerEvaluationResultForCurrentUser?.Comments))
             {
                 return StatusCode(Number.Number_204, NoContent204Error.NoEvaluation);
             }

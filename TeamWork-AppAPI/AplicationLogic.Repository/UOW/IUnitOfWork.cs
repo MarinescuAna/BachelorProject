@@ -15,6 +15,8 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
         IPeerEvaluationRepository PeerEvaluations { get; }
         ICheckListGradeRepository CheckListGrades { get; }
         IMessageRepository Message { get; }
+        INotificationRepository Notifications { get; }
+        IAverageRepository Averages { get; }
         IGroupRepository Group { get; }
         IAssignedTaskRepository AssignedTasks { get; }
         IGroupMemberRepository GroupMember { get; }

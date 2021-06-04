@@ -25,5 +25,6 @@ namespace TeamWork.DataAccess.Domain.Models
         public ICollection<PeerEvaluation> PeerEvaluations { get; set; }
         public ICollection<Check> Checks { get; set; }
         public ICollection<CheckListGrade> CheckListGrades { get; set; }
+        public ICollection<Notification> Notifications { get; set; }
     }
 }

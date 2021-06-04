@@ -6,53 +6,43 @@
     </mat-expansion-panel-header>
     <mat-card-actions>
         <div fxLayout="row" fxLayoutAlign="end end">
-            <!-- <button mat-fab class="color-buttons" (click)="onCreateTask()">
-      <mat-icon>add_task</mat-icon>
-    </button>
-    <button mat-fab class="color-buttons" (click)="openKeySheet()">
-      <mat-icon>vpn_key</mat-icon>
-    </button>
-    <button mat-fab class="color-button" (click)="onDeleteList()">
-      <mat-icon>delete_forever</mat-icon>
-    </button>-->
+            <button mat-fab class="color-buttons" matTooltip="Compute average for each person  per assignment" (click)="onStudentAverage()">
+                <mat-icon>emoji_symbols</mat-icon>
+            </button>
         </div>
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef  > <strong>User name</strong></th>
-                <td mat-cell *matCellDef="let element"  > {{element.fullname}} </td>
+                <th mat-header-cell *matHeaderCellDef> <strong>User name</strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.fullname}} </td>
             </ng-container>
             <ng-container matColumnDef="group">
-                <th mat-header-cell *matHeaderCellDef > <strong>Group Name</strong></th>
-                <td mat-cell *matCellDef="let element" > {{element.groupName}} </td>
+                <th mat-header-cell *matHeaderCellDef> <strong>Group Name</strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.groupName}} </td>
             </ng-container>
             <ng-container matColumnDef="assignment">
-                <th mat-header-cell *matHeaderCellDef  > <strong>Assignment Title</strong></th>
-                <td mat-cell *matCellDef="let element"  > {{element.assignmentTitle}} </td>
+                <th mat-header-cell *matHeaderCellDef> <strong>Assignment Title</strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.assignmentTitle}} </td>
             </ng-container>
             <ng-container matColumnDef="checklist">
-                <th mat-header-cell *matHeaderCellDef  > <strong>Checklist Grade</strong></th>
-                <td mat-cell *matCellDef="let element"  > {{element.gradeChecklist}} </td>
+                <th mat-header-cell *matHeaderCellDef> <strong>Checklist Grade</strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.gradeChecklist}} </td>
             </ng-container>
             <ng-container matColumnDef="teacher">
-                <th mat-header-cell *matHeaderCellDef  > <strong>Teacher Grade</strong></th>
-                <td mat-cell *matCellDef="let element"  > {{element.gradeTeacher}} </td>
+                <th mat-header-cell *matHeaderCellDef> <strong>Teacher Grade</strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.gradeTeacher}} </td>
             </ng-container>
             <ng-container matColumnDef="peer">
-                <th mat-header-cell *matHeaderCellDef  > <strong>Peer Evaluation</strong></th>
-                <td mat-cell *matCellDef="let element"  > {{element.gradePeerEvaluation}} </td>
+                <th mat-header-cell *matHeaderCellDef> <strong>Peer Evaluation</strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.gradePeerEvaluation}} </td>
+            </ng-container>
+            <ng-container matColumnDef="average">
+                <th mat-header-cell *matHeaderCellDef> <strong>Average</strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.average}} </td>
             </ng-container>
             <ng-container matColumnDef="comment">
-                <th mat-header-cell *matHeaderCellDef > <strong>Comment</strong></th>
-                <td mat-cell *matCellDef="let element" style="max-width: 300px;" > {{element.comment}} </td>
+                <th mat-header-cell *matHeaderCellDef> <strong>Comment</strong></th>
+                <td mat-cell *matCellDef="let element" style="max-width: 300px;"> {{element.comment}} </td>
             </ng-container>
-            <!-- <ng-container matColumnDef="symbol">
-      <th mat-header-cell *matHeaderCellDef> </th>
-      <td mat-cell *matCellDef="let element;"  >
-        <button mat-icon-button (click)='onDelete(element.assignmentId)'>
-          <mat-icon matSuffix>delete_forever</mat-icon>
-        </button>
-      </td>
-    </ng-container>-->
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>

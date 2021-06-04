@@ -20,6 +20,8 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
         private IListRepository _List;
         private IAssignedTaskRepository _AssignedTask;
         private ICheckRepository _Check;
+        private INotificationRepository _Notification;
+        private IAverageRepository _Average;
         private IPeerEvaluationRepository _PeerEvaluation;
         private ICheckListGradeRepository _CheckListGrade;
         private readonly ILoggerService _loggerService;
@@ -27,6 +29,30 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
         {
             context = ctx;
             _loggerService = loggerService;
+        }
+        public INotificationRepository Notifications
+        {
+            get
+            {
+                if (_Notification == null)
+                {
+                    _Notification = new NotificationRepositoryImpl(context, _loggerService);
+                }
+
+                return _Notification;
+            }
+        }
+        public IAverageRepository Averages
+        {
+            get
+            {
+                if (_Average == null)
+                {
+                    _Average = new AverageRepositoryImpl(context, _loggerService);
+                }
+
+                return _Average;
+            }
         }
         public IPeerEvaluationRepository PeerEvaluations
         {

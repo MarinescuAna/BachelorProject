@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {DisplayGradesModule} from 'src/app/modules/display-grades.module';
 import { GradeService } from 'src/app/services/grades.service';
+import { AveragePercentDialogComponent } from '../average-percent-dialog/average-percent-dialog.component';
 
 @Component({
   selector: 'app-grade-view-extention',
@@ -15,9 +17,9 @@ export class GradeViewExtentionComponent {
   @Input() key: string;
   dataSource: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['name', 'group', 'assignment', 'checklist', 'teacher', 'peer', 'comment'];
+  displayedColumns: string[] = ['name', 'group', 'assignment', 'checklist', 'teacher', 'peer', 'average','comment'];
 
-  constructor(private gradesService: GradeService) {
+  constructor(private gradesService: GradeService, private dialog: MatDialog) {
    }
 
   onExpandGrades() {
@@ -28,5 +30,9 @@ export class GradeViewExtentionComponent {
         this.dataSource.paginator=this.paginator;
       });
     }
+  }
+
+  onStudentAverage(){
+    const diagRef = this.dialog.open(AveragePercentDialogComponent, { width: '50%', data: { grade: this.dataSource.data  as DisplayGradesModule[] } });
   }
 }

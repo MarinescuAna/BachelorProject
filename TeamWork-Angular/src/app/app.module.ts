@@ -8,10 +8,10 @@ import { RegisterPageComponent } from './components/account/register-page/regist
 import { MainPageComponent } from './components/landing-page/main-page/main-page.component';
 import { JwtModule } from '@auth0/angular-jwt';
 
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatListModule} from '@angular/material/list';
-import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
-import {MatCardModule} from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
@@ -26,14 +26,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CreateGroupComponent } from './components/group-section/create-group/create-group.component';
 import { MatTableModule } from '@angular/material/table';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {ClipboardModule} from '@angular/cdk/clipboard';
-import { AlertService } from 'src/app/services/alert.service'; 
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { AlertService } from 'src/app/services/alert.service';
 import { ToastrModule } from 'ngx-toastr';
 import { AppErrorHandler } from './handler-error/app-error-handler';
-import {AuthconfigInterceptor} from 'src/app/shared/authconfig.interceptor';
+import { AuthconfigInterceptor } from 'src/app/shared/authconfig.interceptor';
 import { JoinGroupComponent } from './components/group-section/join-group/join-group.component';
 import { GroupComponent } from './components/group-section/my-groups/group/group.component';
 import { GroupsComponent } from './components/group-section/my-groups/groups/groups.component';
@@ -52,12 +52,11 @@ import { ChatComponent } from './components/group-section/chat/chat/chat.compone
 import { MessageChangeComponent } from './components/group-section/chat/message-change/message-change.component';
 import { ListComponent } from './components/assignment-list/list/list.component';
 import { SideMenuComponent } from './components/assignment-list/side-menu/side-menu.component';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatTabsModule} from '@angular/material/tabs';
-import { AngMusicPlayerModule } from  'ang-music-player';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { AngMusicPlayerModule } from 'ang-music-player';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { CarouselComponent } from './components/landing-page/landing-pages-components/carousel/carousel.component';
-import {VgCoreModule} from '@videogular/ngx-videogular/core';
+import { VgCoreModule } from '@videogular/ngx-videogular/core';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -65,12 +64,12 @@ import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 import { AboutPageComponent } from './components/about-page/about-page.component';
 import { ProfilePageComponent } from './components/account/profile-page/profile-page.component';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
-import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MapComponent } from './components/landing-page/landing-pages-components/map/map.component';
 import { LeftMenuComponent } from './components/group-section/my-groups/left-menu/left-menu.component';
 import { CreateListComponent } from './components/assignment-list/create-list/create-list.component';
 import { ListsComponent } from './components/assignment-list/lists/lists.component';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { CreateTaskComponent } from './components/assignment-list/create-task/create-task.component';
 import { AssignmentComponent } from './components/group-section/assignment/assignment.component';
 import { AssignmentListComponent } from './components/group-section/assignment-list/assignment-list.component';
@@ -87,6 +86,13 @@ import { DisplayPeerEvaluationDialogComponent } from './components/group-section
 import { GradeViewExtentionComponent } from './components/assignment-list/grade-view-extention/grade-view-extention.component';
 import { GroupsViewExtentionComponent } from './components/assignment-list/groups-view-extention/groups-view-extention.component';
 import { ListViewExtentionComponent } from './components/assignment-list/list-view-extention/list-view-extention.component';
+import { RandomSelectionMainComponent } from './components/group-section/random-selection-main/random-selection-main.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { AveragePercentDialogComponent } from './components/assignment-list/average-percent-dialog/average-percent-dialog.component';
+import { StudentGradeExtentionComponent } from './components/group-section/student-grade-extention/student-grade-extention.component';
+import { TasksViewExtentionComponent } from './components/group-section/tasks-view-extention/tasks-view-extention.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatChipsModule} from '@angular/material/chips';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -150,6 +156,10 @@ const shareProp = {
     GradeViewExtentionComponent,
     GroupsViewExtentionComponent,
     ListViewExtentionComponent,
+    RandomSelectionMainComponent,
+    AveragePercentDialogComponent,
+    StudentGradeExtentionComponent,
+    TasksViewExtentionComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -173,8 +183,9 @@ const shareProp = {
     ToastrModule.forRoot(),
     JwtModule.forRoot({
       config: {
-      tokenGetter: tokenGetter
-    }}),
+        tokenGetter: tokenGetter
+      }
+    }),
     MatTableModule,
     MatPaginatorModule,
     MatButtonToggleModule,
@@ -187,7 +198,9 @@ const shareProp = {
     ShareButtonsModule.withConfig({ prop: shareProp }),
     NgxImageZoomModule,
     LeafletModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTooltipModule,
+    MatChipsModule
   ],
   providers: [
     AlertService,
@@ -204,4 +217,4 @@ export class AppModule {
   constructor(iconLibrary: FaIconLibrary) {
     iconLibrary.addIcons(...icons);
   }
- }
+}

@@ -13,6 +13,7 @@ import { AboutPageComponent } from './components/about-page/about-page.component
 import { ProfilePageComponent } from './components/account/profile-page/profile-page.component';
 import { CreateListComponent } from './components/assignment-list/create-list/create-list.component';
 import { ListsComponent } from './components/assignment-list/lists/lists.component';
+import { RandomSelectionMainComponent } from './components/group-section/random-selection-main/random-selection-main.component';
 
 const routes: Routes = [
 
@@ -77,7 +78,13 @@ const routes: Routes = [
     component: ProfilePageComponent,
     canActivate: [AuthGuard]
     
-  }
+  },
+  {
+    path: 'random',
+    component: RandomSelectionMainComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ["teacher"]}
+  },
 ]
 
 @NgModule({

@@ -26,6 +26,9 @@ export class GroupService extends DataService {
       this.alertService.showSucces('Success. Welcome to the group!');
     });
   }
+  GetListGroups(id:any): Observable<any> {
+    return super.getMany<any>('GetListGroups?listId='+id);
+  }
 
   GetMyGroupsStudent(id:any): Observable<any> {
     return super.getMany<any>('GetMyGroups?status='+id);

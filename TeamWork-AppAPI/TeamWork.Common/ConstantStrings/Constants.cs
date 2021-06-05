@@ -19,6 +19,7 @@ namespace TeamWork.Common.ConstantStrings
         public static readonly string Asterik = "*";
         public static readonly string Minus = "-";
         public static readonly string NewLine = "\n";
+        public static readonly string Zero = "0";
         public static readonly string ThisGroupWasRandomlyGenerated = "This group was randomly generated.";
     }
 }

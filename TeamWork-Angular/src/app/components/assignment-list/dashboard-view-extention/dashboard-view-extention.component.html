@@ -1,0 +1,55 @@
+<mat-expansion-panel (opened)="onExpandGrades()" (closed)="panelOpenStateGrades = false">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            View dashboard
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-card-actions>
+        <div fxLayout="row" fxLayoutAlign="end end">
+            <form [formGroup]="form">
+                <mat-form-field class="input-style" appearance="fill">
+                    <mat-label>Assignments</mat-label>
+                    <mat-select formControlName='assignment'>
+                        <mat-option *ngFor="let assignment of assignments" [value]="assignment.assignmentId">
+                            {{assignment.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="input-style" appearance="fill">
+                    <mat-label>Groups</mat-label>
+                    <mat-select formControlName='group'>
+                        <mat-option *ngFor="let group of groups" [value]="group.uniqueKey">
+                            {{group.groupName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+            <button mat-raised-button class="btn-size" (click)="onSearch()">
+                <mat-icon>search</mat-icon>
+            </button>
+        </div>
+        <div *ngIf="load">
+            <div fxLayoutAlign="center center" >
+                <div class="chart">
+                    <p class="titles-style">The report of the tasks defined by each student</p>
+                    <canvas baseChart [data]="pieChartDataTasks" [labels]="pieChartLabels"
+                        [chartType]="pieChartType" [options]="pieChartOptions" [legend]="true" height="400px"
+                        width="1000px">
+                    </canvas>
+                    <p class="titles-style">The report of the tasks done by each student</p>
+                    <canvas baseChart [data]="pieChartDataTasksDone" [labels]="pieChartLabels"
+                        [chartType]="pieChartType" [options]="pieChartOptions" [legend]="true" height="400px"
+                        width="1000px">
+                    </canvas>
+                    <p class="titles-style">The grades obtained by the students following the peer evaluation and the checklist evaluation</p>
+                    <div style="display: block">
+                        <canvas baseChart [datasets]="barChartData" [labels]="pieChartLabels" [options]="barChartOptions"
+                            [legend]="true" [chartType]="barChartType" >
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </mat-card-actions>
+</mat-expansion-panel>

@@ -94,6 +94,8 @@ import { TasksViewExtentionComponent } from './components/group-section/tasks-vi
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatStepperModule} from '@angular/material/stepper';
+import { DashboardViewExtentionComponent } from './components/assignment-list/dashboard-view-extention/dashboard-view-extention.component';
+import { ChartsModule } from 'ng2-charts';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -161,6 +163,7 @@ const shareProp = {
     AveragePercentDialogComponent,
     StudentGradeExtentionComponent,
     TasksViewExtentionComponent,
+    DashboardViewExtentionComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -202,7 +205,8 @@ const shareProp = {
     MatExpansionModule,
     MatTooltipModule,
     MatChipsModule,
-    MatStepperModule
+    MatStepperModule,
+    ChartsModule
   ],
   providers: [
     AlertService,

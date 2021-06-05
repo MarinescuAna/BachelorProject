@@ -1,0 +1,26 @@
+
+  mat-expansion-panel{
+    margin: 1px;
+  }
+
+  
+.btn-size{
+    width: 90px;
+    height: 36px;
+    margin: 30px;
+    background-color: black;
+    color: white;
+}
+.input-style{
+    margin: 10px;
+}
+
+.chart-dash{
+    width: 100%;
+}
+
+.titles-style{
+    margin: 15px;
+    font-weight: bold;
+    font-size: large;
+}

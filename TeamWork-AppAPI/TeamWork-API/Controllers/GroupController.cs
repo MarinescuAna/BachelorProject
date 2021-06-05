@@ -25,13 +25,25 @@ namespace TeamWork_API.Controllers
         private readonly IGroupService _groupService;
         private readonly IUserService _userService;
         private readonly IAssignedTaskService _assignedTaskService;
-        public GroupController(IAssignedTaskService assignedTaskService, IGroupService group, IUserService user, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+        private readonly IAssignmentService _assignmentService;
+        private readonly IListService _listService;
+        public GroupController(
+            IListService listService,
+            IAssignmentService assignmentService,
+            IAssignedTaskService assignedTaskService,
+            IGroupService group, IUserService user,
+            IHttpContextAccessor httpContextAccessor,
+            IConfiguration configuration)
             : base(configuration, httpContextAccessor)
         {
+            _listService = listService;
+            _assignmentService = assignmentService;
             _groupService = group;
             _userService = user;
             _assignedTaskService = assignedTaskService;
         }
+
+
 
         [HttpPost]
         [Route("CreateGroupByUser")]
@@ -98,6 +110,33 @@ namespace TeamWork_API.Controllers
             }
 
             return Ok();
+        }
+        [HttpGet]
+        [Route("GetListGroups")]
+        public async Task<IActionResult> GetListGroups(string listId)
+        {
+            if (string.IsNullOrEmpty(listId))
+            {
+                return StatusCode(Number.Number_204, NoContent204Error.NoContent);
+            }
+            var assignments = await _assignmentService.GetAssignmentsByListIdAsync(Guid.Parse(listId));
+            var groups = new List<ViewGroups>();
+
+            foreach (var assignment in assignments)
+            {
+                foreach (var assignedTask in assignment.AssignedTasks)
+                {
+                    var list = await _listService.GetListByListIdAsync(assignedTask.ListID);
+                    groups.Add(new ViewGroups
+                    {
+                        GroupName=list.Group.GroupName,
+                        UniqueKey=list.GroupID.ToString()
+                    });
+
+                }
+            }
+
+            return StatusCode(Number.Number_200, groups);
         }
 
         [HttpGet]
@@ -245,7 +284,7 @@ namespace TeamWork_API.Controllers
             }
 
             if (!await _groupService.AddMemberByEmailAsync(new GroupMember
-                {
+            {
                 StatusRequest = StatusRequest.Waiting,
                 UserID = detalisReceived.AttenderEmail,
                 GroupID = Guid.Parse(detalisReceived.GroupKey)
@@ -288,17 +327,18 @@ namespace TeamWork_API.Controllers
                 return Ok(random);
             }
 
-            var groupsAdded = new Dictionary<string,Guid>();
+            var groupsAdded = new Dictionary<string, Guid>();
 
-            for(var index = 0; index < random.Emails.Count && string.IsNullOrEmpty(random.Error); index++)
+            for (var index = 0; index < random.Emails.Count && string.IsNullOrEmpty(random.Error); index++)
             {
                 if (!groupsAdded.ContainsKey(random.GroupNames[index]))
                 {
                     var guid = Guid.NewGuid();
                     groupsAdded.Add(random.GroupNames[index], guid);
-                    if(!await _groupService.CreateGroupAsync(new Group { 
-                        Description=Constants.ThisGroupWasRandomlyGenerated,
-                        GroupName= random.GroupNames[index],
+                    if (!await _groupService.CreateGroupAsync(new Group
+                    {
+                        Description = Constants.ThisGroupWasRandomlyGenerated,
+                        GroupName = random.GroupNames[index],
                         GroupUniqueID = guid
                     }))
                     {
@@ -306,10 +346,10 @@ namespace TeamWork_API.Controllers
                     }
                     if (!await _groupService.AddMemberByEmailAsync(new GroupMember
                     {
-                        GroupID=guid,
-                        StatusRequest=StatusRequest.Joined,
-                        UserID=ExtractEmailFromJWT(),
-                        GroupMemberID=Guid.NewGuid()
+                        GroupID = guid,
+                        StatusRequest = StatusRequest.Joined,
+                        UserID = ExtractEmailFromJWT(),
+                        GroupMemberID = Guid.NewGuid()
                     }))
                     {
                         random.Error = BadRequest400Error.SomethingWentWrong;

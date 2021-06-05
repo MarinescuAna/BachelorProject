@@ -20,21 +20,8 @@
     height: 650px;
     margin-top: 2%;
 }
-.margin{
-    margin: 10px;
-    width: 70px;
-    background:black;
-    color: white;
-    margin-top: 13.5%;
-    left: 0;
-    position: fixed;
-}
 
 .color{
     background-color: black;
     color: white;
-}
-
-.position-menu{
-    margin-top: 1%;
 }

@@ -1,0 +1,118 @@
+import { Component, OnInit} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { GroupService } from 'src/app/services/group-service';
+import { RandomGroupsCreateModule } from 'src/app/modules/random-groups-create.module';
+import { ENTER, SPACE } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { Router } from '@angular/router';
+
+export class DisplayShuffleGroups {
+  email: string;
+  groupName: string;
+}
+
+@Component({
+  selector: 'app-random-selection-main',
+  templateUrl: './random-selection-main.component.html',
+  styleUrls: ['./random-selection-main.component.css']
+})
+export class RandomSelectionMainComponent implements OnInit {
+
+  dataSource: any;
+  readonly separatorKeysCodes = [ENTER, SPACE] as const;
+  members = [];
+  form : FormGroup;
+  data = new RandomGroupsCreateModule();
+  error='';
+
+  constructor(private groupService: GroupService,private _formBuilder: FormBuilder, private route:Router
+  ) {
+  }
+  ngOnInit() {
+    this.form = this._formBuilder.group({
+      number: ['', Validators.required]
+    });
+  }
+  redirectTo(url: string): void {
+    this.route.navigateByUrl(url);
+  }
+
+  add(event: MatChipInputEvent): void {
+    this.error='';
+    const value = (event.value + ' ').split(' ').forEach(element => {
+      if (element) {
+        if (this.members.includes(element)) {
+          this.error=element + " has already been written!";
+        } else {
+          this.members.push(element);
+        }
+      }
+    });
+
+    event.input.value = '';
+  }
+
+  remove(member: string): void {
+    const index = this.members.indexOf(member);
+
+    if (index >= 0) {
+      this.members.splice(index, 1);
+    }
+  }
+
+  private initialiseWithEmpty(): void {
+    let groupName = [];
+    for (let index = 0; index < this.members.length; index++) {
+      groupName.push("");
+    }
+    this.data.groupNames = groupName as string[];
+  }
+
+  onSubmitStep0() {
+    this.error='';
+    let no: number = parseInt(this.form.value.number);
+
+    if (this.members.length <= no) {
+      this.error="You do not have enough people to create the group!";
+    } else {
+
+      this.data.emails = this.members as string[];
+      this.data.numberMax = this.form.value.number;
+      this.initialiseWithEmpty();
+
+        this.groupService.CreateGroupsRandom(this.data).subscribe(cr => {
+
+          let result = cr as RandomGroupsCreateModule;
+
+          if (result.error != "") {
+            this.error=result.error;
+          }
+          else {
+
+            this.data = cr as RandomGroupsCreateModule;
+            let dataShuffle = [];
+
+            for (let index = 0; index < this.data.emails.length; index++) {
+              let insertData = new DisplayShuffleGroups();
+              insertData.email = this.data.emails[index];
+              insertData.groupName = this.data.groupNames[index];
+              dataShuffle.push(insertData);
+            }
+            this.dataSource = dataShuffle as DisplayShuffleGroups[];
+           }
+        });
+      
+    }
+
+  }
+
+  onSentData(){
+    this.error='';
+    this.groupService.SentInvitationsRandom(this.data).subscribe(cr=>{
+      this.data = cr as RandomGroupsCreateModule;
+      if(this.data.error!=''){
+        this.error=this.data.error;
+      }
+    });
+  }
+}

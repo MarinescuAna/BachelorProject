@@ -12,7 +12,9 @@ export class GradeService  extends DataService {
   GetGrade(data: any): any {
     return super.getMany('GetGrades?listId='+data);
   }
-
+  GetCurrentUserGrades(data: any): any {
+    return super.getMany('GetCurrentUserGrades?listId='+data);
+  }
   
 
 }

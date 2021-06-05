@@ -9,6 +9,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
 {
     public interface IGroupService
     {
+        Task<bool> CreateGroupAsync(Group group);
         Task<bool> UpdateGroupMemberAsync(string key, string email);
         Task<int> GetNoMembersFromGroupByGuidAsync(Guid key);
         Task<Guid> CreateGroupByUserAsync(GroupDetalisReceived groupDetalis);
@@ -20,7 +21,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
         Task<List<ViewGroups>> GetGroupsAsync(string userEmail, StatusRequest status);
         Task<bool> DeleteUserFromGroupAsync(User user, Guid group);
         Task<bool> IsMemberToGroupAsync(string userEmail, string groupKey);
-        Task<bool> AddMemberByEmailAsync(string userEmail, string groupKey);
+        Task<bool> AddMemberByEmailAsync(GroupMember groupMember);
         Task<List<Member>> GetGroupMembersByKeyAsync(Guid key);
         Task<bool> DeleteGroupAsync(Guid group);
     }

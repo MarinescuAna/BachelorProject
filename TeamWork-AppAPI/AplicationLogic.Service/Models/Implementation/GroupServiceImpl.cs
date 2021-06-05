@@ -29,7 +29,13 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                           && u.User.UserEmailId == email);
         public async Task<Group> GetGroupByNameAsync(string name) => await _unitOfWork
             .Group
-            .GetItem(u => u.GroupName == name);       
+            .GetItem(u => u.GroupName == name);    
+        public async Task<bool> CreateGroupAsync(Group group)
+        {
+            _unitOfWork.Group.InsertItem(group);
+
+            return (await _unitOfWork.Commit()) > 0;
+        }
         public async Task<Guid> CreateGroupByUserAsync(GroupDetalisReceived groupDetalis)
         {
             var key = Guid.NewGuid();
@@ -146,16 +152,11 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
             return await _unitOfWork.Commit() > 0;
         }
-        public async Task<bool> AddMemberByEmailAsync(string userEmail, string groupKey)
+        public async Task<bool> AddMemberByEmailAsync(GroupMember groupMember)
         {
-            _unitOfWork.GroupMember.InsertItem(new GroupMember
-            {
-                StatusRequest = StatusRequest.Waiting,
-                UserID = userEmail,
-                GroupID = Guid.Parse(groupKey)
-            });
+            _unitOfWork.GroupMember.InsertItem(groupMember);
 
-            return await _unitOfWork.Commit()>0;
+            return (await _unitOfWork.Commit())>0;
         }
         public async Task<List<Member>> GetGroupMembersByKeyAsync(Guid key)
         {

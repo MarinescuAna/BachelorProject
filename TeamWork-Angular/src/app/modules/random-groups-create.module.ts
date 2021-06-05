@@ -12,7 +12,8 @@ import { CommonModule } from '@angular/common';
 })
 
 export class RandomGroupsCreateModule {
-    id:string;
-    email:string;
-    groupName:string;
+    emails:string[];
+    groupNames:string[];
+    numberMax:string;
+    error:string;
 }

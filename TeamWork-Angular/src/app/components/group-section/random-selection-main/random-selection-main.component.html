@@ -1,0 +1,81 @@
+<div>
+    <app-left-menu></app-left-menu>
+</div>
+<div fxLayoutAlign="center center">
+    <mat-card class="card">
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <div class="title-style">
+                <h1><strong> Create groups random</strong></h1>
+            </div>
+            <div fxLayoutAlign="center center">
+                <mat-vertical-stepper [linear]="true" #stepper>
+                    <mat-step [stepControl]="form">
+                        <form [formGroup]="form">
+                            <ng-template matStepLabel>Fill out data</ng-template>
+                            <div fxLayout="column" fxLayoutAlign="center center">
+                                <mat-form-field class="input-style" appearance="fill">
+                                    <mat-label>Selects the maximum number of people in a group</mat-label>
+                                    <input matInput [type]="'number'" formControlName='number' required>
+                                    <mat-icon matSuffix>pin</mat-icon>
+                                </mat-form-field>
+                                <mat-form-field class="input-style" appearance="fill">
+                                    <mat-label>Add people's email addresses</mat-label>
+                                    <mat-chip-list #chipList>
+                                        <mat-chip *ngFor="let member of members" [selectable]="true" [removable]="true"
+                                            (removed)="remove(member)">
+                                            {{member}}
+                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
+                                        <input placeholder="New email..." [matChipInputFor]="chipList"
+                                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="add($event)">
+                                    </mat-chip-list>
+                                </mat-form-field>
+                                <button mat-button matStepperNext class="btn-size"
+                                    [disabled]="form.controls['number'].hasError('required')"
+                                    (click)="onSubmitStep0()">Next</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>View data</ng-template>
+                        <div fxLayout="column" fxLayoutAlign="center center">
+                            <div *ngIf="error!=''">
+                                <p class="error">{{error}}</p>
+                            </div>
+                            <table *ngIf="error==''">
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Group Name</th>
+                                </tr>
+                                <tr *ngFor="let group of dataSource">
+                                    <td> {{group.email}}</td>
+                                    <td>{{group.groupName}}</td>
+                                </tr>
+                            </table>
+                            <div>
+                                <button class="btn-size" mat-button matStepperPrevious>Back</button>
+                                <button class="btn-size" *ngIf="error==''" (click)="onSentData()" mat-button
+                                    matStepperNext>Next</button>
+                            </div>
+                        </div>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>Done</ng-template>
+                        <div fxLayout="column" fxLayoutAlign="center center">
+                            <div *ngIf="error!=''">
+                                <p class="error">{{error}}</p>
+                            </div>
+                            <div *ngIf="error==''">
+                                <p class="success">You are now done.</p>
+                            </div>
+                            <div>
+                                <button mat-button class="btn-size" (click)="stepper.reset()">Done</button>
+                            </div>
+                        </div>
+                    </mat-step>
+                </mat-vertical-stepper>
+            </div>
+        </div>
+    </mat-card>
+</div>

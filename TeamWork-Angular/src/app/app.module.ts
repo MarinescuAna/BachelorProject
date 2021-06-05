@@ -93,6 +93,7 @@ import { StudentGradeExtentionComponent } from './components/group-section/stude
 import { TasksViewExtentionComponent } from './components/group-section/tasks-view-extention/tasks-view-extention.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatStepperModule} from '@angular/material/stepper';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -200,7 +201,8 @@ const shareProp = {
     LeafletModule,
     MatExpansionModule,
     MatTooltipModule,
-    MatChipsModule
+    MatChipsModule,
+    MatStepperModule
   ],
   providers: [
     AlertService,

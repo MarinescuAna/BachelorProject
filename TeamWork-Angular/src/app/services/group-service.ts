@@ -15,7 +15,12 @@ export class GroupService extends DataService {
   CreateNewGroup(module: GroupCreateModule):any {
     return super.post<GroupCreateResponseModule>('CreateGroupByUser', module)
   }
-
+  CreateGroupsRandom(module: any):any {
+    return super.post<any>('CreateGroupsRandom', module)
+  }
+  SentInvitationsRandom(module: any):any {
+    return super.post<any>('SentInvitationsRandom', module)
+  }
   JoinToGroup(module: any) {
     super.post<any>('JoinToGroup?key='+module, {}).subscribe(cr => {
       this.alertService.showSucces('Success. Welcome to the group!');

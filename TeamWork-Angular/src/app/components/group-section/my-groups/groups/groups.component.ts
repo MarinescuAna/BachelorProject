@@ -9,7 +9,7 @@ import { GroupService } from 'src/app/services/group-service';
 })
 export class GroupsComponent implements OnInit {
 
-  text='You haven\'t joined any groups so far. Create your own group or join an existing group by accessing the Groups menu.';
+  text='You haven\'t joined any groups so far. Create your own group or join an existing one.';
   length:any;
   myGroups: ViewGroupsModule[];
   constructor(private groupService: GroupService) {

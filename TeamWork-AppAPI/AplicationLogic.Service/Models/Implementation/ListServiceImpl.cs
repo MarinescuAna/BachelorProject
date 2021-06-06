@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Repository.UOW;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
+using TeamWork.Common.ConstantNumbers;
 using TeamWork.DataAccess.Domain.Models;
 
 namespace TeamWork.ApplicationLogic.Service.Models.Implementation
@@ -18,19 +19,19 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         {
             await _unitOfWork.List.DeleteItem(u=>u.ListID==guid);
 
-            return await _unitOfWork.Commit() > 0;
+            return await _unitOfWork.Commit() > Number.Number_0;
         }
         public async Task<bool> InsertListAsync(List list)
         {
             _unitOfWork.List.InsertItem(list);
 
-            return await _unitOfWork.Commit() > 0;
+            return await _unitOfWork.Commit() > Number.Number_0;
         }
         public async Task<bool> UpdateListAsync(List list)
         {
             await _unitOfWork.List.UpdateItem(list);
 
-            return (await _unitOfWork.Commit()) > 0;
+            return (await _unitOfWork.Commit()) > Number.Number_0;
         }
         public async Task<List<List>> GetListsByEmailAsync(string email) => 
             (await _unitOfWork.List.GetItems())

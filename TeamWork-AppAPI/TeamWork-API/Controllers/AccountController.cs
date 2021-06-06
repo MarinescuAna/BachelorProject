@@ -22,12 +22,14 @@ namespace TeamWork_API.Controllers
     {
         private readonly IUserService _userService;
         private readonly IImageService _imageService;
+        private readonly IConfiguration _configuration;
         public AccountController(
             IUserService userService,
             IImageService imageService,
             IConfiguration configuration,
-            IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
+            _configuration = configuration;
             _userService = userService;
             _imageService = imageService;
         }
@@ -54,12 +56,13 @@ namespace TeamWork_API.Controllers
 
             JWToken jWToken = new JWToken
             {
-                AccessToken = user.AccessToken = GenerateAccessToken(user.FirstName + Constants.BlankSpace + user.LastName, user.UserEmailId, user.UserRole.ToString())
+                AccessToken = user.AccessToken = TokenGenerator.GenerateAccessToken(_configuration,user.FirstName + Constants.BlankSpace + user.LastName, user.UserEmailId, user.UserRole.ToString())
             };
 
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Number.Number_2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Number.Number_2);
-            jWToken.RefershToken = user.RefreshToken = GenerateRefreshToken(
+            jWToken.RefershToken = user.RefreshToken = TokenGenerator.GenerateRefreshToken(
+                _configuration,
                  user.FirstName + Constants.BlankSpace + user.LastName,
                 user.UserEmailId,
                 DateTime.Now.AddMonths(Number.Number_2).ToString(),
@@ -104,12 +107,14 @@ namespace TeamWork_API.Controllers
 
             JWToken jWToken = new JWToken();
 
-            user.AccessToken = jWToken.AccessToken = GenerateAccessToken(
+            user.AccessToken = jWToken.AccessToken = TokenGenerator.GenerateAccessToken(
+                _configuration,
                 user.FirstName + Constants.BlankSpace + user.LastName,
                 user.UserEmailId, user.UserRole.ToString());
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Number.Number_2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Number.Number_2);
-            user.RefreshToken = jWToken.RefershToken = GenerateRefreshToken(
+            user.RefreshToken = jWToken.RefershToken = TokenGenerator.GenerateRefreshToken(
+                _configuration,
                 user.FirstName + Constants.BlankSpace + user.LastName,
                 user.UserEmailId,
                 jWToken.RefershTokenExpiration.ToString(),
@@ -145,7 +150,7 @@ namespace TeamWork_API.Controllers
                 {
                     Email = email,
                     FirstName = user?.User?.FirstName,
-                    ImageContent = DecompressImage(user?.ImageContent),
+                    ImageContent = ImageProcessing.DecompressImage(user?.ImageContent),
                     ImageExtention = user?.ImageExtention,
                     Institution = user?.User?.Institution,
                     LastName = user?.User?.LastName,

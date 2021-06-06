@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/shared/auth.service';
 })
 export class LeftMenuComponent implements OnInit {
 
+
   isTeacher=false;
   constructor( private router: Router,
     private authService: AuthService ) {

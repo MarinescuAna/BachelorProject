@@ -19,29 +19,32 @@ namespace TeamWork_API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ChecklistGradeController : ControllerBase
+    public class ChecklistGradeController : BaseController
     {
         private readonly ICheckService _checkService;
-        private readonly IAssignmentService _assignmentService;
         private readonly IAssignedTaskService _assignedTaskService;
         private readonly ICheckListGradeService _checkListGradeService;
         private readonly IGroupService _groupService;
+        private readonly INotificationService _notificationService;
 
         public ChecklistGradeController(
             IGroupService groupService,
             IAssignedTaskService assignedTaskService,
-            IAssignmentService assignmentService,
             ICheckListGradeService checkListGradeService,
-            ICheckService checkService
-            )
+            ICheckService checkService,
+            INotificationService notificationService,
+            IHttpContextAccessor httpContextAccessor
+            ):
+            base(httpContextAccessor)
         {
+            _notificationService = notificationService;
             _groupService = groupService;
             _assignedTaskService = assignedTaskService;
             _checkListGradeService = checkListGradeService;
             _checkService = checkService;
-            _assignmentService = assignmentService;
         }
 
+        //TODO testeaza notificarea
         /// <summary>
         /// This methode will do the follow operations:
         ///  - first it will found all the assigned tasks that have the given assignmentid
@@ -72,7 +75,9 @@ namespace TeamWork_API.Controllers
                     grades.Add(new CheckListGrade
                     {
                         AssignedTaskID = assignedTask.AssignedTaskID,
-                        Grade = result == (0, 0) ? 0 : (result.tasksDone * 100) / result.totalTasks,
+                        Grade = result == (Number.Number_0, Number.Number_0) ? 
+                            Number.Number_0 : 
+                            (result.tasksDone * Number.Number_100) / result.totalTasks,
                         ID = Guid.NewGuid(),
                         UserID = member.Email
                     });
@@ -85,6 +90,11 @@ namespace TeamWork_API.Controllers
                 {
                     return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
                 }
+                await _notificationService.InsertNotificationAsync(new Notification { 
+                    ID=Guid.NewGuid(),
+                    Message= string.Format(Constants.ChecklistGradesReturned,ExtractEmailFromJWT()),
+                    UserID=grade.UserID
+                });
             }
 
             return Ok();
@@ -99,8 +109,8 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_204, NoContent204Error.NoContent);
             }
 
-            var assignedTaskId = Guid.Parse(takeGradeChecklist.Split(Constants.Asterik)[0]);
-            var email = takeGradeChecklist.Split(Constants.Asterik)[1];
+            var assignedTaskId = Guid.Parse(takeGradeChecklist.Split(Constants.Asterik)[Number.Position_0]);
+            var email = takeGradeChecklist.Split(Constants.Asterik)[Number.Position_1];
 
             var grade = await _checkListGradeService.GetCheckListGradeByUserIdAssignedTaskIDAsync(assignedTaskId, email);
             if (grade == null)

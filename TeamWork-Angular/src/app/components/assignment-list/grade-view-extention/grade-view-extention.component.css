@@ -14,8 +14,16 @@
   .color-buttons{
     background-color: white;
     color: black;
+    margin: 20px;
   }
-  .color-button{
-    background-color: black;
-    color: white;
-  }
+    
+.btn-size{
+  width: 90px;
+  height: 36px;
+  margin: 34px;
+  background-color: black;
+  color: white;
+}
+.input-style{
+  margin: 10px;
+}

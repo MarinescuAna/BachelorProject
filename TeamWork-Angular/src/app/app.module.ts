@@ -96,6 +96,8 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatStepperModule} from '@angular/material/stepper';
 import { DashboardViewExtentionComponent } from './components/assignment-list/dashboard-view-extention/dashboard-view-extention.component';
 import { ChartsModule } from 'ng2-charts';
+import {MatBadgeModule} from '@angular/material/badge';
+import { MainNotificationDialogComponent } from './components/landing-page/landing-pages-components/notification/main-notification-dialog/main-notification-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -164,6 +166,7 @@ const shareProp = {
     StudentGradeExtentionComponent,
     TasksViewExtentionComponent,
     DashboardViewExtentionComponent,
+    MainNotificationDialogComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -206,7 +209,8 @@ const shareProp = {
     MatTooltipModule,
     MatChipsModule,
     MatStepperModule,
-    ChartsModule
+    ChartsModule,
+    MatBadgeModule
   ],
   providers: [
     AlertService,

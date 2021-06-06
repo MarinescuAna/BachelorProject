@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Repository.UOW;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
+using TeamWork.Common.ConstantNumbers;
+using TeamWork.Common.ConstantStrings;
 using TeamWork.Common.Enums;
 using TeamWork.DataAccess.Domain.GroupDTO;
 using TeamWork.DataAccess.Domain.Models;
@@ -34,7 +36,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         {
             _unitOfWork.Group.InsertItem(group);
 
-            return (await _unitOfWork.Commit()) > 0;
+            return (await _unitOfWork.Commit()) > Number.Number_0;
         }
         public async Task<Guid> CreateGroupByUserAsync(GroupDetalisReceived groupDetalis)
         {
@@ -67,7 +69,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                 });
             }
 
-            if (await _unitOfWork.Commit() < 3)
+            if (await _unitOfWork.Commit() < Number.Number_3)
             {
                 key = Guid.Empty;
             }
@@ -84,7 +86,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
             };
 
             _unitOfWork.GroupMember.InsertItem(newMember);
-            return (await _unitOfWork.Commit())>0;
+            return (await _unitOfWork.Commit())> Number.Number_0;
         }
         public async Task<List<ViewGroups>> GetGroupsAsync(string userEmail, StatusRequest status)
         {
@@ -99,7 +101,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                     {
                         GroupName = group.Group.GroupName,
                         NoMembers = group.Group.GroupMembers.Where(s=>s.StatusRequest==StatusRequest.Joined).Count().ToString(),
-                        TeacherName = teacher?.FirstName+" "+teacher?.LastName,
+                        TeacherName = teacher?.FirstName+ Constants.BlankSpace+teacher?.LastName,
                         UniqueKey = group.Group.GroupUniqueID.ToString(),
                         GroupDetails=group.Group.Description,
                         TeacherEmail=teacher?.UserEmailId
@@ -112,7 +114,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         {
             await _unitOfWork.Group.DeleteItem(u => u.GroupUniqueID == group);
 
-            return await _unitOfWork.Commit() > 0;
+            return await _unitOfWork.Commit() > Number.Number_0;
         }
         public async Task<bool> DeleteUserFromGroupAsync(User user, Guid group)
         {
@@ -125,7 +127,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
            await _unitOfWork.GroupMember.DeleteItem(u => u.GroupMemberID == groupMember.GroupMemberID);
 
-            return await _unitOfWork.Commit()>0;
+            return await _unitOfWork.Commit()> Number.Number_0;
         }
         public async Task<bool> IsMemberToGroupAsync(string userEmail, string groupKey)
         {
@@ -140,7 +142,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
                     Description = groupDetalis.Description,
                     GroupName = groupDetalis.GroupName
                 });
-            return await _unitOfWork.Commit() > 0;
+            return await _unitOfWork.Commit() > Number.Number_0;
         }
         public async Task<bool> UpdateGroupMemberAsync(string key, string email)
         {
@@ -150,13 +152,13 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
             await _unitOfWork.GroupMember.UpdateItem(groupMember);
 
-            return await _unitOfWork.Commit() > 0;
+            return await _unitOfWork.Commit() > Number.Number_0;
         }
         public async Task<bool> AddMemberByEmailAsync(GroupMember groupMember)
         {
             _unitOfWork.GroupMember.InsertItem(groupMember);
 
-            return (await _unitOfWork.Commit())>0;
+            return (await _unitOfWork.Commit())> Number.Number_0;
         }
         public async Task<List<Member>> GetGroupMembersByKeyAsync(Guid key)
         {

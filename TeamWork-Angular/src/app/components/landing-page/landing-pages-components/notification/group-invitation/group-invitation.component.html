@@ -1,5 +1,5 @@
-<mat-card class="card">
-    <div fxLayout="row" fxLayoutAlign="center center">
+<mat-card class="card" *ngIf="display">
+    <div fxLayout="row" fxLayoutAlign="center center" *ngIf="state==0">
         <mat-card-content>
             <div fxLayout="column" fxLayoutAlign="start">
                 <h1><strong>{{group.groupName}}</strong></h1>
@@ -8,11 +8,25 @@
         </mat-card-content>
         <mat-card-actions>
             <div fxLayout="column">
-                <button mat-fab style=" background:white;color: black; margin-left: 40px;" (click)="onAccept()">
+                <button mat-fab class="button-style" (click)="onAccept()">
                     <mat-icon>check</mat-icon>Accept
                 </button>
-                <button mat-fab style=" background:black;color: white; margin-left: 40px;" (click)="onDecline()">
+                <button mat-fab class="button-style"  (click)="onDecline()">
                     <mat-icon>clear</mat-icon> Decline
+                </button>
+            </div>
+        </mat-card-actions>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center" *ngIf="state==1">
+        <mat-card-content>
+            <div fxLayout="column" fxLayoutAlign="center">
+                <h4><strong>{{notification.message}}</strong></h4>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <div fxLayout="column">
+                <button mat-button  class="button-style2" (click)="onMarkAsSeen()">
+                    Mark as seen
                 </button>
             </div>
         </mat-card-actions>

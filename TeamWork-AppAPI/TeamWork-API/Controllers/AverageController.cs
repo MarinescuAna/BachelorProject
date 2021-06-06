@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
 using TeamWork.Common.ConstantNumbers;
+using TeamWork.Common.ConstantStrings;
 using TeamWork.Common.ConstantStrings.ErrorHandler;
 using TeamWork.DataAccess.Domain.AverageDTO;
 using TeamWork.DataAccess.Domain.Models;
@@ -18,13 +19,17 @@ namespace TeamWork_API.Controllers
     public class AverageController : BaseController
     {
         private readonly IAverageService _averageService;
+        private readonly INotificationService _notificationService;
         public AverageController(
+            INotificationService notificationService,
             IAverageService averageService,
-            IConfiguration configuration,
-            IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor) : base( httpContextAccessor)
         {
+            _notificationService = notificationService;
             _averageService = averageService;
         }
+
+        //TODO testeaza notificarea
         [HttpPost]
         [Route("ComputeAverage")]
         public async Task<IActionResult> ComputeAverage(AverageInsert[] list)
@@ -51,6 +56,12 @@ namespace TeamWork_API.Controllers
                     {
                         return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
                     }
+                    await _notificationService.InsertNotificationAsync(new Notification
+                    {
+                        ID = Guid.NewGuid(),
+                        Message = string.Format(Constants.ReturnedGradeForGroups,teacherEmail,Constants.Media),
+                        UserID=average.StudentID         
+                    });
                 }
             }
 

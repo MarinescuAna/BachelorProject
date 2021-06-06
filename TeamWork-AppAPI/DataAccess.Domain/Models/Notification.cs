@@ -9,7 +9,5 @@ namespace TeamWork.DataAccess.Domain.Models
         public Guid ID { get; set; }
         public string Message { get; set; }
         public string UserID { get; set; }
-
-        public virtual User User { get; set; }
     }
 }

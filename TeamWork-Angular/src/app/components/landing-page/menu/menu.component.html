@@ -1,12 +1,12 @@
 <div fxLayoutAlign="center center">
     <mat-grid-list class="menu-style" cols="9" rowHeight="60px" rowWidth="20px">
         <mat-grid-tile>
-            <button mat-button  (click)="redirectHome()">
+            <button mat-button (click)="redirectHome()">
                 Home
             </button>
         </mat-grid-tile>
         <mat-grid-tile *ngIf='!authService.isLogged()'>
-            <button mat-button [routerLink]="'/about'"  >
+            <button mat-button [routerLink]="'/about'">
                 About us
             </button>
         </mat-grid-tile>
@@ -16,17 +16,17 @@
             </button>
         </mat-grid-tile>
         <mat-grid-tile *ngIf='!authService.isLogged()'>
-            <button mat-button  [routerLink]="'/register'">
+            <button mat-button [routerLink]="'/register'">
                 Register
             </button>
         </mat-grid-tile>
         <mat-grid-tile *ngIf='authService.isLogged()'>
-            <button mat-button class="goright" (click)="redirectTo('my-groups')" >
+            <button mat-button class="goright" (click)="redirectTo('my-groups')">
                 <span>Groups</span>
             </button>
         </mat-grid-tile>
         <mat-grid-tile>
-            <button mat-button class="goright" (click)="redirectTo('list')"   *ngIf='authService.isLogged() && isTeacher'> 
+            <button mat-button class="goright" (click)="redirectTo('list')" *ngIf='authService.isLogged() && isTeacher'>
                 <span>Assignments</span>
             </button>
         </mat-grid-tile>
@@ -44,8 +44,13 @@
             </button>
         </mat-grid-tile>
         <mat-grid-tile *ngIf='authService.isLogged()'>
-            <button mat-fab style="background-color: black; margin-left: 30px;" (click)="onSubmit()" matTooltip="Log out"
+            <button mat-icon-button class="button-notify" [matBadge]="notify" matBadgePosition="below before"
+                matBadgeColor="accent" (click)="onViewNotifications()" matTooltip="Notifications"
                 *ngIf='authService.isLogged()'>
+                <mat-icon>{{notify==0?'notifications':'notifications_active'}}</mat-icon>
+            </button>
+            <button mat-fab style="background-color: black; margin-left: 30px;" (click)="onSubmit()"
+                matTooltip="Log out" *ngIf='authService.isLogged()'>
                 <mat-icon>exit_to_app</mat-icon>
             </button>
         </mat-grid-tile>

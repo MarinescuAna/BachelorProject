@@ -32,8 +32,7 @@ namespace TeamWork_API.Controllers
             IListService listService,
             IGroupService groupService,
             ICheckListGradeService checkListGradeService,
-            IConfiguration configuration,
-            IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             _averageService = averageService;
             _checkListGradeService = checkListGradeService;

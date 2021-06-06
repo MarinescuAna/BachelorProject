@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Repository.UOW;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
+using TeamWork.Common.ConstantNumbers;
 using TeamWork.DataAccess.Domain.Models;
 
 namespace TeamWork.ApplicationLogic.Service.Models.Implementation
@@ -37,13 +38,13 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         {
            await _unitOfWork.PeerEvaluations.UpdateItem(peerEvaluation);
 
-            return (await _unitOfWork.Commit()) > 0;
+            return (await _unitOfWork.Commit()) > Number.Number_0;
         }
         public async Task<bool> InsertPeerEvaluationAsync(PeerEvaluation peerEvaluation)
         {
             _unitOfWork.PeerEvaluations.InsertItem(peerEvaluation);
 
-            return (await _unitOfWork.Commit()) > 0;
+            return (await _unitOfWork.Commit()) > Number.Number_0;
         }
     }
 }

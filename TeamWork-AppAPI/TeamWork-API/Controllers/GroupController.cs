@@ -27,15 +27,17 @@ namespace TeamWork_API.Controllers
         private readonly IAssignedTaskService _assignedTaskService;
         private readonly IAssignmentService _assignmentService;
         private readonly IListService _listService;
+        private readonly INotificationService _notificationService;
         public GroupController(
+            INotificationService notificationService,
             IListService listService,
             IAssignmentService assignmentService,
             IAssignedTaskService assignedTaskService,
             IGroupService group, IUserService user,
-            IHttpContextAccessor httpContextAccessor,
-            IConfiguration configuration)
-            : base(configuration, httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor)
+            : base(httpContextAccessor)
         {
+            _notificationService = notificationService;
             _listService = listService;
             _assignmentService = assignmentService;
             _groupService = group;
@@ -104,7 +106,7 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_409, Conflict409Error.PartFromGroup);
             }
 
-            if (!(await _groupService.JoinToGroupAsync(key, userEmail)))
+            if (!await _groupService.JoinToGroupAsync(key, userEmail))
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }
@@ -145,7 +147,11 @@ namespace TeamWork_API.Controllers
         {
             var userEmail = ExtractEmailFromJWT();
 
-            var statusRequest = status == Number.Number_0 ? StatusRequest.Joined : status == Number.Number_1 ? StatusRequest.Waiting : StatusRequest.Declined;
+            var statusRequest = status == Number.Number_0 ? 
+                StatusRequest.Joined : 
+                status == Number.Number_1 ? 
+                    StatusRequest.Waiting : 
+                    StatusRequest.Declined;
 
             var groups = await _groupService.GetGroupsAsync(userEmail, statusRequest);
 
@@ -165,7 +171,7 @@ namespace TeamWork_API.Controllers
         [Route("GetMembersByAssignedTaskIdKey")]
         public async Task<IActionResult> GetMembersByAssignedTaskIdKey(string key)
         {
-            var members = new System.Collections.Generic.List<Member>();
+            var members = new List<Member>();
             if (string.IsNullOrEmpty(key))
             {
                 return StatusCode(Number.Number_200, members);
@@ -218,7 +224,7 @@ namespace TeamWork_API.Controllers
 
             return Ok();
         }
-
+        //TODO testeaza notificarea
         [HttpPut]
         [Route("GetOutMember")]
         public async Task<IActionResult> GetOutMember(DeleteUserFromGroup user)
@@ -233,6 +239,13 @@ namespace TeamWork_API.Controllers
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }
+
+            await _notificationService.InsertNotificationAsync(new Notification
+            {
+                ID=Guid.NewGuid(),
+                Message=string.Format(Constants.RemovedFromGroup,ExtractEmailFromJWT()),
+                UserID=user.Email
+            });
 
             if (await _groupService.GetNoMembersFromGroupByGuidAsync(Guid.Parse(user.GroupKey)) == Number.Number_0)
             {
@@ -317,6 +330,8 @@ namespace TeamWork_API.Controllers
             data.Error = Constants.EmptyString;
             return Ok(data);
         }
+
+        //TODO testeaza notificarea
         [HttpPost]
         [Route("SentInvitationsRandom")]
         public async Task<IActionResult> SentInvitationsRandom(RandomGroupsCreate random)
@@ -329,7 +344,7 @@ namespace TeamWork_API.Controllers
 
             var groupsAdded = new Dictionary<string, Guid>();
 
-            for (var index = 0; index < random.Emails.Count && string.IsNullOrEmpty(random.Error); index++)
+            for (var index = Number.Position_0; index < random.Emails.Count && string.IsNullOrEmpty(random.Error); index++)
             {
                 if (!groupsAdded.ContainsKey(random.GroupNames[index]))
                 {
@@ -366,6 +381,13 @@ namespace TeamWork_API.Controllers
                 {
                     random.Error = BadRequest400Error.SomethingWentWrong;
                 }
+
+                await _notificationService.InsertNotificationAsync(new Notification
+                {
+                    ID = Guid.NewGuid(),
+                    UserID = random.Emails[index],
+                    Message = string.Format(Constants.AddeddIntoGeneratedGroup, random.GroupNames[index],ExtractEmailFromJWT())
+                });
             }
 
             return Ok(random);
@@ -373,18 +395,19 @@ namespace TeamWork_API.Controllers
         private void ShuffleData(ref RandomGroupsCreate random)
         {
             var indexesUsed = new List<int>();
-            var numberAssignedGroups = 0;
+            var numberAssignedGroups = Number.Number_0;
             var randomGenerator = new Random();
-            var generatedNumber = 0;
+            var generatedNumber = Number.Number_0;
 
             while (numberAssignedGroups != random.Emails.Count)
             {
                 var groupName = Constants.Group + Constants.BlankSpace + randomGenerator.Next(Number.Number_1000000);
-                for (var index = 0; index < int.Parse(random.NumberMax) && numberAssignedGroups != random.Emails.Count; index++)
+                for (var index = Number.Position_0; index < int.Parse(random.NumberMax) && numberAssignedGroups != random.Emails.Count; index++)
                 {
                     do
                     {
                         generatedNumber = randomGenerator.Next(random.Emails.Count);
+
                     } while (indexesUsed.Contains(generatedNumber));
 
                     random.GroupNames[generatedNumber] = groupName;
@@ -395,8 +418,8 @@ namespace TeamWork_API.Controllers
         }
         private async Task<string> VerifyMembers(List<string> list)
         {
-            var countMessagesNoAccount = 0;
-            var countMessagesTeacherRole = 0;
+            var countMessagesNoAccount = Number.Number_0;
+            var countMessagesTeacherRole = Number.Number_0;
             var messageNoAccount = new StringBuilder();
             var messageTeacherRole = new StringBuilder();
             foreach (var email in list)
@@ -417,13 +440,13 @@ namespace TeamWork_API.Controllers
                 }
             }
 
-            if (countMessagesNoAccount > 0)
+            if (countMessagesNoAccount > Number.Number_0)
             {
                 messageNoAccount.Append(Constants.NoAccount);
             }
-            if (countMessagesTeacherRole > 0)
+            if (countMessagesTeacherRole > Number.Number_0)
             {
-                if (countMessagesTeacherRole == 1)
+                if (countMessagesTeacherRole == Number.Number_1)
                 {
                     messageTeacherRole.Append(Constants.IsTeacher);
                 }

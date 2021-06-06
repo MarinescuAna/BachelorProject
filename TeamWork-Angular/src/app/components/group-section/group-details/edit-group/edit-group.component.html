@@ -22,7 +22,8 @@
                     <br>
                     <mat-form-field class="input-style" >
                         <mat-label>Description</mat-label>
-                        <textarea matInput rows="5" maxlength="255" placeholder="..." formControlName='description'></textarea>
+                        <textarea matInput rows="5" #description maxlength="255" placeholder="..." formControlName='description'></textarea>
+                        <mat-hint align="end">{{description.value.length}} / 255</mat-hint>
                     </mat-form-field>
                 </form>
             </div>

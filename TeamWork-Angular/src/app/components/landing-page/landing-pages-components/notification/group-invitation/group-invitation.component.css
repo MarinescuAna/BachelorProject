@@ -1,8 +1,7 @@
 .card {
-    width: 800px;
+    width: 900px;
     height: 130px;
-    background-color: #FFD54F;
-    margin-top: 1%;
+    background-color: #FFFF8D;
   }
 
   button{
@@ -11,4 +10,17 @@
 
   p{
     width: 500px; 
+  }
+
+  .button-style{
+    background:white;
+    color: black; 
+    margin-left: 40px;
+  }
+
+  .button-style2{
+    background-color: #000;
+    color: #fff;
+    width: 140px;
+    height: 36px;
   }

@@ -21,10 +21,8 @@
    
 }
 
-.music{
-    width: 70px;
-    background-color: #FFC107;
-    color: black;
-    margin-top: 116%;
-    margin-left: 6%;
+
+.button-notify{
+width: 40px;
+margin-top: -7%;
 }

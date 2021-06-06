@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
 using TeamWork.Common.ConstantNumbers;
+using TeamWork.Common.ConstantStrings;
 using TeamWork.Common.ConstantStrings.ErrorHandler;
 using TeamWork.DataAccess.Domain.ListDTO;
 using TeamWork.DataAccess.Domain.Models;
@@ -20,7 +21,8 @@ namespace TeamWork_API.Controllers
     public class ListController : BaseController
     {
         private readonly IListService _listService;
-        public ListController(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IListService listService) : base(configuration, httpContextAccessor)
+        public ListController(IHttpContextAccessor httpContextAccessor, IListService listService)
+            : base(httpContextAccessor)
         {
             _listService = listService;
         }
@@ -113,7 +115,7 @@ namespace TeamWork_API.Controllers
                 {
                     Deadline = list.ListDeadline!=null? 
                             list.ListDeadline.ToString():    
-                            "UNSET",
+                            Constants.UNSET,
                     Domain = list.Domain,
                     Key = list.ListID.ToString(),
                     Tasks = list.Assignments?.Count.ToString(),

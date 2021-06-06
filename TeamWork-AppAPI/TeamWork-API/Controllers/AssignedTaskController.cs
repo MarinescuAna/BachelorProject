@@ -7,7 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
 using TeamWork.Common.ConstantNumbers;
+using TeamWork.Common.ConstantStrings;
 using TeamWork.Common.ConstantStrings.ErrorHandler;
+using TeamWork.Common.Enums;
 using TeamWork.DataAccess.Domain.AssignedTaskDTO;
 using TeamWork.DataAccess.Domain.Models;
 
@@ -54,10 +56,15 @@ namespace TeamWork_API.Controllers
                     TeacherGrade=assignedTask.TeacherGrade.ToString(),
                     SolutionLink=assignedTask.SolutionLink,
                     StatusTask= string.IsNullOrEmpty(assignedTask.SolutionLink) ?
-                        DateTime.Compare((DateTime)(assignedTask.Assignment?.Deadline), DateTime.Now) > 0 ? "ACTIVE" : "PASS" :
-                        "DONE",
-                    StatusChecklist= string.IsNullOrEmpty(assignedTask.Assignment?.ChecklistDeadline.ToString())?"ACTIVE":
-                        DateTime.Compare((DateTime)(assignedTask.Assignment?.ChecklistDeadline), DateTime.Now)>0?"ACTIVE":"PASS"
+                        DateTime.Compare((DateTime)(assignedTask.Assignment?.Deadline), DateTime.Now) > Number.Number_0 ? 
+                        DeadlineStatus.ACTIVE.ToString() : 
+                        DeadlineStatus.PASS.ToString() : 
+                        DeadlineStatus.DONE.ToString(),
+                    StatusChecklist= string.IsNullOrEmpty(assignedTask.Assignment?.ChecklistDeadline.ToString())?
+                        DeadlineStatus.ACTIVE.ToString():
+                        DateTime.Compare((DateTime)(assignedTask.Assignment?.ChecklistDeadline), DateTime.Now)> Number.Number_0 ?
+                        DeadlineStatus.ACTIVE.ToString() :
+                        DeadlineStatus.PASS.ToString()
                 });
             }
 
@@ -88,8 +95,10 @@ namespace TeamWork_API.Controllers
                     Solution = assignedTask.SolutionLink,
                     GroupName = assignedTask.List.Group.GroupName,
                     Status = string.IsNullOrEmpty(assignedTask.SolutionLink) ?
-                        DateTime.Compare((DateTime)assignedTask.Assignment.Deadline, DateTime.Now) > 0 ? "ACTIVE" : "PASS" :
-                        "DONE"
+                        DateTime.Compare((DateTime)assignedTask.Assignment.Deadline, DateTime.Now) > Number.Number_0 ?
+                        DeadlineStatus.ACTIVE.ToString() :
+                        DeadlineStatus.PASS.ToString() :
+                        DeadlineStatus.DONE.ToString()
                 }) ;
             }
 

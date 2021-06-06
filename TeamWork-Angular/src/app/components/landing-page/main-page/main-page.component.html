@@ -3,9 +3,6 @@
         <app-carousel style="margin: 5%;" [slides]='slidesAllFunctions'></app-carousel>
         <h1 class="Title-twro">Welcome! </h1>
     </mat-card>
-    <mat-card class="section notifications" *ngIf='authService.isLogged()'>
-        <app-group-invitations></app-group-invitations>
-   </mat-card>
    <mat-card class="section" *ngIf='authService.isLogged()'>
     <div fxLayout="row" fxLayoutAlign="center center">
          <vg-player class="video-style">

@@ -8,7 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
 using TeamWork.Common.ConstantNumbers;
+using TeamWork.Common.ConstantStrings;
 using TeamWork.Common.ConstantStrings.ErrorHandler;
+using TeamWork.Common.Enums;
 using TeamWork.DataAccess.Domain.AssignmentDTO;
 using TeamWork.DataAccess.Domain.Models;
 
@@ -20,8 +22,8 @@ namespace TeamWork_API.Controllers
     public class AssignmentController : BaseController
     {
         private readonly IAssignmentService _assignmentService;
-        public AssignmentController(IAssignmentService assignmentService, IConfiguration configuration,
-            IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
+        public AssignmentController(IAssignmentService assignmentService, 
+            IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             _assignmentService = assignmentService;
         }
@@ -46,13 +48,15 @@ namespace TeamWork_API.Controllers
                     ChecklistDeadline = assignment.ChecklistDeadline.ToString(),
                     CreatedDate = assignment.CreatedDate.ToString(),
                     Description = assignment.Description,
-                    GroupsMax = assignment.GroupsMax == -1 ? "unset" : assignment.GroupsMax.ToString(),
-                    GroupsTake = assignment.GroupsMax == -1 ? "unset" : (assignment.GroupsMax - assignment.GroupsTake).ToString(),
+                    GroupsMax = assignment.GroupsMax == -1 ? Constants.Unset : assignment.GroupsMax.ToString(),
+                    GroupsTake = assignment.GroupsMax == -1 ? Constants.Unset : (assignment.GroupsMax - assignment.GroupsTake).ToString(),
                     Title = assignment.Title,
                     ListID = assignment.ListID.ToString(),
-                    Status = DateTime.Compare((DateTime)assignment.Deadline, DateTime.Now) < 0 ? "PASS" :
-                        assignment.GroupsTake == assignment.GroupsMax ? "TAKEN" : "ACTIVE",
-                    ReturnedGrade = assignment.GradeReturned ? "1" : "0"
+                    Status = DateTime.Compare((DateTime)assignment.Deadline, DateTime.Now) < Number.Number_0 ? 
+                        AssignmentStatus.PASS.ToString() :
+                        assignment.GroupsTake == assignment.GroupsMax ? AssignmentStatus.TAKEN.ToString(): 
+                        AssignmentStatus.ACTIVE.ToString(),
+                    ReturnedGrade = assignment.GradeReturned ? Constants.One : Constants.Zero
                 }) ;
             }
 
@@ -86,14 +90,18 @@ namespace TeamWork_API.Controllers
             if (!await _assignmentService.InsertTaskAsync(new Assignment
             {
                 AssignmentID = Guid.NewGuid(),
-                ChecklistDeadline = string.IsNullOrEmpty(assignment.ChecklistDeadline) ? DateTime.Parse(assignment.Deadline) : DateTime.Parse(assignment.ChecklistDeadline),
+                ChecklistDeadline = string.IsNullOrEmpty(assignment.ChecklistDeadline) ? 
+                    DateTime.Parse(assignment.Deadline) : 
+                    DateTime.Parse(assignment.ChecklistDeadline),
                 ListID = Guid.Parse(assignment.ListId),
                 Title = assignment.Title,
-                GroupsMax = !string.IsNullOrEmpty(assignment.GroupsMax) ? int.Parse(assignment.GroupsMax) : -1,
+                GroupsMax = !string.IsNullOrEmpty(assignment.GroupsMax) ? 
+                    int.Parse(assignment.GroupsMax) : 
+                    Number.Number_1_Negative,
                 Deadline = DateTime.Parse(assignment.Deadline),
                 Description = assignment.Description,
                 CreatedDate = DateTime.Now,
-                GroupsTake = 0,
+                GroupsTake = Number.Number_0,
                 GradeReturned = false
             }))
             {

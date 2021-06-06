@@ -18,14 +18,5 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
         {
 
         }
-        public override async Task<IEnumerable<Notification>> GetItems() =>
-            await context.Notifications
-               .Include(s => s.User)
-               .ToListAsync();
-        public override async Task<Notification> GetItem(Expression<Func<Notification, bool>> expression) =>
-           await context.Notifications
-           .Include(s => s.User)
-           .AsNoTracking()
-           .FirstOrDefaultAsync(expression);
     }
 }

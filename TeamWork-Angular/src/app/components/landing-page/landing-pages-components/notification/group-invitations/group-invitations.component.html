@@ -1,12 +1,10 @@
-<div class="all-groups" *ngIf="length!==0">
+<div>
     <div fxFlex fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
         <div *ngFor="let group of myGroups">
-            <app-group-invitation [group]='group'></app-group-invitation>
+            <app-group-invitation [group]='group' [state]="0"></app-group-invitation>
+        </div>
+        <div *ngFor="let notify of notifications">
+            <app-group-invitation [group]='null' [notification]='notify' [state]="1"></app-group-invitation>
         </div>
     </div>
-</div>
-<div class="all-groups" *ngIf="length===0">
-    <mat-card style="width: 800px;height: 100px;color: #FFD54F; margin-left: 23%">
-        <h1 style="text-align: center; font-size: xx-large;"><strong>No notifications found!</strong></h1>
-    </mat-card>
 </div>

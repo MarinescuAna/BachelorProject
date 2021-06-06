@@ -51,10 +51,10 @@ export class DashboardViewExtentionComponent {
     group: new FormControl('', [Validators.required]),
     assignment: new FormControl('', [Validators.required])
   });
-  panelOpenStateGrades = false;
-  @Input() list: any;
   assignments: AssignmentsListModule[];
   groups: ViewGroupsModule[];
+  panelOpenStateGrades = false;
+  @Input() list: any;
   data: DashboardDataModule[];
   load = false;
 

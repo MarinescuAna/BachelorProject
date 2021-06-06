@@ -20,7 +20,10 @@ namespace TeamWork_API.Controllers
     public class ChatController : BaseController
     {
         private readonly IChatService _chatService;
-        public ChatController(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IChatService chatService) :base(configuration, httpContextAccessor)
+        public ChatController(
+            IHttpContextAccessor httpContextAccessor,
+            IChatService chatService) :
+            base(httpContextAccessor)
         {
             _chatService = chatService;
         }
@@ -70,7 +73,7 @@ namespace TeamWork_API.Controllers
                 UserId = ExtractEmailFromJWT()
             };
 
-            if(!(await _chatService.SaveMessageByGroupKeyAsync(messageRecevied.GroupKey,message)))
+            if(!await _chatService.SaveMessageByGroupKeyAsync(messageRecevied.GroupKey,message))
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }
@@ -90,7 +93,7 @@ namespace TeamWork_API.Controllers
             var messageOld = await _chatService.GetMessageByKeyAsync(messageUpdate.MessageKey);
             messageOld.Content = messageUpdate.Content;
 
-            if (!(await _chatService.UpdateMessageAsync(messageOld)))
+            if (!await _chatService.UpdateMessageAsync(messageOld))
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }
@@ -107,7 +110,7 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_204, NoContent204Error.NoContent);
             }
 
-            if (!(await _chatService.DeleteMessageAsync(key)))
+            if (!await _chatService.DeleteMessageAsync(key))
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }

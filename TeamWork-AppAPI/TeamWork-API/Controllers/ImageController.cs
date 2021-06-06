@@ -9,6 +9,7 @@ using TeamWork.Common.ConstantNumbers;
 using TeamWork.Common.ConstantStrings.ErrorHandler;
 using TeamWork.DataAccess.Domain.AccountDTO;
 using TeamWork.DataAccess.Domain.Models;
+using TeamWork_API.Utils;
 
 namespace TeamWork_API.Controllers
 {
@@ -18,7 +19,7 @@ namespace TeamWork_API.Controllers
     public class ImageController : BaseController
     {
         private readonly IImageService _imageService;
-        public ImageController(IConfiguration configuration,IImageService imageService, IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
+        public ImageController(IImageService imageService, IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             _imageService = imageService;
         }
@@ -35,7 +36,7 @@ namespace TeamWork_API.Controllers
             var existentImage = await _imageService.GetImageAsync(ExtractEmailFromJWT());
             if (existentImage != null)
             {
-                existentImage.ImageContent = CompressImage(uploadImageModel.ImageContent);
+                existentImage.ImageContent = ImageProcessing.CompressImage(uploadImageModel.ImageContent);
                 existentImage.ImageExtention = uploadImageModel.ImageExtention;
 
                 if (!await _imageService.UpdateImageAsync(existentImage))
@@ -48,7 +49,7 @@ namespace TeamWork_API.Controllers
 
             if (!await _imageService.InsertImageAsync(new Image
             {
-                ImageContent = CompressImage(uploadImageModel.ImageContent),
+                ImageContent = ImageProcessing.CompressImage(uploadImageModel.ImageContent),
                 UserId = ExtractEmailFromJWT(),
                 ImageExtention = uploadImageModel.ImageExtention,
                 ImageId = Guid.NewGuid()

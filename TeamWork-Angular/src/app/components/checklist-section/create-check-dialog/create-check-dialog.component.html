@@ -3,7 +3,8 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <mat-form-field class="input-style">
                 <mat-label>Description</mat-label>
-                <textarea matInput rows="4" formControlName='description' required></textarea>
+                <textarea matInput rows="4"   #description maxlength="250"  formControlName='description' required></textarea>
+                <mat-hint align="end">{{description.value.length}} / 250</mat-hint>
                 <mat-icon matSuffix>edit</mat-icon>
             </mat-form-field>
         </form>

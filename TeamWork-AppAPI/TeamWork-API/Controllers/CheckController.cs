@@ -22,12 +22,10 @@ namespace TeamWork_API.Controllers
         private readonly ICheckService _checkService;
 
         public CheckController(
-            IConfiguration configuration,
             ICheckService checkService,
             IHttpContextAccessor httpContextAccessor
             )
             : base(
-                  configuration,
                   httpContextAccessor
                   )
         {
@@ -39,8 +37,8 @@ namespace TeamWork_API.Controllers
         public async Task<IActionResult> GetChecks(string text)
         {
             var checks = new List<CheckDisplay>();
-            var assignedTaskId = Guid.Parse(text.Split(Constants.Asterik)[0]);
-            var email = text.Split(Constants.Asterik)[1];
+            var assignedTaskId = Guid.Parse(text.Split(Constants.Asterik)[Number.Position_0]);
+            var email = text.Split(Constants.Asterik)[Number.Position_1];
 
             if (string.IsNullOrEmpty(text))
             {
@@ -79,7 +77,7 @@ namespace TeamWork_API.Controllers
                 CheckID = Guid.NewGuid(),
                 CreationDate = DateTime.Now,
                 Description = check.Description,
-                IsChecked = 0,
+                IsChecked = Number.Number_0,
                 LastUpdate = DateTime.Now,
                 UserId = check.Email,
                 CreateBy = check.CreateBy
@@ -140,7 +138,7 @@ namespace TeamWork_API.Controllers
             }
 
             var oldCheck = await _checkService.GetCheckByCheckIdAsync(Guid.Parse(checkId));
-            oldCheck.IsChecked = oldCheck.IsChecked == 1 ? 0 : 1;
+            oldCheck.IsChecked = oldCheck.IsChecked == Number.Number_1 ? Number.Number_0 : Number.Number_1;
             oldCheck.LastUpdate = DateTime.Now;
 
             if (await _checkService.UpdateCheckAsync(oldCheck) == false)

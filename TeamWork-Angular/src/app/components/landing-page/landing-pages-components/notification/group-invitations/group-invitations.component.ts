@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewGroupsModule } from 'src/app/modules/view-groups.module';
 import { GroupService } from 'src/app/services/group-service';
+import{NotificationService} from 'src/app/services/notification.service';
+import {NotificationModule} from 'src/app/modules/notification.module';
 
 @Component({
   selector: 'app-group-invitations',
@@ -8,16 +10,19 @@ import { GroupService } from 'src/app/services/group-service';
   styleUrls: ['./group-invitations.component.css']
 })
 export class GroupInvitationsComponent implements OnInit {
-  length:any;
+
   myGroups: ViewGroupsModule[];
-  constructor(private groupService: GroupService) {
+  notifications: NotificationModule[];
+  constructor(private groupService: GroupService, private notificationService:NotificationService) {
 
    }
 
   ngOnInit(): void {
     this.groupService.GetMyGroupsStudent(1).subscribe(cr =>{
       this.myGroups= cr as ViewGroupsModule[];
-      this.length=this.myGroups.length;
+    });
+    this.notificationService.GetNotifications().subscribe(cr=>{
+      this.notifications=cr as NotificationModule[];
     });
   }
 }

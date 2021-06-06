@@ -24,13 +24,15 @@ namespace TeamWork_API.Controllers
     {
         private readonly IPeerEvaluationService _peerEvaluationService;
         private readonly IGroupService _groupService;
+        private readonly INotificationService _notificationService;
         public PeerEvaluationController(
+            INotificationService notificationService,
             IPeerEvaluationService peerEvaluationService,
-            IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor,
             IGroupService groupService)
-            : base(configuration, httpContextAccessor)
+            : base(httpContextAccessor)
         {
+            _notificationService = notificationService;
             _groupService = groupService;
             _peerEvaluationService = peerEvaluationService;
         }
@@ -59,6 +61,7 @@ namespace TeamWork_API.Controllers
             });
 
         }
+        //TODO adauga notificare si testeaza
         /// <summary>
         /// First thing first is to check the number of members because if they are just 2 (teacher and student)
         /// the evaluation can't be done.
@@ -80,8 +83,8 @@ namespace TeamWork_API.Controllers
             }
 
             //split the input data which have the follow format: assignedTaskId*groupId
-            var assignedTaskId = Guid.Parse(text.Split(Constants.Asterik)[0]);
-            var groupId = Guid.Parse(text.Split(Constants.Asterik)[1]);
+            var assignedTaskId = Guid.Parse(text.Split(Constants.Asterik)[Number.Position_0]);
+            var groupId = Guid.Parse(text.Split(Constants.Asterik)[Number.Position_1]);
 
             //retrieve from database and check if the evaluation was started by another user and the data 
             //was already shuffle, cause in this case we will return the person that the current user have to
@@ -104,7 +107,8 @@ namespace TeamWork_API.Controllers
                     Error = Constants.EmptyString,
                     Id = peerEvaluationResultForCurrentUser.ID.ToString(),
                     EvaluatingStudentEmail = peerEvaluationResultForCurrentUser.EvaluatedUser.UserEmailId,
-                    EvaluatingStudentFullname = peerEvaluationResultForCurrentUser.EvaluatedUser.FirstName + Constants.BlankSpace +
+                    EvaluatingStudentFullname = peerEvaluationResultForCurrentUser.EvaluatedUser.FirstName +
+                        Constants.BlankSpace +
                         peerEvaluationResultForCurrentUser.EvaluatedUser.LastName
 
                 });
@@ -114,12 +118,22 @@ namespace TeamWork_API.Controllers
             var groupMembsers = await _groupService.GetGroupMembersByKeyAsync(groupId);
 
             //test to see if the evaluation is possible or not
-            if (groupMembsers.Count <= 2)
+            if (groupMembsers.Count <= Number.Number_2)
             {
                 return Ok(new PeerEvaluationResult
                 {
                     Error = Conflict409Error.EvaluationNotPossible
                 });
+            }
+
+            foreach (var member in groupMembsers)
+            {
+                await _notificationService.InsertNotificationAsync(new Notification
+                {
+                    ID = Guid.NewGuid(),
+                    Message = string.Format(Constants.PeerEvaluationStart, ExtractEmailFromJWT()),
+                    UserID=member.Email
+                }); 
             }
 
             //start the shuffle process
@@ -128,6 +142,7 @@ namespace TeamWork_API.Controllers
                     assignedTaskId
                 ));
         }
+        //TODO notificare
         [HttpPut]
         [Route("AssignPeerEvaluation")]
         public async Task<IActionResult> AssignPeerEvaluation(UpdatePeerEvaluation updatePeerEvaluation)
@@ -142,10 +157,18 @@ namespace TeamWork_API.Controllers
             peerEvaluation.Grade = float.Parse(updatePeerEvaluation.Grade);
             peerEvaluation.AssignedTask = null;
             peerEvaluation.EvaluatedUser = null;
+
             if (!await _peerEvaluationService.UpdatePeerEvaluationAsync(peerEvaluation))
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }
+
+            await _notificationService.InsertNotificationAsync(new Notification
+            {
+                ID = Guid.NewGuid(),
+                Message = Constants.PeerEvaluationReceive,
+                UserID = peerEvaluation.UserID
+            });
 
             return Ok();
         }
@@ -154,21 +177,21 @@ namespace TeamWork_API.Controllers
         {
             var listPeerEvaluations = new List<PeerEvaluation>();
 
-            if (groupMembers.Count == 2)
+            if (groupMembers.Count == Number.Number_2)
             {
                 listPeerEvaluations.Add(new PeerEvaluation
                 {
                     ID = Guid.NewGuid(),
                     AssignedTaskID = assignedTaskId,
-                    EvaluatingUserEmail = groupMembers[0].Email,
-                    UserID = groupMembers[1].Email
+                    EvaluatingUserEmail = groupMembers[Number.Number_0].Email,
+                    UserID = groupMembers[Number.Number_1].Email
                 });
                 listPeerEvaluations.Add(new PeerEvaluation
                 {
                     ID = Guid.NewGuid(),
                     AssignedTaskID = assignedTaskId,
-                    EvaluatingUserEmail = groupMembers[1].Email,
-                    UserID = groupMembers[0].Email
+                    EvaluatingUserEmail = groupMembers[Number.Number_1].Email,
+                    UserID = groupMembers[Number.Number_0].Email
                 });
             }
             else
@@ -216,16 +239,16 @@ namespace TeamWork_API.Controllers
             var listPeerEvaluations = new List<PeerEvaluation>();
             var frequency = new int[groupMembers.Count];
             var random = new Random();
-            var randomIndex = -1;
+            var randomIndex = Number.Number_1_Negative;
 
-            for (var index = 0; index < groupMembers.Count; index++)
+            for (var index = Number.Position_0; index < groupMembers.Count; index++)
             {
                 do
                 {
                     randomIndex = random.Next(groupMembers.Count);
-                } while (index == randomIndex || frequency[randomIndex] != 0);
+                } while (index == randomIndex || frequency[randomIndex] != Number.Number_0);
 
-                if (randomIndex != -1)
+                if (randomIndex != Number.Number_1_Negative)
                 {
                     frequency[randomIndex]++;
                     listPeerEvaluations.Add(new PeerEvaluation
@@ -236,7 +259,7 @@ namespace TeamWork_API.Controllers
                         UserID = groupMembers[randomIndex].Email
                     });
                 }
-                randomIndex = -1;
+                randomIndex = Number.Number_1_Negative;
             }
 
             return listPeerEvaluations;

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Repository.UOW;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
+using TeamWork.Common.ConstantNumbers;
 using TeamWork.DataAccess.Domain.Models;
 
 namespace TeamWork.ApplicationLogic.Service.Models.Implementation
@@ -17,7 +18,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         {
             _unitOfWork.CheckListGrades.InsertItem(checkListGrade);
 
-            return (await _unitOfWork.Commit()) > 0;
+            return (await _unitOfWork.Commit()) > Number.Number_0;
         }
 
         public async Task<CheckListGrade> GetCheckListGradeByUserIdAssignedTaskIDAsync(Guid assignedTaskID, string userID)

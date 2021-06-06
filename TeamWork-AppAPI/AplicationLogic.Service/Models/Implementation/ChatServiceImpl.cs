@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TeamWork.ApplicationLogic.Repository.UOW;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
+using TeamWork.Common.ConstantNumbers;
 using TeamWork.DataAccess.Domain.Models;
 
 namespace TeamWork.ApplicationLogic.Service.Models.Implementation
@@ -16,11 +17,13 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
         public async Task<Chat> GetChatByGroupKeyAsync(string groupKey) => await _unitOfWork.Chat.GetItem(
             s => s.GroupUniqueID.ToString() == groupKey);
-        public async Task<List<Message>> GetMessagesByChatKeyAsync(string chatKey) => (await _unitOfWork.Message.GetItems())
+        public async Task<List<Message>> GetMessagesByChatKeyAsync(string chatKey) => 
+            (await _unitOfWork.Message.GetItems())
             .Where(u=>u.ChatID.ToString()==chatKey)
             .OrderBy(u=>u.DateSent)
             .ToList();
-        public async Task<Message> GetMessageByKeyAsync(string key) => await _unitOfWork.Message.GetItem(u => u.ID.ToString() == key);
+        public async Task<Message> GetMessageByKeyAsync(string key) =>
+            await _unitOfWork.Message.GetItem(u => u.ID.ToString() == key);
         public async Task<bool> SaveMessageByGroupKeyAsync(string groupKey, Message message)
         {
             var chatFound = await GetChatByGroupKeyAsync(groupKey);
@@ -42,21 +45,21 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
             _unitOfWork.Message.InsertItem(message);
 
-            return await _unitOfWork.Commit() > 0;            
+            return await _unitOfWork.Commit() > Number.Number_0;            
         }
 
         public async Task<bool> UpdateMessageAsync(Message message)
         {
             await _unitOfWork.Message.UpdateItem(message);
 
-            return (await _unitOfWork.Commit()) > 0;
+            return (await _unitOfWork.Commit()) > Number.Number_0;
         }
 
         public async Task<bool> DeleteMessageAsync(string messageKey)
         {
             await _unitOfWork.Message.DeleteItem(u=>u.ID.ToString()==messageKey);
 
-            return (await _unitOfWork.Commit()) > 0;
+            return (await _unitOfWork.Commit()) > Number.Number_0;
         }
     }
 }

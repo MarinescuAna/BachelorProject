@@ -15,4 +15,18 @@ namespace TeamWork.Common.Enums
         Waiting,
         Declined
     }
+
+    public enum DeadlineStatus
+    {
+        ACTIVE,
+        PASS,
+        DONE
+    }
+
+    public enum AssignmentStatus
+    {
+        TAKEN,
+        ACTIVE,
+        PASS
+    }
 }

@@ -6,7 +6,32 @@
     </mat-expansion-panel-header>
     <mat-card-actions>
         <div fxLayout="row" fxLayoutAlign="end end">
-            <button mat-fab class="color-buttons" matTooltip="Compute average for each person  per assignment" (click)="onStudentAverage()">
+            <form [formGroup]="form">
+                <mat-form-field class="input-style" appearance="fill">
+                    <mat-label>Assignments</mat-label>
+                    <mat-select formControlName='assignment'>
+                        <mat-option *ngFor="let assignment of assignments" [value]="assignment.title">
+                            {{assignment.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="input-style" appearance="fill">
+                    <mat-label>Groups</mat-label>
+                    <mat-select formControlName='group'>
+                        <mat-option *ngFor="let group of groups" [value]="group.groupName">
+                            {{group.groupName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+            <button mat-raised-button class="btn-size" (click)="onSearch()" matTooltip="Search">
+                <mat-icon>search</mat-icon>
+            </button>
+            <button mat-raised-button class="btn-size" (click)="onReload()" matTooltip="Restore filters">
+                <mat-icon>refresh</mat-icon>
+            </button>
+            <button mat-fab class="color-buttons" matTooltip="Compute average for each person  per assignment"
+                (click)="onStudentAverage()">
                 <mat-icon>emoji_symbols</mat-icon>
             </button>
         </div>

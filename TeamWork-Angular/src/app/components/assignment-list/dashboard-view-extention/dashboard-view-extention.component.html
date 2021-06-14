@@ -41,6 +41,12 @@
                         [chartType]="pieChartType" [options]="pieChartOptions" [legend]="true" height="400px"
                         width="1000px">
                     </canvas>
+                    <p class="titles-style">The report of the tasks defined and done by each student</p>
+                    <div style="display: block">
+                        <canvas baseChart [datasets]="barChartData2" [labels]="pieChartLabels" [options]="barChartOptions"
+                            [legend]="true" [chartType]="barChartType" >
+                        </canvas>
+                    </div>
                     <p class="titles-style">The grades obtained by the students following the peer evaluation and the checklist evaluation</p>
                     <div style="display: block">
                         <canvas baseChart [datasets]="barChartData" [labels]="pieChartLabels" [options]="barChartOptions"

@@ -8,7 +8,8 @@
     </mat-expansion-panel-header>
     <mat-card-actions>
         <div fxLayout="row" fxLayoutAlign="end end">
-            <button mat-fab class="color-buttons" matTooltip="Add assignment" (click)="onCreateTask()"  *ngIf="!isTeacher">
+            <button mat-fab class="color-buttons" matTooltip="Add assignment" (click)="onCreateTask()"
+                *ngIf="!isTeacher">
                 <mat-icon>add_task</mat-icon>
             </button>
             <button mat-fab class="color-button" matTooltip="Delete list" (click)="onDeleteList()" *ngIf="!isTeacher">
@@ -53,7 +54,7 @@
                 <ng-container matColumnDef="peerevaluation">
                     <th mat-header-cell *matHeaderCellDef>Peer evaluation</th>
                     <td mat-cell *matCellDef="let element;">
-                        <button  mat-icon-button matTooltip="Peer evaluation process"
+                        <button mat-icon-button matTooltip="Peer evaluation process"
                             (click)='onPeerEvaluation(element.assignedTaskId)' [disabled]='isTeacher'>
                             <mat-icon matSuffix>insights</mat-icon>
                         </button>
@@ -62,16 +63,16 @@
                 <ng-container matColumnDef="gradepeer">
                     <th mat-header-cell *matHeaderCellDef>Peer evaluation grade</th>
                     <td mat-cell *matCellDef="let element;">
-                        <button  mat-icon-button matTooltip="View peer evaluation grade"
+                        <button mat-icon-button matTooltip="View peer evaluation grade"
                             (click)='onViewGrade(element.assignedTaskId)' [disabled]='isTeacher'>
                             <mat-icon matSuffix>visibility</mat-icon>
                         </button>
                     </td>
                 </ng-container>
-                 <ng-container matColumnDef="check">
+                <ng-container matColumnDef="check">
                     <th mat-header-cell *matHeaderCellDef>Checklist</th>
                     <td mat-cell *matCellDef="let element;">
-                        <button  mat-icon-button matTooltip="Checklist evaluation process"
+                        <button mat-icon-button matTooltip="Checklist evaluation process"
                             (click)='onCheckList(element.assignedTaskId,element.statusChecklist,element.statusTask)'>
                             <mat-icon matSuffix>checklist</mat-icon>
                         </button>
@@ -80,9 +81,18 @@
                 <ng-container matColumnDef="symbol">
                     <th mat-header-cell *matHeaderCellDef> </th>
                     <td mat-cell *matCellDef="let element;">
-                        <button *ngIf="element.statusTask!='PASS'" mat-icon-button  matTooltip="Upload solution link"
+                        <button *ngIf="element.statusTask!='PASS'" mat-icon-button matTooltip="Upload solution link"
                             (click)='onUpdate(element.assignedTaskId)'>
                             <mat-icon matSuffix>edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef> </th>
+                    <td mat-cell *matCellDef="let element;">
+                        <button mat-icon-button matTooltip="Delete task" (click)='onDelete(element.assignedTaskId)'
+                            [disabled]='isTeacher'>
+                            <mat-icon matSuffix>delete_forever</mat-icon>
                         </button>
                     </td>
                 </ng-container>

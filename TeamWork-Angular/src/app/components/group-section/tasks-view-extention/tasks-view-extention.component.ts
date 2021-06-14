@@ -28,7 +28,7 @@ export class TasksViewExtentionComponent implements OnInit {
   @Input() list: ListDisplayModule;
   @Input() group: ViewGroupsModule;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['title', 'description', 'deadline', 'checklistDeadline', 'state', 'grade','solution', 'peerevaluation','gradepeer','check', 'symbol'];
+  displayedColumns: string[] = ['title', 'description', 'deadline', 'checklistDeadline', 'state', 'grade','solution', 'peerevaluation','gradepeer','check', 'symbol','delete'];
   isTeacher=false;
   constructor( 
     private assignedTService: AssignedTaskService,
@@ -72,7 +72,14 @@ export class TasksViewExtentionComponent implements OnInit {
       });
     }
   }
-
+  onDelete(id:any): void {
+    if (confirm("Are you sure?")) {
+      this.assignedTService.DeleteTask(id).subscribe(cr => {
+        this.assignedTService.alertService.showSucces('The task was removed!');
+        window.location.reload();
+      });
+    }
+  }
   onPeerEvaluation(assignedTaskId:any){
     this.peerEvaluationService.GetMemberForEvaluation(assignedTaskId+'*'+this.group.uniqueKey).subscribe(cr => {
         let evaluationResult= cr as PeerEvaluationResultModule;

@@ -33,7 +33,8 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
             u => u.AssignedTaskID == id);
         public async Task<List<AssignedTask>> GetAssignedTasksByListIdAsync(Guid listId) =>
             (await _unitOfWork.AssignedTasks.GetItems()).Where(u => u.ListID == listId).ToList();
-
+        public async Task<AssignedTask> GetAssignedTaskByListIdAssignmentIdAsync(Guid listId, Guid assignmentId) =>
+            await _unitOfWork.AssignedTasks.GetItem(u => u.ListID == listId && u.AssignmentID == assignmentId);
         public async Task<List<AssignedTask>> GetAssignedTasksByAssignmentIdAsync(Guid assignmentId)
             => (await _unitOfWork.AssignedTasks.GetItems()).Where(u=>u.AssignmentID==assignmentId).ToList();
         public async Task<List<AssignedTask>> GetAssignedTasksPerGroupsByListIdAsync(Guid listId) =>
@@ -44,6 +45,12 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
 
             return (await _unitOfWork.Commit()) > Number.Number_0;
 
+        }
+        public async Task<bool> DeleteAssignedTaskByIdAsync(Guid id)
+        {
+            await _unitOfWork.AssignedTasks.DeleteItem(u => u.AssignedTaskID == id);
+
+            return (await _unitOfWork.Commit()) > 0;
         }
     }
 }

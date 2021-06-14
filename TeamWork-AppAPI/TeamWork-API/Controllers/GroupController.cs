@@ -242,7 +242,8 @@ namespace TeamWork_API.Controllers
 
             await _notificationService.InsertNotificationAsync(new Notification
             {
-                ID=Guid.NewGuid(),
+                CreationDate = DateTime.Now,
+                ID =Guid.NewGuid(),
                 Message=string.Format(Constants.RemovedFromGroup,ExtractEmailFromJWT()),
                 UserID=user.Email
             });
@@ -384,6 +385,7 @@ namespace TeamWork_API.Controllers
 
                 await _notificationService.InsertNotificationAsync(new Notification
                 {
+                    CreationDate = DateTime.Now,
                     ID = Guid.NewGuid(),
                     UserID = random.Emails[index],
                     Message = string.Format(Constants.AddeddIntoGeneratedGroup, random.GroupNames[index],ExtractEmailFromJWT())
@@ -398,10 +400,12 @@ namespace TeamWork_API.Controllers
             var numberAssignedGroups = Number.Number_0;
             var randomGenerator = new Random();
             var generatedNumber = Number.Number_0;
+            var countGroupId = Number.Number_1;
 
             while (numberAssignedGroups != random.Emails.Count)
             {
-                var groupName = Constants.Group + Constants.BlankSpace + randomGenerator.Next(Number.Number_1000000);
+                var groupName = Constants.Group + Constants.BlankSpace + countGroupId;
+                countGroupId++;
                 for (var index = Number.Position_0; index < int.Parse(random.NumberMax) && numberAssignedGroups != random.Emails.Count; index++)
                 {
                     do

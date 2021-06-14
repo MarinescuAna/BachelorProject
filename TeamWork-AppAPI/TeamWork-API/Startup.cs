@@ -18,6 +18,7 @@ using TeamWork.ApplicationLogic.Service.Models.Interface;
 using TeamWork.ApplicationLogic.Service.Models.Implementation;
 using TeamWork.ApplicationLogic.Repository.UOW;
 using Microsoft.EntityFrameworkCore;
+using TeamWork_API.Factory;
 
 namespace TeamWork_API
 {
@@ -56,6 +57,7 @@ namespace TeamWork_API
             services.AddScoped<INotificationService, NotificationServiceImpl>();
             services.AddScoped<IPeerEvaluationService, PeerEvaluationServiceImpl>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IHelperFactory, HelperFactory>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //Session

@@ -24,4 +24,7 @@ export class AssignedTaskService  extends DataService {
   public UpdateAssignedTask(data: any): any {
     return super.update('UpdateAssignedTask', data);
   }
+  DeleteTask(id: any): any {
+    return super.delete("id=" + id, 'DeleteTask');
+  }
 }

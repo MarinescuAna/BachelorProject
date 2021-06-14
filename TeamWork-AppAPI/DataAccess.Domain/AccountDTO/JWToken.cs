@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TeamWork_API.Utils
+namespace TeamWork.DataAccess.Domain.AccountDTO
 {
     public class JWToken
     {

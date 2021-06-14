@@ -1,5 +1,16 @@
-<div>
-<app-left-menu></app-left-menu>
+<div fxLayout="column" fxLayoutAlign="space-between" class="menu-position-student">
+  <button mat-fab class="margin" (click)="redirectTo('my-groups')" matTooltip="My groups">
+      <mat-icon>home</mat-icon>
+  </button>
+  <button mat-fab class="margin" matTooltip="Create a new group" (click)="redirectTo('create-group')">
+      <mat-icon>create</mat-icon>
+  </button>
+  <button mat-fab class="margin" matTooltip="Join to a new group" (click)="redirectTo('join-group')">
+      <mat-icon>group_add</mat-icon>
+  </button>
+  <button mat-fab class="margin" matTooltip="Random groups generator"  *ngIf="isTeacher" (click)="redirectTo('random')">
+      <mat-icon>shuffle</mat-icon>
+  </button>
 </div>
 
 <div class="all-groups" *ngIf="length!==0">

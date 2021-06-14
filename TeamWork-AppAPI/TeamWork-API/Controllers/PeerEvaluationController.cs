@@ -130,6 +130,7 @@ namespace TeamWork_API.Controllers
             {
                 await _notificationService.InsertNotificationAsync(new Notification
                 {
+                    CreationDate = DateTime.Now,
                     ID = Guid.NewGuid(),
                     Message = string.Format(Constants.PeerEvaluationStart, ExtractEmailFromJWT()),
                     UserID=member.Email
@@ -165,6 +166,7 @@ namespace TeamWork_API.Controllers
 
             await _notificationService.InsertNotificationAsync(new Notification
             {
+                CreationDate = DateTime.Now,
                 ID = Guid.NewGuid(),
                 Message = Constants.PeerEvaluationReceive,
                 UserID = peerEvaluation.UserID

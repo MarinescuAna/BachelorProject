@@ -2,8 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using TeamWork_API.Utils;
 using Microsoft.AspNetCore.Http;
 using TeamWork.ApplicationLogic.Service.Models.Interface;
 using TeamWork.DataAccess.Domain.AccountDTO;
@@ -12,6 +10,7 @@ using TeamWork.Common.Enums;
 using TeamWork.Common.ConstantNumbers;
 using TeamWork.Common.ConstantStrings.ErrorHandler;
 using TeamWork.Common.ConstantStrings;
+using TeamWork_API.Factory;
 
 namespace TeamWork_API.Controllers
 {
@@ -22,16 +21,20 @@ namespace TeamWork_API.Controllers
     {
         private readonly IUserService _userService;
         private readonly IImageService _imageService;
-        private readonly IConfiguration _configuration;
+        private readonly TokenGeneratorHelper _tokenGeneratorHelper;
+        private readonly ImageHelper _imagerHelper;
+        private readonly SecurityHelper _securityHelper;
         public AccountController(
+            IHelperFactory factoryHelper,
             IUserService userService,
             IImageService imageService,
-            IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
-            _configuration = configuration;
+            _imagerHelper = factoryHelper.CreateImageHelper();
+            _tokenGeneratorHelper = factoryHelper.CreateTokenGeneratorHelper();
             _userService = userService;
             _imageService = imageService;
+            _securityHelper = factoryHelper.CreateSecurityHelper();
         }
 
         [HttpPost]
@@ -49,20 +52,20 @@ namespace TeamWork_API.Controllers
             {
                 return StatusCode(Number.Number_404, NotFound404Error.InvalidEmail);
             }
-            if (user.Password != credentials.Password)
+            var userPassowrd = _securityHelper.DecryptString(user.Password);
+            if (credentials.Password != userPassowrd)
             {
                 return StatusCode(Number.Number_404, NotFound404Error.InvalidPassword);
             }
 
             JWToken jWToken = new JWToken
             {
-                AccessToken = user.AccessToken = TokenGenerator.GenerateAccessToken(_configuration,user.FirstName + Constants.BlankSpace + user.LastName, user.UserEmailId, user.UserRole.ToString())
+                AccessToken = user.AccessToken = _tokenGeneratorHelper.GenerateAccessToken(user.FirstName + Constants.BlankSpace + user.LastName, user.UserEmailId, user.UserRole.ToString())
             };
 
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Number.Number_2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Number.Number_2);
-            jWToken.RefershToken = user.RefreshToken = TokenGenerator.GenerateRefreshToken(
-                _configuration,
+            jWToken.RefershToken = user.RefreshToken = _tokenGeneratorHelper.GenerateRefreshToken(
                  user.FirstName + Constants.BlankSpace + user.LastName,
                 user.UserEmailId,
                 DateTime.Now.AddMonths(Number.Number_2).ToString(),
@@ -101,20 +104,18 @@ namespace TeamWork_API.Controllers
                 FirstName = userCredentials.FirstName,
                 Institution = userCredentials.Institution,
                 LastName = userCredentials.LastName,
-                Password = userCredentials.Password,
+                Password = _securityHelper.EncryptString(userCredentials.Password),
                 UserRole = userCredentials.UserRole == Constants.Teacher ? Role.TEACHER : Role.STUDENT
             };
 
             JWToken jWToken = new JWToken();
 
-            user.AccessToken = jWToken.AccessToken = TokenGenerator.GenerateAccessToken(
-                _configuration,
+            user.AccessToken = jWToken.AccessToken = _tokenGeneratorHelper.GenerateAccessToken(
                 user.FirstName + Constants.BlankSpace + user.LastName,
                 user.UserEmailId, user.UserRole.ToString());
             user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Number.Number_2);
             user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Number.Number_2);
-            user.RefreshToken = jWToken.RefershToken = TokenGenerator.GenerateRefreshToken(
-                _configuration,
+            user.RefreshToken = jWToken.RefershToken = _tokenGeneratorHelper.GenerateRefreshToken(
                 user.FirstName + Constants.BlankSpace + user.LastName,
                 user.UserEmailId,
                 jWToken.RefershTokenExpiration.ToString(),
@@ -150,7 +151,7 @@ namespace TeamWork_API.Controllers
                 {
                     Email = email,
                     FirstName = user?.User?.FirstName,
-                    ImageContent = ImageProcessing.DecompressImage(user?.ImageContent),
+                    ImageContent = _imagerHelper.DecompressImage(user?.ImageContent),
                     ImageExtention = user?.ImageExtention,
                     Institution = user?.User?.Institution,
                     LastName = user?.User?.LastName,

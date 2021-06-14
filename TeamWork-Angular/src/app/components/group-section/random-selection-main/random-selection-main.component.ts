@@ -5,6 +5,7 @@ import { RandomGroupsCreateModule } from 'src/app/modules/random-groups-create.m
 import { ENTER, SPACE } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
 
 export class DisplayShuffleGroups {
   email: string;
@@ -17,13 +18,14 @@ export class DisplayShuffleGroups {
   styleUrls: ['./random-selection-main.component.css']
 })
 export class RandomSelectionMainComponent implements OnInit {
-
+  private pattern =/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i;
   dataSource: any;
   readonly separatorKeysCodes = [ENTER, SPACE] as const;
   members = [];
   form : FormGroup;
   data = new RandomGroupsCreateModule();
   error='';
+  matrix=[];
 
   constructor(private groupService: GroupService,private _formBuilder: FormBuilder, private route:Router
   ) {
@@ -35,6 +37,46 @@ export class RandomSelectionMainComponent implements OnInit {
   }
   redirectTo(url: string): void {
     this.route.navigateByUrl(url);
+  }
+
+  private isEmail(search:any):boolean
+  {
+      var serchfind:boolean;
+
+      let regexp = new RegExp(this.pattern);
+
+      serchfind = regexp.test(search);
+
+      return serchfind
+  }
+
+
+  uploadEmails(evt: any) {
+    this.error='';
+    const target : DataTransfer = <DataTransfer>(evt.target);
+    const reader: FileReader = new FileReader();
+    
+    if (target.files.length !== 1) {
+      this.error = 'Cannot use multiple files';
+    }
+
+    reader.onload = (e: any) => {
+      const bstr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
+      const wsname : string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+      this.matrix = (XLSX.utils.sheet_to_json(ws, { header: 1 })) as string[];
+
+      for(let index=0; index<this.matrix.length;index++){
+        if(this.isEmail(this.matrix[index]) && !this.members.includes(this.matrix[index][0])){
+          this.members.push(this.matrix[index][0] as string);
+        }
+      }
+    };
+
+    reader.readAsBinaryString(target.files[0]);
+
   }
 
   add(event: MatChipInputEvent): void {

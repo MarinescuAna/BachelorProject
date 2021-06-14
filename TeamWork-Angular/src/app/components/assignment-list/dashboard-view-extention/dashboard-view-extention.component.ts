@@ -44,8 +44,9 @@ export class DashboardViewExtentionComponent {
         align: 'end',
       }
     }
-  };  
+  };
   public barChartData: ChartDataSets[];
+  public barChartData2: ChartDataSets[];
   public barChartType: ChartType = 'bar';
   form = new FormGroup({
     group: new FormControl('', [Validators.required]),
@@ -112,8 +113,11 @@ export class DashboardViewExtentionComponent {
     });
     this.pieChartDataTasksDone = tasksDone as number[];
     this.pieChartDataTasks = tasks as number[];
-    this.barChartData= [{ data: chkGrades as number[], label: 'Checklist Evaluation' },
-                      { data: peerGrades as number[], label: 'Peer Evaluation' }
-                    ] as ChartDataSets[];
+    this.barChartData = [{ data: chkGrades as number[], label: 'Teacher Evaluation' },
+    { data: peerGrades as number[], label: 'Peer Evaluation' }
+    ] as ChartDataSets[];
+    this.barChartData2 = [{ data: tasks as number[], label: 'Total checks' },
+    { data: tasksDone as number[], label: 'Checks done' }
+    ] as ChartDataSets[];
   }
 }

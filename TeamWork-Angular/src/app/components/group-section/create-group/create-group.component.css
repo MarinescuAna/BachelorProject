@@ -12,12 +12,13 @@
 .btn-size{
     width: 200px;
     height: 50px;
+    margin-bottom: 27%;
 }
 .card{
     background-color:#FFD54F;
     background-repeat: no-repeat;
     width:600px;
-    height: 650px;
+    height: auto;
     margin-top: 2%;
 }
 

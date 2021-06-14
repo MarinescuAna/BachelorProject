@@ -34,7 +34,8 @@ namespace TeamWork_API.Controllers
         [Route("GetNotifications")]
         public async Task<IActionResult> GetNotifications()
         {
-            var notifications = await _notificationService.GetNotificationsByEmailAsync(ExtractEmailFromJWT());
+            var notifications =( await _notificationService.GetNotificationsByEmailAsync(ExtractEmailFromJWT()))
+                .OrderByDescending(u=>u.CreationDate);
 
             return Ok(notifications);
         }

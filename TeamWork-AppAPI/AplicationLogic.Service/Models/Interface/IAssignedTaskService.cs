@@ -8,6 +8,8 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
 {
     public interface IAssignedTaskService
     {
+        Task<bool> DeleteAssignedTaskByIdAsync(Guid id);
+        Task<AssignedTask> GetAssignedTaskByListIdAssignmentIdAsync(Guid listId, Guid assignmentId);
         Task<List<AssignedTask>> GetAssignedTasksByListIdAsync(Guid listId);
         Task<List<AssignedTask>> GetAssignedTasksByAssignmentIdAsync(Guid assignmentId);
         Task<bool> AssignTaskAsync(AssignedTask assigned);

@@ -12,6 +12,7 @@ namespace TeamWork.Common.ConstantStrings
         public static readonly string Token = "Token";
         public static readonly string Teacher = "Teacher";
         public static readonly string SecretKey = "SecretKey";
+        public static readonly string SecurityKey = "SecurityKey";
         public static readonly string Deflate = "deflate";
         public static readonly string Base64 = "base64";
         public static readonly string BlankSpace = " ";
@@ -29,7 +30,7 @@ namespace TeamWork.Common.ConstantStrings
         public static readonly string RemovedFromGroup = "You were taken out of a group by {0}.";
         public static readonly string ChecklistGradesReturned = "{0} returned the grades obtained from the checklists.";
         public static readonly string AddeddIntoGeneratedGroup = "You were added to a randomly generated group ({0}) by {1}.";
-        public static readonly string PeerEvaluationStart = "{0} start the peer evaluation.";
+        public static readonly string PeerEvaluationStart = "{0} started the peer evaluation.";
         public static readonly string PeerEvaluationReceive = "You have been evaluated by one of your group colleagues.";
     }
 }

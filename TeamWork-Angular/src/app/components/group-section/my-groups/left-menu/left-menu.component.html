@@ -2,7 +2,7 @@
     <button mat-fab class="margin" (click)="redirectTo('my-groups')" matTooltip="My groups">
         <mat-icon>home</mat-icon>
     </button>
-    <button mat-fab class="margin" matTooltip="Create a new group" (click)="redirectTo('create-group')">
+    <button mat-fab class="margin" matTooltip="Create a new group" (click)="redirectTo('create-group')"  *ngIf="!isTeacher">
         <mat-icon>create</mat-icon>
     </button>
     <button mat-fab class="margin" matTooltip="Join to a new group" (click)="redirectTo('join-group')">

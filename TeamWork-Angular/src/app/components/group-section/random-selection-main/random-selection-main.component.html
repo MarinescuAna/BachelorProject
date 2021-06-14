@@ -31,6 +31,12 @@
                                             [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="add($event)">
                                     </mat-chip-list>
                                 </mat-form-field>
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="start start">
+                                <input type="file" multiple="true" (change)="uploadEmails($event)"
+                                    class="custom-file-input"  accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"  >
+                            </div>
+                            <div fxLayout="column" fxLayoutAlign="center center">
                                 <button mat-button matStepperNext class="btn-size"
                                     [disabled]="form.controls['number'].hasError('required')"
                                     (click)="onSubmitStep0()">Next</button>
@@ -41,7 +47,7 @@
                         <ng-template matStepLabel>View data</ng-template>
                         <div fxLayout="column" fxLayoutAlign="center center">
                             <div *ngIf="error!=''">
-                                <p class="error">{{error}}</p>
+                                <p class="error"><strong>{{error}}</strong></p>
                             </div>
                             <table *ngIf="error==''">
                                 <tr>
@@ -64,10 +70,10 @@
                         <ng-template matStepLabel>Done</ng-template>
                         <div fxLayout="column" fxLayoutAlign="center center">
                             <div *ngIf="error!=''">
-                                <p class="error">{{error}}</p>
+                                <p class="error"><strong>{{error}}</strong></p>
                             </div>
                             <div *ngIf="error==''">
-                                <p class="success">You are now done.</p>
+                                <p class="success"> <strong>You are now done. </strong> </p>
                             </div>
                             <div>
                                 <button mat-button class="btn-size" (click)="stepper.reset()">Done</button>

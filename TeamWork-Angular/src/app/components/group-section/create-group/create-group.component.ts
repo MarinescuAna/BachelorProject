@@ -19,7 +19,8 @@ export class CreateGroupComponent implements OnInit {
     emailTeacher: new FormControl('',[Validators.required,Validators.pattern(this.pattern)]),
     description: new FormControl()
   });
-  constructor(private authService: AuthService,private groupService: GroupService, private injector: Injector, private route: Router) { }
+  constructor(private authService: AuthService,private groupService: GroupService, private injector: Injector, private route: Router) { 
+}
 
   ngOnInit(): void {
   }

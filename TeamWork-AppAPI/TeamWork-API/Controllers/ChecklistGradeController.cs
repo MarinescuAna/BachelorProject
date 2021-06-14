@@ -90,8 +90,9 @@ namespace TeamWork_API.Controllers
                 {
                     return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
                 }
-                await _notificationService.InsertNotificationAsync(new Notification { 
-                    ID=Guid.NewGuid(),
+                await _notificationService.InsertNotificationAsync(new Notification {
+                    CreationDate = DateTime.Now,
+                    ID =Guid.NewGuid(),
                     Message= string.Format(Constants.ChecklistGradesReturned,ExtractEmailFromJWT()),
                     UserID=grade.UserID
                 });

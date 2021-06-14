@@ -10,11 +10,16 @@ using System.Threading.Tasks;
 using TeamWork.Common.ConstantNumbers;
 using TeamWork.Common.ConstantStrings;
 
-namespace TeamWork_API.Utils
+namespace TeamWork_API.Factory
 {
-    public static class TokenGenerator
+    public class TokenGeneratorHelper
     {
-        public static string GenerateAccessToken(IConfiguration _configuration,string userName, string userEmail, string role)
+        private readonly IConfiguration _configuration;
+        public TokenGeneratorHelper(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+        public string GenerateAccessToken(string userName, string userEmail, string role)
         {
             var key = Encoding.ASCII.GetBytes(_configuration[Constants.SecretKey]);
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -33,7 +38,7 @@ namespace TeamWork_API.Utils
             var tokenString = tokenHandler.WriteToken(token);
             return tokenString;
         }
-        public static string GenerateRefreshToken(IConfiguration _configuration,string userName, string userEmail, string date, string role)
+        public string GenerateRefreshToken(string userName, string userEmail, string date, string role)
         {
             var key = Encoding.ASCII.GetBytes(_configuration[Constants.SecretKey]);
             var tokenHandler = new JwtSecurityTokenHandler();

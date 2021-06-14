@@ -8,3 +8,16 @@
     margin-top: 0% !important;
     
 }
+
+
+.margin{
+    margin: 10px;
+    width: 70px;
+    background:black;
+    color: white;
+}
+.menu-position-student{
+    margin-top: 8%;
+    left: 0;
+    position: fixed;
+}

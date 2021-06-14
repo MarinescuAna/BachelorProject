@@ -23,7 +23,7 @@ namespace TeamWork_API.Controllers
         private readonly IAssignedTaskService _assignedTaskService;
         private readonly IAssignmentService _assignmentService;
         public AssignedTaskController(
-            IAssignedTaskService assignedTaskService, 
+            IAssignedTaskService assignedTaskService,
             IAssignmentService assignmentService)
         {
             _assignedTaskService = assignedTaskService;
@@ -46,23 +46,23 @@ namespace TeamWork_API.Controllers
             {
                 listReturn.Add(new AssignedTaskDisplay
                 {
-                    AssignedTaskId=assignedTask.AssignedTaskID.ToString(),
+                    AssignedTaskId = assignedTask.AssignedTaskID.ToString(),
                     Deadline = assignedTask.Assignment?.Deadline.ToString(),
                     AssignmentId = assignedTask.AssignmentID.ToString(),
                     ChecklistDeadline = assignedTask.Assignment?.ChecklistDeadline.ToString(),
                     Description = assignedTask.Assignment?.Description,
                     Title = assignedTask.Assignment?.Title,
-                    ListID=assignedTask.Assignment?.ListID.ToString(),
-                    TeacherGrade=assignedTask.TeacherGrade.ToString(),
-                    SolutionLink=assignedTask.SolutionLink,
-                    StatusTask= string.IsNullOrEmpty(assignedTask.SolutionLink) ?
-                        DateTime.Compare((DateTime)(assignedTask.Assignment?.Deadline), DateTime.Now) > Number.Number_0 ? 
-                        DeadlineStatus.ACTIVE.ToString() : 
-                        DeadlineStatus.PASS.ToString() : 
+                    ListID = assignedTask.Assignment?.ListID.ToString(),
+                    TeacherGrade = assignedTask.TeacherGrade.ToString(),
+                    SolutionLink = assignedTask.SolutionLink,
+                    StatusTask = string.IsNullOrEmpty(assignedTask.SolutionLink) ?
+                        DateTime.Compare((DateTime)(assignedTask.Assignment?.Deadline), DateTime.Now) > Number.Number_0 ?
+                        DeadlineStatus.ACTIVE.ToString() :
+                        DeadlineStatus.PASS.ToString() :
                         DeadlineStatus.DONE.ToString(),
-                    StatusChecklist= string.IsNullOrEmpty(assignedTask.Assignment?.ChecklistDeadline.ToString())?
-                        DeadlineStatus.ACTIVE.ToString():
-                        DateTime.Compare((DateTime)(assignedTask.Assignment?.ChecklistDeadline), DateTime.Now)> Number.Number_0 ?
+                    StatusChecklist = string.IsNullOrEmpty(assignedTask.Assignment?.ChecklistDeadline.ToString()) ?
+                        DeadlineStatus.ACTIVE.ToString() :
+                        DateTime.Compare((DateTime)(assignedTask.Assignment?.ChecklistDeadline), DateTime.Now) > Number.Number_0 ?
                         DeadlineStatus.ACTIVE.ToString() :
                         DeadlineStatus.PASS.ToString()
                 });
@@ -86,7 +86,7 @@ namespace TeamWork_API.Controllers
             {
                 listReturn.Add(new AssignedTasksPerGroup
                 {
-                    GroupId=assignedTask.List.GroupID.ToString(),
+                    GroupId = assignedTask.List.GroupID.ToString(),
                     AssignedTaskId = assignedTask.AssignedTaskID.ToString(),
                     AssignmentDeadline = assignedTask.Assignment.Deadline.ToString(),
                     ChkListDeadline = assignedTask.Assignment.ChecklistDeadline.ToString(),
@@ -99,13 +99,13 @@ namespace TeamWork_API.Controllers
                         DeadlineStatus.ACTIVE.ToString() :
                         DeadlineStatus.PASS.ToString() :
                         DeadlineStatus.DONE.ToString()
-                }) ;
+                });
             }
 
             return StatusCode(Number.Number_200, listReturn);
         }
 
-        //TODO testat
+        //TODO de testat
         [HttpPost]
         [Route("AssignTask")]
         public async Task<IActionResult> AssignTask(AssignTask assignment)
@@ -115,7 +115,14 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_204, NoContent204Error.NoContent);
             }
 
-            var assignedTask= new AssignedTask
+            if (await _assignedTaskService.GetAssignedTaskByListIdAssignmentIdAsync(
+                 Guid.Parse(assignment.ListId),
+                 Guid.Parse(assignment.AssignmentId)
+               ) != null)
+            {
+                return StatusCode(Number.Number_409, Conflict409Error.AssignedTaskAlreadyExistLogin);
+            }
+            var assignedTask = new AssignedTask
             {
                 AssignedTaskID = Guid.NewGuid(),
                 AssignmentID = Guid.Parse(assignment.AssignmentId),
@@ -128,12 +135,12 @@ namespace TeamWork_API.Controllers
 
             var assignmentTake = await _assignmentService.GetAssignmentByAssignmentIdAsync(Guid.Parse(assignment.AssignmentId));
             assignmentTake.GroupsTake++;
-            assignmentTake.List = null;            
+            assignmentTake.List = null;
 
-            if(!await _assignmentService.UpdateAssignmentAsync(assignmentTake)){
-            
+            if (!await _assignmentService.UpdateAssignmentAsync(assignmentTake)) {
+
                 await _assignedTaskService.DeleteTaskAssignedByIdAsync(assignedTask.AssignedTaskID);
-                
+
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }
 
@@ -149,15 +156,32 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_204, NoContent204Error.NoContent);
             }
             var assignmentTemp = await _assignedTaskService.GetAssignedByIdAsync(Guid.Parse(assignment.AssignedTaskId));
-            if (assignmentTemp==null)
+            if (assignmentTemp == null)
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }
 
             assignmentTemp.SolutionLink = string.IsNullOrEmpty(assignment.SolutionLink) ? assignmentTemp.SolutionLink : assignment.SolutionLink;
             assignmentTemp.TeacherGrade = string.IsNullOrEmpty(assignment.TeacherGrade) ? assignmentTemp.TeacherGrade : float.Parse(assignment.TeacherGrade);
-            
+
             if (!await _assignedTaskService.UpdateTaskAsync(assignmentTemp))
+            {
+                return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("DeleteTask")]
+        public async Task<IActionResult> DeleteTask(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return StatusCode(Number.Number_204, NoContent204Error.NoContent);
+            }
+
+            if (!await _assignedTaskService.DeleteAssignedTaskByIdAsync(Guid.Parse(id)))
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }

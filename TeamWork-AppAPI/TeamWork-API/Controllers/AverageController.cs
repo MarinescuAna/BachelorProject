@@ -60,7 +60,8 @@ namespace TeamWork_API.Controllers
                     {
                         ID = Guid.NewGuid(),
                         Message = string.Format(Constants.ReturnedGradeForGroups,teacherEmail,Constants.Media),
-                        UserID=average.StudentID         
+                        UserID=average.StudentID,
+                        CreationDate=DateTime.Now
                     });
                 }
             }

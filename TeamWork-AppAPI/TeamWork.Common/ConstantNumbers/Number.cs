@@ -8,6 +8,7 @@ namespace TeamWork.Common.ConstantNumbers
         public static readonly int Number_1 = 1;
         public static readonly int Number_2 = 2;
         public static readonly int Number_3 = 3;
+        public static readonly int Number_16 = 16;
         public static readonly int Number_100 = 100;
         public static readonly int Number_200 = 200;
         public static readonly int Number_201 = 201;

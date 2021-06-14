@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using TeamWork.Common.ConstantNumbers;
 using TeamWork.Common.ConstantStrings;
 
 namespace TeamWork_API.Factory
@@ -33,8 +34,8 @@ namespace TeamWork_API.Factory
 
             var result = new byte[iv.Length + decryptedContent.Length];
 
-            Buffer.BlockCopy(iv, 0, result, 0, iv.Length);
-            Buffer.BlockCopy(decryptedContent, 0, result, iv.Length, decryptedContent.Length);
+            Buffer.BlockCopy(iv, Number.Number_0, result, Number.Number_0, iv.Length);
+            Buffer.BlockCopy(decryptedContent, Number.Number_0, result, iv.Length, decryptedContent.Length);
 
             return Convert.ToBase64String(result);
         }
@@ -43,11 +44,11 @@ namespace TeamWork_API.Factory
         {
             var fullCipher = Convert.FromBase64String(cipherText);
 
-            var iv = new byte[16];
-            var cipher = new byte[16];
+            var iv = new byte[Number.Number_16];
+            var cipher = new byte[Number.Number_16];
 
-            Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
-            Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, iv.Length);
+            Buffer.BlockCopy(fullCipher, Number.Number_0, iv, Number.Number_0, iv.Length);
+            Buffer.BlockCopy(fullCipher, iv.Length, cipher, Number.Number_0, iv.Length);
             var key = Encoding.UTF8.GetBytes(keyString);
 
             using var aesAlg = Aes.Create();

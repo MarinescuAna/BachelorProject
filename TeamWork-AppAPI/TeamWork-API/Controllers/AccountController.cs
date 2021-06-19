@@ -53,29 +53,20 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_404, NotFound404Error.InvalidEmail);
             }
             var userPassowrd = _securityHelper.DecryptString(user.Password);
+            if(string.IsNullOrEmpty(userPassowrd))
+            {
+                return StatusCode(Number.Number_404, NotFound404Error.DecryptionError);
+            }
+
             if (credentials.Password != userPassowrd)
             {
                 return StatusCode(Number.Number_404, NotFound404Error.InvalidPassword);
             }
 
-            JWToken jWToken = new JWToken
-            {
-                AccessToken = user.AccessToken = _tokenGeneratorHelper.GenerateAccessToken(user.FirstName + Constants.BlankSpace + user.LastName, user.UserEmailId, user.UserRole.ToString())
-            };
-
-            user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Number.Number_2);
-            user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Number.Number_2);
-            jWToken.RefershToken = user.RefreshToken = _tokenGeneratorHelper.GenerateRefreshToken(
-                 user.FirstName + Constants.BlankSpace + user.LastName,
-                user.UserEmailId,
-                DateTime.Now.AddMonths(Number.Number_2).ToString(),
-                user.UserRole.ToString()
-                );
+            var jWToken = _tokenGeneratorHelper.GenerateTokenAndSaveTokensInUser(ref user);
             HttpContext.Session.SetString(Constants.Token, user.AccessToken);
 
-            int response = await _userService.UpdateUserInformationAsync(user);
-
-            if(response > Number.Number_0)
+            if(await _userService.UpdateUserInformationAsync(user) > Number.Number_0)
             {
                 return StatusCode(Number.Number_201, jWToken);
             }
@@ -108,24 +99,10 @@ namespace TeamWork_API.Controllers
                 UserRole = userCredentials.UserRole == Constants.Teacher ? Role.TEACHER : Role.STUDENT
             };
 
-            JWToken jWToken = new JWToken();
-
-            user.AccessToken = jWToken.AccessToken = _tokenGeneratorHelper.GenerateAccessToken(
-                user.FirstName + Constants.BlankSpace + user.LastName,
-                user.UserEmailId, user.UserRole.ToString());
-            user.AccessTokenExpiration = jWToken.AccessTokenExpiration = DateTime.Now.AddHours(Number.Number_2);
-            user.RefreshTokenExpiration = jWToken.RefershTokenExpiration = DateTime.Now.AddMonths(Number.Number_2);
-            user.RefreshToken = jWToken.RefershToken = _tokenGeneratorHelper.GenerateRefreshToken(
-                user.FirstName + Constants.BlankSpace + user.LastName,
-                user.UserEmailId,
-                jWToken.RefershTokenExpiration.ToString(),
-                user.UserRole.ToString()
-                );
+            var jWToken = _tokenGeneratorHelper.GenerateTokenAndSaveTokensInUser(ref user);
             HttpContext.Session.SetString(Constants.Token, user.AccessToken);
 
-            int response = await _userService.InsertUserAsync(user);
-
-            if (response > Number.Number_0)
+            if (await _userService.InsertUserAsync(user) > Number.Number_0)
             {
                 return StatusCode(Number.Number_201, jWToken);
             }
@@ -136,16 +113,24 @@ namespace TeamWork_API.Controllers
         [HttpGet]
         [Authorize]
         [Route("GetUserInfo")]
-        public async Task<IActionResult> GetUserInfo()
+        public async Task<IActionResult> GetUserInfo(string email)
         {
-            var email = ExtractEmailFromJWT();
+            if (string.IsNullOrEmpty(email))
+            {
+               email =  ExtractEmailFromJWT();
+            }
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return StatusCode(Number.Number_401, Unauthorized401Error.Unauthorized);
+            }
 
             var user = await _imageService.GetImageAsync(email);
             if (user != null)
             {
                 if (user.User == null)
                 {
-                    user.User = await _userService.GetUserByEmailAsync(ExtractEmailFromJWT());
+                    user.User = await _userService.GetUserByEmailAsync(email);
                 }
                 return StatusCode(Number.Number_200, new ProfileUserModel
                 {
@@ -160,7 +145,7 @@ namespace TeamWork_API.Controllers
             }
             else
             {
-                var user2 = await _userService.GetUserByEmailAsync(ExtractEmailFromJWT());
+                var user2 = await _userService.GetUserByEmailAsync(email);
                 return StatusCode(Number.Number_200, new ProfileUserModel
                 {
                     Email = email,
@@ -172,7 +157,66 @@ namespace TeamWork_API.Controllers
             }
         }
 
-      
+
+        [HttpPut]
+        [Authorize]
+        [Route("UpdateUserInfo")]
+        public async Task<IActionResult> UpdateUserInfo(ProfileUserModel user)
+        {
+            if (user == null)
+            {
+                return StatusCode(Number.Number_204, NoContent204Error.NoContent);
+            }
+
+            var oldUser = await _userService.GetUserByEmailAsync(user.Email);
+            if (oldUser == null)
+            {
+                return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
+            }
+
+            oldUser.FirstName = string.IsNullOrEmpty(user.FirstName) ? oldUser.FirstName : user.FirstName;
+            oldUser.LastName = string.IsNullOrEmpty(user.LastName) ? oldUser.LastName : user.LastName;
+            oldUser.Institution = string.IsNullOrEmpty(user.Institution) ? oldUser.Institution : user.Institution;
+
+            if (await _userService.UpdateUserInformationAsync(oldUser) == 0)
+            {
+                return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
+            }
+
+            return Ok();
+        }
+        [HttpPut]
+        [Authorize]
+        [Route("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(PasswordChanger password)
+        {
+            if (password == null)
+            {
+                return StatusCode(Number.Number_204, NoContent204Error.NoContent);
+            }
+
+            var oldUser =await _userService.GetUserByEmailAsync(ExtractEmailFromJWT());
+            var passwordDecrypt = _securityHelper.DecryptString(oldUser.Password);
+
+            if (string.IsNullOrEmpty(passwordDecrypt))
+            {
+                return StatusCode(Number.Number_404, NotFound404Error.DecryptionError);
+            }
+
+            if ( passwordDecrypt != password.OldPassword)
+            {
+                return StatusCode(Number.Number_409, Conflict409Error.PasswordDontMach);
+            }
+            oldUser.Password = _securityHelper.EncryptString(password.NewPassword);
+
+            if (await _userService.UpdateUserInformationAsync(oldUser) == 0)
+            {
+                return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
+            }
+
+            return Ok();
+        }
+
 
     }
 }

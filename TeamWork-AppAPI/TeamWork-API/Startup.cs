@@ -57,7 +57,7 @@ namespace TeamWork_API
             services.AddScoped<INotificationService, NotificationServiceImpl>();
             services.AddScoped<IPeerEvaluationService, PeerEvaluationServiceImpl>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IHelperFactory, HelperFactory>();
+            services.AddSingleton<IHelperFactory, HelperFactory>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //Session

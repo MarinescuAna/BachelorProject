@@ -1,12 +1,15 @@
 ﻿using Microsoft.Extensions.Configuration;
+using TeamWork.ApplicationLogger;
 
 namespace TeamWork_API.Factory
 {
     public class HelperFactory:IHelperFactory
     {
         private readonly IConfiguration _configuration;
-        public HelperFactory(IConfiguration configuration)
+        private readonly ILoggerService _loggerService;
+        public HelperFactory(IConfiguration configuration,ILoggerService loggerService)
         {
+            _loggerService = loggerService;
             _configuration = configuration;
         }
         public ImageHelper CreateImageHelper()
@@ -15,7 +18,7 @@ namespace TeamWork_API.Factory
         }
         public SecurityHelper CreateSecurityHelper()
         {
-            return new SecurityHelper(_configuration);
+            return new SecurityHelper(_configuration,_loggerService);
         }
         public TokenGeneratorHelper CreateTokenGeneratorHelper()
         {

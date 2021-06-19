@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using TeamWork.ApplicationLogger;
 using TeamWork.Common.ConstantNumbers;
 using TeamWork.Common.ConstantStrings;
 
@@ -11,9 +12,11 @@ namespace TeamWork_API.Factory
     public class SecurityHelper
     {
         private readonly string keyString;
-        public SecurityHelper(IConfiguration _configuration)
+        private readonly ILoggerService _loggerService;
+        public SecurityHelper(IConfiguration _configuration, ILoggerService loggerService)
         {
             keyString = _configuration[Constants.SecurityKey];
+            _loggerService = loggerService;
         }
         public string EncryptString(string text)
         {
@@ -53,12 +56,26 @@ namespace TeamWork_API.Factory
 
             using var aesAlg = Aes.Create();
             using var decryptor = aesAlg.CreateDecryptor(key, iv);
-            string result;
+            string result = string.Empty;
+
             using (var msDecrypt = new MemoryStream(cipher))
             {
                 using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
                 using var srDecrypt = new StreamReader(csDecrypt);
-                result = srDecrypt.ReadToEnd();
+                try
+                {
+                    _loggerService.LogInfo("Decryptation trying");
+                    result = srDecrypt.ReadToEnd();
+                }
+                catch (Exception ex)
+                {
+                    _loggerService.LogError(ex.Message);
+                    if (ex.InnerException!=null)
+                    {
+                        _loggerService.LogError($"Inner Exception Message: {ex.InnerException.Message}");
+                    }
+                    return string.Empty;
+                }
             }
 
             return result;

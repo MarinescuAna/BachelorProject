@@ -1,0 +1,32 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+    <mat-card>
+        <div fxLayoutAlign="center center">
+            <img [src]='src'>
+        </div>
+    </mat-card>
+    <mat-card class="title">
+        <div fxLayout="column">
+            <p class="text-size">
+                <strong>
+                    <mat-label>Email:</mat-label>
+                </strong> {{userInfo.email}}
+            </p>
+            <p class="text-size">
+                <strong>
+                    <mat-label>Name:</mat-label>
+                </strong> {{userInfo.firstName}} {{userInfo.lastName}}
+            </p>
+            <p class="text-size">
+                <strong>
+                    <mat-label>Role:</mat-label>
+                </strong> {{userInfo.role}}
+            </p>
+            <p class="text-size">
+                <strong>
+                    <mat-label>Institution:</mat-label>
+                </strong>{{userInfo.institution}}
+            </p>
+        </div>
+    </mat-card>
+
+</div>

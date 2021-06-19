@@ -6,6 +6,8 @@ import { GroupService } from 'src/app/services/group-service';
 import { ViewMembersModule } from 'src/app/modules/view-members.module';
 import { ViewGroupsModule } from 'src/app/modules/view-groups.module';
 import { AuthService } from 'src/app/shared/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ProfilePageDialogComponent } from '../profile-page-dialog/profile-page-dialog.component';
 
 @Component({
   selector: 'app-view-members',
@@ -15,8 +17,8 @@ import { AuthService } from 'src/app/shared/auth.service';
 export class ViewMembersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns: string[];
-  displayedColumnsTeacher: string[] = ['name', 'email', 'institution', 'role'];
-  displayedColumnsStudent: string[] = ['name', 'email', 'institution', 'role', 'symbol'];
+  displayedColumnsTeacher: string[] = ['name', 'email', 'institution', 'role','profile'];
+  displayedColumnsStudent: string[] = ['name', 'email', 'institution', 'role', 'profile','symbol'];
   dataSource: any;
   isStudent = true;
   ngOnInit() {
@@ -27,7 +29,7 @@ export class ViewMembersComponent implements OnInit {
     );
   }
   @Input() group: ViewGroupsModule;
-  constructor(private groupService: GroupService, private authService: AuthService) {
+  constructor(private groupService: GroupService, private authService: AuthService,private dialog: MatDialog) {
     this.isStudent = this.authService.decodeJWToken('role').toLowerCase() === 'student';
     if (this.isStudent === false) {
       this.displayedColumns = this.displayedColumnsTeacher;
@@ -35,6 +37,9 @@ export class ViewMembersComponent implements OnInit {
       this.displayedColumns = this.displayedColumnsStudent;
     }
 
+  }
+  onUser(id:any):void{
+    const diagRef = this.dialog.open(ProfilePageDialogComponent, { width: 'auto', height:'auto', data: id});
   }
 
   deleteUser(id: any): void {

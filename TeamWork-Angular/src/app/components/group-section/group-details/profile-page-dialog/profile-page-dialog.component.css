@@ -1,0 +1,17 @@
+.title{
+    width: auto;
+    height: auto;
+    background-color: #FFFF8D;
+    margin-top: 1%;
+    border-radius: 2rem;
+}
+img {
+    max-width: 100%;
+    max-height: 500px;
+    height: auto;
+    width: auto\9;
+    object-fit: contain;
+  }
+  .text-size{
+    font-size: medium;
+}

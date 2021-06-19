@@ -114,8 +114,8 @@ export class RandomSelectionMainComponent implements OnInit {
     this.error='';
     let no: number = parseInt(this.form.value.number);
 
-    if (this.members.length <= no) {
-      this.error="You do not have enough people to create the group!";
+    if (this.members.length < no) {
+      this.error="You do not have enough people to create the groups!";
     } else {
 
       this.data.emails = this.members as string[];

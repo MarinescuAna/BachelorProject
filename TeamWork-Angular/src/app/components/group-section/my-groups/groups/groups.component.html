@@ -1,26 +1,42 @@
-<div fxLayout="column" fxLayoutAlign="space-between" class="menu-position-student">
+<div fxLayout="column" fxLayoutAlign="space-between" class="menu-position-student" *ngIf="length!==0">
   <button mat-fab class="margin" (click)="redirectTo('my-groups')" matTooltip="My groups">
-      <mat-icon>home</mat-icon>
+    <mat-icon>home</mat-icon>
   </button>
-  <button mat-fab class="margin" matTooltip="Create a new group" (click)="redirectTo('create-group')">
-      <mat-icon>create</mat-icon>
+  <button mat-fab class="margin" matTooltip="Create a new group" (click)="redirectTo('create-group')"
+    *ngIf="!isTeacher">
+    <mat-icon>create</mat-icon>
   </button>
   <button mat-fab class="margin" matTooltip="Join to a new group" (click)="redirectTo('join-group')">
-      <mat-icon>group_add</mat-icon>
+    <mat-icon>group_add</mat-icon>
   </button>
-  <button mat-fab class="margin" matTooltip="Random groups generator"  *ngIf="isTeacher" (click)="redirectTo('random')">
-      <mat-icon>shuffle</mat-icon>
+  <button mat-fab class="margin" matTooltip="Random groups generator" *ngIf="isTeacher" (click)="redirectTo('random')">
+    <mat-icon>shuffle</mat-icon>
+  </button>
+</div>
+<div fxLayout="column" fxLayoutAlign="space-between" class="menu-position" *ngIf="length===0">
+  <button mat-fab class="margin" (click)="redirectTo('my-groups')" matTooltip="My groups">
+    <mat-icon>home</mat-icon>
+  </button>
+  <button mat-fab class="margin" matTooltip="Create a new group" (click)="redirectTo('create-group')"
+    *ngIf="!isTeacher">
+    <mat-icon>create</mat-icon>
+  </button>
+  <button mat-fab class="margin" matTooltip="Join to a new group" (click)="redirectTo('join-group')">
+    <mat-icon>group_add</mat-icon>
+  </button>
+  <button mat-fab class="margin" matTooltip="Random groups generator" *ngIf="isTeacher" (click)="redirectTo('random')">
+    <mat-icon>shuffle</mat-icon>
   </button>
 </div>
 
 <div class="all-groups" *ngIf="length!==0">
-    <div fxFlex fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="center center">
-      <div *ngFor="let group of myGroups" >
-        <app-group [group]='group'></app-group>
-      </div>
+  <div fxFlex fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="center center">
+    <div *ngFor="let group of myGroups">
+      <app-group [group]='group'></app-group>
     </div>
   </div>
+</div>
 
-<div  *ngIf="length===0" >
-  <app-message-card class="text-style" [text]='text'></app-message-card>
+<div *ngIf="length===0">
+  <app-message-card  [text]='text'></app-message-card>
 </div>

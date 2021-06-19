@@ -28,7 +28,7 @@ export class TasksViewExtentionComponent implements OnInit {
   @Input() list: ListDisplayModule;
   @Input() group: ViewGroupsModule;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['title', 'description', 'deadline', 'checklistDeadline', 'state', 'grade','solution', 'peerevaluation','gradepeer','check', 'symbol','delete'];
+  displayedColumns: string[];
   isTeacher=false;
   constructor( 
     private assignedTService: AssignedTaskService,
@@ -37,6 +37,8 @@ export class TasksViewExtentionComponent implements OnInit {
     private dialog: MatDialog,
     private peerEvaluationService:PeerEvaluationService) {
     this.isTeacher=this.authService.decodeJWToken("role")==="STUDENT"?false:true;
+    this.displayedColumns=this.isTeacher? ['title', 'description', 'deadline', 'checklistDeadline', 'state', 'grade','solution','check', 'symbol']:
+     ['title', 'description', 'deadline', 'checklistDeadline', 'state', 'grade','solution', 'peerevaluation','gradepeer','check', 'symbol','delete'];
   }
   ngOnInit(): void {
   }

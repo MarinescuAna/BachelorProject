@@ -114,7 +114,7 @@ export class RandomSelectionMainComponent implements OnInit {
     this.error='';
     let no: number = parseInt(this.form.value.number);
 
-    if (this.members.length < no) {
+    if (this.members.length < no || no<0) {
       this.error="You do not have enough people to create the groups!";
     } else {
 

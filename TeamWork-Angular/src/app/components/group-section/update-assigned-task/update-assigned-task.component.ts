@@ -31,7 +31,12 @@ export class UpdateAssignedTaskComponent implements OnInit {
   onSubmit(): void{
     let assignedTask=new UpdateAssignedTaskModule();
     if(this.isTeacher==true){
+      if(parseInt(this.formUpdate.value.grade)<0 || parseInt(this.formUpdate.value.grade)>100){
+        this.assignedService.alertService.showWarning("The grade must be between 0 and 100!");
+        return;
+      }else{
       assignedTask.teacherGrade=this.formUpdate.value.grade;
+      }
     }else{
       assignedTask.solutionLink=this.formUpdate.value.solution;
     }

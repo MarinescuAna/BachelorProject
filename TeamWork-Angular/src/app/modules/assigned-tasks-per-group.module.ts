@@ -21,4 +21,5 @@ export class AssignedTasksPerGroupModule {
     solution:string;
     grade:string;
     status:string;
+    statusChecklist:string;
 }

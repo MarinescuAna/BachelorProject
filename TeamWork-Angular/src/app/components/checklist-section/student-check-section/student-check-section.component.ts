@@ -30,7 +30,6 @@ export class StudentCheckSectionComponent implements OnInit {
   @Input() status: string;
   @Input() statusDeadline: string;
   isCurrentPerson=false;
-  display=false;
   checkListGrade:string;
 
   constructor(
@@ -38,13 +37,16 @@ export class StudentCheckSectionComponent implements OnInit {
     private dialog: MatDialog,
     private checklistGradeService: ChecklistGradeService,
     private authService: AuthService) {
-    this.isTeacher = this.authService.decodeJWToken("role") === "STUDENT" ? false : true;
 
   }
 
   ngOnInit(): void {
+    this.isTeacher = this.authService.decodeJWToken("role") === "STUDENT" ? false : true;
     this.isCurrentPerson= this.authService.decodeJWRefreshToken('email')==this.student.email;
-    this.display=this.status=="ACTIVE"||this.status==""?true:false;
+    console.log(this.isTeacher);
+    console.log(this.isCurrentPerson);
+    console.log(this.status);
+    
   }
 
   onExpand() {

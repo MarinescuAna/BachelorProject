@@ -43,8 +43,9 @@ export class GroupsViewExtentionComponent implements OnInit {
     this.dataSource = null;
   }
 
-  onCheckList(id: any) {
-    const diagRef = this.dialog.open(MainCheckDialogComponent, { width: '60%', height: '80%', data: { data: id } });
+  onCheckList(id: any,status:any,statusD:any){
+    const diagRef = this.dialog.open(MainCheckDialogComponent, {  width: '60%',height:'100%',data: { data:id, status: status, statusDeadline:statusD} });
+
   }
   
   onGoTo(link: any) {

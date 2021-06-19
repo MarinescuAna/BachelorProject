@@ -15,5 +15,6 @@ namespace TeamWork.DataAccess.Domain.AssignedTaskDTO
         public string Status { get; set; }
         public string Grade { get; set; }
         public string Solution { get; set; }
+        public string StatusChecklist { get; set; }
     }
 }

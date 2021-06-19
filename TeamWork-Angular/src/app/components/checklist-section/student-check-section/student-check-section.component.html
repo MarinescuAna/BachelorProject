@@ -12,7 +12,7 @@
                 <h2>Grade based on items done: {{checkListGrade}}</h2>
                 <div fxLayout="row" fxLayoutAlign="end end">
                     <button mat-fab class="color-buttons" (click)="onCreateCheck()" matTooltip="Create a new item"
-                        [disabled]="statusDeadline!='ACTIVE'" *ngIf="isTeacher || (isCurrentPerson && display)">
+                        [disabled]="!isTeacher && !isCurrentPerson" *ngIf="status=='ACTIVE'">
                         <mat-icon>add_circle_outline</mat-icon>
                     </button>
                 </div>
@@ -22,7 +22,7 @@
                             <th mat-header-cell *matHeaderCellDef></th>
                             <td mat-cell *matCellDef="let element">
                                 <input mat-checkbox type="checkbox" (click)="onCheck(element.checkID)"
-                                    [disabled]="!isCurrentPerson || statusDeadline!='ACTIVE'"
+                                    [disabled]="!isCurrentPerson || status!='ACTIVE'"
                                     [checked]="element.isChecked==1">
                             </td>
                         </ng-container>
@@ -45,12 +45,12 @@
                         <ng-container matColumnDef="symbol">
                             <th mat-header-cell *matHeaderCellDef> </th>
                             <td mat-cell *matCellDef="let element;">
-                                <button mat-icon-button class="color-buttons" matTooltip="Edit the description" [disabled]="statusDeadline!='ACTIVE'"
-                                    (click)="onUpdate(element)" *ngIf="isTeacher || isCurrentPerson">
+                                <button mat-icon-button class="color-buttons" matTooltip="Edit the description" [disabled]="!isTeacher && !isCurrentPerson"
+                                    (click)="onUpdate(element)" *ngIf="status=='ACTIVE'">
                                     <mat-icon>edit</mat-icon>
                                 </button>
-                                <button mat-icon-button class="color-buttons" matTooltip="Delete item" [disabled]="statusDeadline!='ACTIVE'"
-                                    (click)="onDelete(element.checkID)" *ngIf="isTeacher || isCurrentPerson">
+                                <button mat-icon-button class="color-buttons" matTooltip="Delete item" [disabled]="!isTeacher && !isCurrentPerson"
+                                    (click)="onDelete(element.checkID)" *ngIf="status=='ACTIVE'">
                                     <mat-icon>clear</mat-icon>
                                 </button>
                             </td>

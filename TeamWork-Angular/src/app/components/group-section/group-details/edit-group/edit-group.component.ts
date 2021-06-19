@@ -19,11 +19,11 @@ export class EditGroupComponent implements OnInit {
   constructor(private injector: Injector,
     private groupService: GroupService,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.group=this.data;
+    this.group=this.data.data;
     this.formCreateGroup = new FormGroup({
-      name: new FormControl(this.group['data'].groupName, [Validators.required]),
-      emailTeacher: new FormControl(this.group['data'].teacherEmail),
-      description: new FormControl(this.group['data'].groupDetails)
+      name: new FormControl(this.group.groupName, [Validators.required]),
+      emailTeacher: new FormControl(this.group.teacherEmail),
+      description: new FormControl(this.group.groupDetails)
     });
   }
 
@@ -31,16 +31,16 @@ export class EditGroupComponent implements OnInit {
   }
 
   onSubmit(): void {    
-    if(this.group['data'].groupName == this.formCreateGroup.value.name &&
-    this.group['data'].groupDetails == this.formCreateGroup.value.description){
+    if(this.group.groupName == this.formCreateGroup.value.name &&
+    this.group.groupDetails == this.formCreateGroup.value.description){
       return;
     }
 
     const temp = new GroupUpdateModule();
     temp.description = this.formCreateGroup.value.description;
     temp.groupName = this.formCreateGroup.value.name;
-    temp.id = this.group['data'].uniqueKey;
-    temp.oldGroupName = this.group['data'].groupName;
+    temp.id = this.group.uniqueKey;
+    temp.oldGroupName = this.group.groupName;
 
     this.groupService.UpdateGroup(temp).subscribe(cr => {
       this.injector.get(AlertService).showSucces('The group was change!');

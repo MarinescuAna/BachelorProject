@@ -98,14 +98,18 @@ namespace TeamWork_API.Controllers
                         DateTime.Compare((DateTime)assignedTask.Assignment.Deadline, DateTime.Now) > Number.Number_0 ?
                         DeadlineStatus.ACTIVE.ToString() :
                         DeadlineStatus.PASS.ToString() :
-                        DeadlineStatus.DONE.ToString()
+                        DeadlineStatus.DONE.ToString(),
+                    StatusChecklist = string.IsNullOrEmpty(assignedTask.Assignment.ChecklistDeadline.ToString()) ?
+                        DeadlineStatus.ACTIVE.ToString() :
+                        DateTime.Compare((DateTime)(assignedTask.Assignment.ChecklistDeadline), DateTime.Now) > Number.Number_0 ?
+                        DeadlineStatus.ACTIVE.ToString() :
+                        DeadlineStatus.PASS.ToString()
                 });
             }
 
             return StatusCode(Number.Number_200, listReturn);
         }
 
-        //TODO de testat
         [HttpPost]
         [Route("AssignTask")]
         public async Task<IActionResult> AssignTask(AssignTask assignment)

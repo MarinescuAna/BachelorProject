@@ -54,7 +54,7 @@ export class TasksViewExtentionComponent implements OnInit {
     const diagRef = this.dialog.open(MainCheckDialogComponent, {  width: '60%',height:'100%',data: { data:id, status: status, statusDeadline:statusD} });
   }
   onCreateTask() {
-    const diagRef = this.dialog.open(SelectAssignmentComponent, {  width: '60%',data: { data: this.list.key } });
+    const diagRef = this.dialog.open(SelectAssignmentComponent, {  width: 'auto',height:"auto",data: { data: this.list.key } });
     this.dataSource = null;
   }
   onUpdate(id:any){

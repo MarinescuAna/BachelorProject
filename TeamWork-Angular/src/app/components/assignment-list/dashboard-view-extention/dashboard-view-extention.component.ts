@@ -29,6 +29,7 @@ export class DashboardViewExtentionComponent {
       },
     }
   };
+  public pieChartColors : any;
   public pieChartLabels: Label[];
   public pieChartDataTasksDone: number[];
   public pieChartDataTasks: number[];
@@ -87,9 +88,8 @@ export class DashboardViewExtentionComponent {
       this.setLabels();
       this.setGradesAndTasks();
       this.load = true;
+      this.onCreateColorsForPie(this.data.length)
     });
-
-
   }
 
   private setLabels() {
@@ -119,5 +119,50 @@ export class DashboardViewExtentionComponent {
     this.barChartData2 = [{ data: tasks as number[], label: 'Total checks' },
     { data: tasksDone as number[], label: 'Checks done' }
     ] as ChartDataSets[];
+  }
+
+  private randomGenerator(): number {
+    return Math.floor(Math.random() * 256);
+  }
+
+  private Generator(numberSelect: any): number {
+    let numberGenerated = 0;
+    do {
+      numberGenerated = this.randomGenerator();
+    } while (numberSelect.includes(numberGenerated));
+    return numberGenerated;
+  }
+
+  private GeneratePairFunction(pairSelect: any): string {
+    let pair = 'rgba(255,0,0,0.3)';
+    let numbersPairSelected = [];
+    let numberGenerated1 = 0;
+    let numberGenerated2 = 0;
+
+    do {
+      numberGenerated1 = this.Generator(numbersPairSelected);
+      numbersPairSelected.push(numberGenerated1);
+
+      numberGenerated2 = this.Generator(numbersPairSelected);
+      numbersPairSelected.push(numberGenerated2);
+
+      pair = 'rgba(255,' + numberGenerated2 + ','+ numberGenerated1 +',0.3)';
+
+    } while (pairSelect.includes(pair));
+
+    return pair;
+  }
+
+  private onCreateColorsForPie(numberMembers: any):void {
+    let pairGenerated = [];
+    for (let index = 0; index < parseInt(numberMembers); index++) {  
+      let pair=this.GeneratePairFunction(pairGenerated);
+      pairGenerated.push(pair); 
+    }
+
+    this.pieChartColors=[{
+      backgroundColor: pairGenerated
+    }];
+
   }
 }

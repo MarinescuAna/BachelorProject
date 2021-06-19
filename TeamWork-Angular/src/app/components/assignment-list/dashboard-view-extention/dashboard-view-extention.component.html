@@ -33,17 +33,17 @@
                 <div class="chart">
                     <p class="titles-style">The report of the tasks defined by each student</p>
                     <canvas baseChart [data]="pieChartDataTasks" [labels]="pieChartLabels"
-                        [chartType]="pieChartType" [options]="pieChartOptions" [legend]="true" height="400px"
+                        [chartType]="pieChartType" [options]="pieChartOptions" [legend]="true" height="400px" [colors]="pieChartColors"
                         width="1000px">
                     </canvas>
                     <p class="titles-style">The report of the tasks done by each student</p>
                     <canvas baseChart [data]="pieChartDataTasksDone" [labels]="pieChartLabels"
-                        [chartType]="pieChartType" [options]="pieChartOptions" [legend]="true" height="400px"
+                        [chartType]="pieChartType" [options]="pieChartOptions" [legend]="true" height="400px" [colors]="pieChartColors"
                         width="1000px">
                     </canvas>
                     <p class="titles-style">The report of the tasks defined and done by each student</p>
                     <div style="display: block">
-                        <canvas baseChart [datasets]="barChartData2" [labels]="pieChartLabels" [options]="barChartOptions"
+                        <canvas baseChart [datasets]="barChartData2" [labels]="pieChartLabels" [options]="barChartOptions" 
                             [legend]="true" [chartType]="barChartType" >
                         </canvas>
                     </div>

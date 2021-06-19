@@ -14,6 +14,7 @@ using TeamWork.Common.ConstantStrings.ErrorHandler;
 using TeamWork.Common.Enums;
 using TeamWork.DataAccess.Domain.GroupDTO;
 using TeamWork.DataAccess.Domain.Models;
+using TeamWork_API.Factory;
 
 namespace TeamWork_API.Controllers
 {
@@ -28,15 +29,20 @@ namespace TeamWork_API.Controllers
         private readonly IAssignmentService _assignmentService;
         private readonly IListService _listService;
         private readonly INotificationService _notificationService;
+        private readonly TokenGeneratorHelper _tokenGeneratorHelper;
+        private readonly SecurityHelper _securityHelper;
         public GroupController(
             INotificationService notificationService,
             IListService listService,
             IAssignmentService assignmentService,
             IAssignedTaskService assignedTaskService,
             IGroupService group, IUserService user,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IHelperFactory helperFactory)
             : base(httpContextAccessor)
         {
+            _securityHelper = helperFactory.CreateSecurityHelper();
+            _tokenGeneratorHelper = helperFactory.CreateTokenGeneratorHelper();
             _notificationService = notificationService;
             _listService = listService;
             _assignmentService = assignmentService;
@@ -54,12 +60,6 @@ namespace TeamWork_API.Controllers
             if (detalisReceived == null)
             {
                 return StatusCode(Number.Number_204, NoContent204Error.NoContent);
-            }
-
-            var group = await _groupService.GetGroupByNameAsync(detalisReceived.GroupName);
-            if (group != null)
-            {
-                return StatusCode(Number.Number_409, Conflict409Error.GroupAlreadyExist);
             }
 
             var teacher = await _userService.GetUserByEmailAsync(detalisReceived.TeacherEmail);
@@ -131,8 +131,8 @@ namespace TeamWork_API.Controllers
                     var list = await _listService.GetListByListIdAsync(assignedTask.ListID);
                     groups.Add(new ViewGroups
                     {
-                        GroupName=list.Group.GroupName,
-                        UniqueKey=list.GroupID.ToString()
+                        GroupName = list.Group.GroupName,
+                        UniqueKey = list.GroupID.ToString()
                     });
 
                 }
@@ -147,10 +147,10 @@ namespace TeamWork_API.Controllers
         {
             var userEmail = ExtractEmailFromJWT();
 
-            var statusRequest = status == Number.Number_0 ? 
-                StatusRequest.Joined : 
-                status == Number.Number_1 ? 
-                    StatusRequest.Waiting : 
+            var statusRequest = status == Number.Number_0 ?
+                StatusRequest.Joined :
+                status == Number.Number_1 ?
+                    StatusRequest.Waiting :
                     StatusRequest.Declined;
 
             var groups = await _groupService.GetGroupsAsync(userEmail, statusRequest);
@@ -166,7 +166,7 @@ namespace TeamWork_API.Controllers
 
             return StatusCode(Number.Number_200, groups);
         }
-        //TODO testata
+  
         [HttpGet]
         [Route("GetMembersByAssignedTaskIdKey")]
         public async Task<IActionResult> GetMembersByAssignedTaskIdKey(string key)
@@ -224,7 +224,7 @@ namespace TeamWork_API.Controllers
 
             return Ok();
         }
-        //TODO testeaza notificarea
+ 
         [HttpPut]
         [Route("GetOutMember")]
         public async Task<IActionResult> GetOutMember(DeleteUserFromGroup user)
@@ -243,9 +243,9 @@ namespace TeamWork_API.Controllers
             await _notificationService.InsertNotificationAsync(new Notification
             {
                 CreationDate = DateTime.Now,
-                ID =Guid.NewGuid(),
-                Message=string.Format(Constants.RemovedFromGroup,ExtractEmailFromJWT()),
-                UserID=user.Email
+                ID = Guid.NewGuid(),
+                Message = string.Format(Constants.RemovedFromGroup, ExtractEmailFromJWT()),
+                UserID = user.Email
             });
 
             if (await _groupService.GetNoMembersFromGroupByGuidAsync(Guid.Parse(user.GroupKey)) == Number.Number_0)
@@ -265,15 +265,6 @@ namespace TeamWork_API.Controllers
                 return StatusCode(Number.Number_204, NoContent204Error.NoContent);
             }
 
-            if (!detalisReceived.OldGroupName.Equals(detalisReceived.GroupName))
-            {
-                var group = await _groupService.GetGroupByNameAsync(detalisReceived.GroupName);
-                if (group != null)
-                {
-                    return StatusCode(Number.Number_409, Conflict409Error.GroupAlreadyExist);
-                }
-            }
-
             if (!(await _groupService.UpdateGroupAsync(detalisReceived)))
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
@@ -290,7 +281,6 @@ namespace TeamWork_API.Controllers
             {
                 return StatusCode(Number.Number_204, NoContent204Error.NoContent);
             }
-
 
             if (await _groupService.IsMemberToGroupAsync(detalisReceived.AttenderEmail, detalisReceived.GroupKey))
             {
@@ -332,7 +322,6 @@ namespace TeamWork_API.Controllers
             return Ok(data);
         }
 
-        //TODO testeaza notificarea
         [HttpPost]
         [Route("SentInvitationsRandom")]
         public async Task<IActionResult> SentInvitationsRandom(RandomGroupsCreate random)
@@ -388,7 +377,7 @@ namespace TeamWork_API.Controllers
                     CreationDate = DateTime.Now,
                     ID = Guid.NewGuid(),
                     UserID = random.Emails[index],
-                    Message = string.Format(Constants.AddeddIntoGeneratedGroup, random.GroupNames[index],ExtractEmailFromJWT())
+                    Message = string.Format(Constants.AddeddIntoGeneratedGroup, random.GroupNames[index], ExtractEmailFromJWT())
                 });
             }
 
@@ -397,16 +386,15 @@ namespace TeamWork_API.Controllers
         private void ShuffleData(ref RandomGroupsCreate random)
         {
             var indexesUsed = new List<int>();
-            var numberAssignedGroups = Number.Number_0;
             var randomGenerator = new Random();
             var generatedNumber = Number.Number_0;
             var countGroupId = Number.Number_1;
 
-            while (numberAssignedGroups != random.Emails.Count)
+            while (indexesUsed.Count != random.Emails.Count)
             {
                 var groupName = Constants.Group + Constants.BlankSpace + countGroupId;
                 countGroupId++;
-                for (var index = Number.Position_0; index < int.Parse(random.NumberMax) && numberAssignedGroups != random.Emails.Count; index++)
+                for (var index = Number.Position_0; index < int.Parse(random.NumberMax) && indexesUsed.Count != random.Emails.Count; index++)
                 {
                     do
                     {
@@ -416,7 +404,6 @@ namespace TeamWork_API.Controllers
 
                     random.GroupNames[generatedNumber] = groupName;
                     indexesUsed.Add(generatedNumber);
-                    numberAssignedGroups++;
                 }
             }
         }
@@ -426,13 +413,18 @@ namespace TeamWork_API.Controllers
             var countMessagesTeacherRole = Number.Number_0;
             var messageNoAccount = new StringBuilder();
             var messageTeacherRole = new StringBuilder();
+            var teacher = await _userService.GetUserByEmailAsync(ExtractEmailFromJWT());
+
             foreach (var email in list)
             {
                 var user = await _userService.GetUserByEmailAsync(email);
                 if (user == null)
                 {
-                    messageNoAccount.Append(Constants.BlankSpace + user.UserEmailId);
-                    countMessagesNoAccount++;
+                    if (!await CreateUserAccount(email, teacher))
+                    {
+                        countMessagesNoAccount++;
+                        messageNoAccount.Append(Constants.BlankSpace + email);
+                    }
                 }
                 else
                 {
@@ -463,6 +455,26 @@ namespace TeamWork_API.Controllers
             return messageNoAccount.ToString() +
                 Constants.NewLine +
                 messageTeacherRole.ToString();
+        }
+        private async Task<bool> CreateUserAccount(string userEmail, User teacher)
+        {
+            var newUser = new User
+            {
+                FirstName = userEmail.Split(Constants.At)[Number.Position_0],
+                Institution = teacher.Institution,
+                LastName = string.Empty,
+                Password = _securityHelper.EncryptString(Constants.DefaultPassword),
+                UserEmailId = userEmail,
+                UserRole = Role.STUDENT
+            };
+            _ = _tokenGeneratorHelper.GenerateTokenAndSaveTokensInUser(ref newUser);
+
+            if (await _userService.InsertUserAsync(newUser) == 0)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

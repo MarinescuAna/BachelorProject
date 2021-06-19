@@ -12,16 +12,18 @@ import { MainNotificationDialogComponent } from '../landing-pages-components/not
 })
 export class MenuComponent {
 
-  notify:number=0;
+  notify: number = 0;
   email: string;
-  isTeacher=false;
+  isTeacher = false;
 
-  constructor(public authService: AuthService, private route: Router, private dialog: MatDialog,private notifyService:NotificationService) {
-    this.email = this.authService.decodeJWRefreshToken('unique_name');
-    this.isTeacher=this.authService.decodeJWToken("role")==="STUDENT"?false:true;
-    this.notifyService.GetNotificationsNumber().subscribe(cr =>{
-      this.notify= cr as number;
-    } );
+  constructor(public authService: AuthService, private route: Router, private dialog: MatDialog, private notifyService: NotificationService) {
+    if (this.authService.isLogged()) {
+      this.email = this.authService.decodeJWRefreshToken('unique_name');
+      this.isTeacher = this.authService.decodeJWToken("role") === "STUDENT" ? false : true;
+      this.notifyService.GetNotificationsNumber().subscribe(cr => {
+        this.notify = cr as number;
+      });
+    }
   }
 
   onSubmit(): void {
@@ -33,12 +35,12 @@ export class MenuComponent {
   }
 
   redirectHome() {
-      this.route.navigateByUrl('landing-page')
+    this.route.navigateByUrl('landing-page')
   }
 
-  onViewNotifications(){
-    if(this.notify>0)
-    {const diagRef = this.dialog.open(MainNotificationDialogComponent, { width: '60%' , height:'60%'});
+  onViewNotifications() {
+    if (this.notify > 0) {
+      const diagRef = this.dialog.open(MainNotificationDialogComponent, { width: '60%', height: '60%' });
+    }
   }
-}
 }

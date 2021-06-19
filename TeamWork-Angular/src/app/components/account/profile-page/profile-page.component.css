@@ -1,29 +1,19 @@
 .title{
-    width: 1000px;
-    height: 650px;
-    background-color: #FFFF8D;
-    margin-top: 1%;
-    border-radius: 2rem;
-}
-.title2{
-    width: 33%;
-    height: 138px;
-    background-color: #FFFF8D;
-    margin: 1%;
-    border-radius: 10rem;
-}
-.title3{
     width: auto;
     height: auto;
     background-color: #FFFF8D;
-    margin: 1%;
-    margin-bottom: 20%;
+    margin-top: 1%;
+    margin-bottom: 10%;
+    border-radius: 2rem;
+    margin: 30px;
 }
+
 .Title-twro{
     margin-top: 2%;
     text-align: center;
     font-weight: bold;
-    font-size: 50px;
+    font-size: 30px;
+   
 }
 .color{
     background-color: black;
@@ -35,9 +25,20 @@
 .text-size{
     font-size: medium;
 }
-.btn-size{
+.btn-size-photo{
     width: 150px;
     height: 40px;
-    margin-bottom: 15%;
+    margin-bottom: 3%;
+}
+.btn-size{
+    width: 200px;
+    background-color: black;
+    color: white;
+    height: 50px;
 }
 
+.input-style{
+    width: 500px;
+    margin: 15px;
+    font-size: small;
+}

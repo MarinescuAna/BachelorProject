@@ -59,7 +59,9 @@
                     <br>
                     <mat-form-field class="input-style">
                         <mat-label>Password</mat-label>
-                        <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required>
+                        <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required 
+                        #description2 maxlength="50" >
+                        <mat-hint align="end">{{description2.value.length}} / 50</mat-hint>
                         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                             [attr.aria-pressed]="hide">
                             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -76,7 +78,8 @@
                     <mat-form-field class="input-style">
                         <mat-label>Confirm password</mat-label>
                         <input matInput formControlName="passwordConfirmation" [type]="hide2 ? 'password' : 'text'"
-                            required>
+                            required #description maxlength="50" >
+                            <mat-hint align="end">{{description.value.length}} / 50</mat-hint>
                         <button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'"
                             [attr.aria-pressed]="hide2">
                             <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>

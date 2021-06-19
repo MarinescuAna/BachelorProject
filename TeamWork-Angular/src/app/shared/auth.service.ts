@@ -18,6 +18,13 @@ export class AuthService extends DataService {
     localStorage.setItem('refresh_token', token.refershToken);
   }
 
+  public UpdateUserInfo(data:any):any{
+      return super.update('UpdateUserInfo', data);
+  }
+  
+  public ChangePassword(data:any):any{
+    return super.update('ChangePassword', data);
+}
   public decodeJWToken(tag:string):string{
     const decode=this.jwtDecode.decodeToken(localStorage.getItem('access_token'));
     return decode==null? "":decode[tag];
@@ -69,7 +76,7 @@ export class AuthService extends DataService {
     });
   }
 
-  GetUserInfo(): any {
-    return super.getMany('GetUserInfo');
+  GetUserInfo(data:any): any {
+    return super.getMany('GetUserInfo?email='+data);
   }
 }

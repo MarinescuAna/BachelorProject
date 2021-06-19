@@ -1,43 +1,112 @@
 <div fxLayout="column" fxLayoutAlign="center center">
-    <mat-card class="title">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <mat-card class="title">
+            <h1 class="Title-twro" style=" margin:5%;">Your Informations</h1>
+            <form [formGroup]="userInfoForm" (ngSubmit)="onSubmit()">
+                <div fxLayout="column" fxLayoutAlign="center center">
+                    <mat-form-field class="input-style">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName='email'  disabled>
+                        <mat-icon matSuffix>email</mat-icon>
+                    </mat-form-field>
+                    <mat-form-field class="input-style">
+                        <mat-label>First Name</mat-label>
+                        <input matInput [type]="'text'" formControlName='firstName' required>
+                        <mat-icon matSuffix>person</mat-icon>
+                        <mat-error *ngIf="userInfoForm.controls['firstName'].hasError('required')">
+                            The first name is <strong>required</strong>!
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="input-style">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput [type]="'text'" formControlName='lastName' required>
+                        <mat-icon matSuffix>person</mat-icon>
+                        <mat-error *ngIf="userInfoForm.controls['lastName'].hasError('required')">
+                            The last name is <strong>required</strong>!
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="input-style">
+                        <mat-label>Role</mat-label>
+                        <input matInput formControlName='role'  disabled>
+                        <mat-icon matSuffix>supervised_user_circle</mat-icon>
+                    </mat-form-field>
+                    <mat-form-field class="input-style">
+                        <mat-label>Institution</mat-label>
+                        <input matInput [type]="'text'" formControlName='institution' required>
+                        <mat-icon matSuffix>school</mat-icon>
+                        <mat-error *ngIf="userInfoForm.controls['institution'].hasError('required')">
+                            The institution is <strong>required</strong>!
+                        </mat-error>
+                    </mat-form-field>
+                    <div>
+                        <button class="btn-size" mat-raised-button (click)="onSubmit()">Save changes</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card>
+        <mat-card class="title">
+            <h4 class="Title-twro" style=" margin:5%;">Change password</h4>
+            <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+                <div fxLayout="column" fxLayoutAlign="center center">
+                    <mat-form-field class="input-style">
+                        <mat-label>Old Password</mat-label>
+                        <input matInput [type]="'password'" formControlName='old' required #description maxlength="50" >
+                        <mat-hint align="end">{{description.value.length}} / 50</mat-hint>
+                        <mat-error *ngIf="passwordForm.controls['old'].hasError('required')">
+                            The old Password is <strong>required</strong>!
+                        </mat-error>
+                        <mat-error
+                            *ngIf="!passwordForm.controls['old'].hasError('required') && !passwordForm.controls['old'].hasError('minLength')">
+                            Password must have <strong> at least 6 characters</strong>!
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="input-style">
+                        <mat-label>New Password</mat-label>
+                        <input matInput [type]="'password'" formControlName='new' required #description2 maxlength="50" >
+                        <mat-hint align="end">{{description2.value.length}} / 50</mat-hint>
+                        <mat-error *ngIf="passwordForm.controls['new'].hasError('required')">
+                            The new password is <strong>required</strong>!
+                        </mat-error>
+                        <mat-error
+                            *ngIf="!passwordForm.controls['new'].hasError('required') && !passwordForm.controls['new'].hasError('minLength')">
+                            Password must have <strong> at least 6 characters</strong>!
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="input-style">
+                        <mat-label>New password confirmation</mat-label>
+                        <input matInput [type]="'password'" formControlName='confirm' required #description3 maxlength="50" >
+                        <mat-hint align="end">{{description3.value.length}} / 50</mat-hint>
+                        <mat-error *ngIf="passwordForm.controls['confirm'].hasError('required')">
+                            The confirmation is <strong>required</strong>!
+                        </mat-error>
+                        <mat-error
+                            *ngIf="!passwordForm.controls['new'].hasError('required') && !passwordForm.controls['new'].hasError('minLength')">
+                            Password must have <strong> at least 6 characters</strong>!
+                        </mat-error>
+                    </mat-form-field>
+                    <div>
+                        <button class="btn-size" mat-raised-button (click)="onChangePassword()" [disabled]="passwordForm.controls['old'].hasError('required') ||
+                        passwordForm.controls['new'].hasError('required') ||
+                        passwordForm.controls['confirm'].hasError('required') ||
+                        passwordForm.controls['new'].value.length < 6 ">Change Password</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card>
+    </div>
+    <mat-card class="title" style="margin-bottom: 10%;">
         <div fxLayout="column" fxLayoutAlign="center center">
-            <h1 class="Title-twro">Your Informations</h1>
-            <p class="text-size">
-                <mat-icon matSuffix>email</mat-icon>
-                <mat-label>Email:</mat-label> {{userInfo.email}}
-            </p>
-            <p class="text-size">
-                <mat-icon matSuffix>person</mat-icon>
-                <mat-label>Name:</mat-label> {{userInfo.firstName}} {{userInfo.lastName}}
-            </p>
-            <p class="text-size">
-                <mat-icon matSuffix>supervised_user_circle</mat-icon>
-                <mat-label>Role:</mat-label> {{userInfo.role}}
-            </p>
-            <p class="text-size">
-                <mat-icon matSuffix>school</mat-icon>
-                <mat-label>Institution:</mat-label> {{userInfo.institution}}
-            </p>
-            <div id="map"></div>
-        </div>
-        <app-map></app-map>
-    </mat-card>
-
-    <mat-card class="title2">
-
-        <div fxLayout="column" fxLayoutAlign="center center">
-            <span class="text-size">
+            <span class="Title-twro">
                 <mat-icon>insert_photo</mat-icon> Upload Image
-            </span><br> <input type="file" (change)="onFileChange($event)">
+            </span><br> 
+            <input type="file" (change)="onFileChange($event)" class="custom-file-input" multiple
+                accept="image/*">
             <br>
-            <button class="btn-size color" mat-raised-button (click)="onSave()" [disabled]='wasChange'>Save</button>
-        </div>
-    </mat-card>
-    <mat-card class="title3">
-        <div fxLayoutAlign="center center">
+            <button class="btn-size-photo color" mat-raised-button (click)="onSave()"
+                [disabled]='wasChange'>Save</button>
             <lib-ngx-image-zoom [thumbImage]=myThumbnail [fullImage]=myFullresImage [magnification]="2"
                 [enableScrollZoom]="true" [enableLens]="true" [lensWidth]="300" [lensHeight]="300"
-                style="margin-bottom: 0%;"></lib-ngx-image-zoom>
+                ></lib-ngx-image-zoom>
         </div>
     </mat-card>
 </div>

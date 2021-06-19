@@ -98,6 +98,7 @@ import { DashboardViewExtentionComponent } from './components/assignment-list/da
 import { ChartsModule } from 'ng2-charts';
 import {MatBadgeModule} from '@angular/material/badge';
 import { MainNotificationDialogComponent } from './components/landing-page/landing-pages-components/notification/main-notification-dialog/main-notification-dialog.component';
+import { ProfilePageDialogComponent } from './components/group-section/group-details/profile-page-dialog/profile-page-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -167,6 +168,7 @@ const shareProp = {
     TasksViewExtentionComponent,
     DashboardViewExtentionComponent,
     MainNotificationDialogComponent,
+    ProfilePageDialogComponent,
   ],
   imports: [
     ReactiveFormsModule,

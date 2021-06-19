@@ -32,14 +32,12 @@ namespace TeamWork_API.Controllers
         [Route("GetMessages")]
         public async Task<IActionResult> GetMessages(string key)
         {
-            var chatKey = await _chatService.GetChatByGroupKeyAsync(key);
-
-            if (chatKey == null)
+            if (string.IsNullOrEmpty(key))
             {
                 return StatusCode(Number.Number_200, null);
             }
 
-            var messages = await _chatService.GetMessagesByChatKeyAsync(chatKey.ChatID.ToString());
+            var messages = await _chatService.GetMessagesByGroupKeyAsync(key);
 
             var messagesView = new List<MessageView>();
 
@@ -67,13 +65,14 @@ namespace TeamWork_API.Controllers
 
             var message = new Message
             {
+                GroupID=Guid.Parse(messageRecevied.GroupKey),
                 Content = messageRecevied.Content,
                 DateSent = DateTime.Now,
                 ID = Guid.NewGuid(),
                 UserId = ExtractEmailFromJWT()
             };
 
-            if(!await _chatService.SaveMessageByGroupKeyAsync(messageRecevied.GroupKey,message))
+            if(!await _chatService.SaveMessageByGroupKeyAsync(message))
             {
                 return StatusCode(Number.Number_400, BadRequest400Error.SomethingWentWrong);
             }

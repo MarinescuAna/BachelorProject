@@ -15,34 +15,15 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         {
         }
 
-        public async Task<Chat> GetChatByGroupKeyAsync(string groupKey) => await _unitOfWork.Chat.GetItem(
-            s => s.GroupUniqueID.ToString() == groupKey);
-        public async Task<List<Message>> GetMessagesByChatKeyAsync(string chatKey) => 
+        public async Task<List<Message>> GetMessagesByGroupKeyAsync(string groupKey) => 
             (await _unitOfWork.Message.GetItems())
-            .Where(u=>u.ChatID.ToString()==chatKey)
+            .Where(u=>u.GroupID.ToString()==groupKey)
             .OrderBy(u=>u.DateSent)
             .ToList();
         public async Task<Message> GetMessageByKeyAsync(string key) =>
             await _unitOfWork.Message.GetItem(u => u.ID.ToString() == key);
-        public async Task<bool> SaveMessageByGroupKeyAsync(string groupKey, Message message)
+        public async Task<bool> SaveMessageByGroupKeyAsync(Message message)
         {
-            var chatFound = await GetChatByGroupKeyAsync(groupKey);
-
-            if (chatFound == null)
-            {
-                var newId = Guid.NewGuid();
-                message.Chat=new Chat
-                {
-                    ChatID = newId,
-                    GroupUniqueID = Guid.Parse(groupKey)
-                };
-                message.ChatID = newId;
-            }
-            else
-            {
-                message.ChatID = chatFound.ChatID;
-            }
-
             _unitOfWork.Message.InsertItem(message);
 
             return await _unitOfWork.Commit() > Number.Number_0;            

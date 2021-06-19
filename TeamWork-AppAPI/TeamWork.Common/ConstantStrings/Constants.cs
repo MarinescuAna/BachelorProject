@@ -21,6 +21,7 @@ namespace TeamWork.Common.ConstantStrings
         public static readonly string Minus = "-";
         public static readonly string NewLine = "\n";
         public static readonly string Zero = "0";
+        public static readonly string At = "@";
         public static readonly string One = "1";
         public static readonly string Unset = "unset";
         public static readonly string UNSET = "UNSET";
@@ -32,5 +33,6 @@ namespace TeamWork.Common.ConstantStrings
         public static readonly string AddeddIntoGeneratedGroup = "You were added to a randomly generated group ({0}) by {1}.";
         public static readonly string PeerEvaluationStart = "{0} started the peer evaluation.";
         public static readonly string PeerEvaluationReceive = "You have been evaluated by one of your group colleagues.";
+        public static readonly string DefaultPassword = "123456";
     }
 }

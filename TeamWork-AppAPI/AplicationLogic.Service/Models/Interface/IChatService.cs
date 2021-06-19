@@ -9,9 +9,8 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
         Task<bool> DeleteMessageAsync(string messageKey);
         Task<bool> UpdateMessageAsync(Message message);
         Task<Message> GetMessageByKeyAsync(string key);
-        Task<bool> SaveMessageByGroupKeyAsync(string groupKey, Message message);
-        Task<Chat> GetChatByGroupKeyAsync(string groupKey);
-        Task<List<Message>> GetMessagesByChatKeyAsync(string chatKey);
+        Task<bool> SaveMessageByGroupKeyAsync( Message message);
+        Task<List<Message>> GetMessagesByGroupKeyAsync(string groupKey);
     }
 
 }

@@ -10,7 +10,6 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
         IListRepository List { get; }
         IAssignmentRepository Assignment { get; }
         IImageRepository Image { get; }
-        IChatRepository Chat { get; }
         ICheckRepository Checks { get; }
         IPeerEvaluationRepository PeerEvaluations { get; }
         ICheckListGradeRepository CheckListGrades { get; }

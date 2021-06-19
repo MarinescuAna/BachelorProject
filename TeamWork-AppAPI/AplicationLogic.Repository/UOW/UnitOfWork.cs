@@ -13,7 +13,6 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
         private IUserRepository _User;
         private IGroupRepository _Group;
         private IGroupMemberRepository _GroupMember;
-        private IChatRepository _Chat;
         private IMessageRepository _Message;
         private IImageRepository _Image;
         private IAssignmentRepository _Assignment;
@@ -136,18 +135,6 @@ namespace TeamWork.ApplicationLogic.Repository.UOW
                 }
 
                 return _Image;
-            }
-        }
-        public IChatRepository Chat
-        {
-            get
-            {
-                if (_Chat == null)
-                {
-                    _Chat = new ChatRepositoryImpl(context,_loggerService);
-                }
-
-                return _Chat;
             }
         }
         public IMessageRepository Message

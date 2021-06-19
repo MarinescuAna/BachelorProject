@@ -109,25 +109,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                     b.ToTable("Averages");
                 });
 
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Chat", b =>
-                {
-                    b.Property<Guid>("ChatID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("GroupUniqueID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("GroupUniqueID1")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ChatID");
-
-                    b.HasIndex("GroupUniqueID1");
-
-                    b.ToTable("Chats");
-                });
-
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Check", b =>
                 {
                     b.Property<Guid>("CheckID")
@@ -288,21 +269,21 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ChatID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DateSent")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("GroupID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ChatID");
+                    b.HasIndex("GroupID");
 
                     b.HasIndex("UserId");
 
@@ -420,13 +401,6 @@ namespace TeamWork.DataAccess.Repository.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Chat", b =>
-                {
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.Group", "Group")
-                        .WithMany("Chats")
-                        .HasForeignKey("GroupUniqueID1");
-                });
-
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Check", b =>
                 {
                     b.HasOne("TeamWork.DataAccess.Domain.Models.AssignedTask", "AssignedTask")
@@ -482,9 +456,9 @@ namespace TeamWork.DataAccess.Repository.Migrations
 
             modelBuilder.Entity("TeamWork.DataAccess.Domain.Models.Message", b =>
                 {
-                    b.HasOne("TeamWork.DataAccess.Domain.Models.Chat", "Chat")
+                    b.HasOne("TeamWork.DataAccess.Domain.Models.Group", "Group")
                         .WithMany("Messages")
-                        .HasForeignKey("ChatID")
+                        .HasForeignKey("GroupID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

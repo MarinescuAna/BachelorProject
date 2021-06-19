@@ -14,7 +14,6 @@ namespace TeamWork.DataAccess.Repository
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<List> List { get; set; }
         public DbSet<AssignedTask> AssignedTasks { get; set; }
-        public DbSet<Chat> Chats { get; set; }
         public DbSet<Check> Checks { get; set; }
         public DbSet<CheckListGrade> CheckListGrades { get; set; }
         public DbSet<PeerEvaluation> PeerEvaluations { get; set; }

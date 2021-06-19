@@ -28,10 +28,7 @@ namespace TeamWork.ApplicationLogic.Service.Models.Implementation
         public async Task<GroupMember> GetGroupMemberByKeyIdAsync(string key, string email) => await _unitOfWork
             .GroupMember
             .GetItem(u => u.Group.GroupUniqueID.ToString() == key
-                          && u.User.UserEmailId == email);
-        public async Task<Group> GetGroupByNameAsync(string name) => await _unitOfWork
-            .Group
-            .GetItem(u => u.GroupName == name);    
+                          && u.User.UserEmailId == email);   
         public async Task<bool> CreateGroupAsync(Group group)
         {
             _unitOfWork.Group.InsertItem(group);

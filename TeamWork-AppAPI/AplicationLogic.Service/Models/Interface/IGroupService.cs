@@ -14,7 +14,6 @@ namespace TeamWork.ApplicationLogic.Service.Models.Interface
         Task<int> GetNoMembersFromGroupByGuidAsync(Guid key);
         Task<Guid> CreateGroupByUserAsync(GroupDetalisReceived groupDetalis);
         Task<bool> UpdateGroupAsync(GroupUpdateReceived groupDetalis);
-        Task<Group> GetGroupByNameAsync(string name);
         Task<Group> GetGroupByKeyAsync(string key);
         Task<bool> JoinToGroupAsync(string key, string email);
         Task<GroupMember> GetGroupMemberByKeyIdAsync(string key, string email);

@@ -21,12 +21,10 @@ namespace TeamWork.ApplicationLogic.Repository.Models.Implementation
         public override async Task<IEnumerable<Message>> GetItems() =>
             await context.Messages
                .Include(s => s.User)
-               .Include(s=>s.Chat)
                .ToListAsync();
         public override async Task<Message> GetItem(Expression<Func<Message, bool>> expression) =>
            await context.Messages
            .Include(s => s.User)
-           .Include(s => s.Chat)
            .AsNoTracking()
            .FirstOrDefaultAsync(expression);
 

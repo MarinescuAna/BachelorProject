@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="TeamWork.ApplicationLogger.LoggerService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Repository.Models.Implementation.BaseRepository&lt;T&gt;" Collapsed="true">
+    <Position X="8.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Repository.Models.Implementation.GroupRepositoryImpl">
+    <Position X="9.75" Y="4.75" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Repository.Models.Implementation.GroupMemberRespositoryImpl">
+    <Position X="6.5" Y="4.75" Width="2.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Repository.UOW.UnitOfWork" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Service.Models.Implementation.ABaseService" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Service.Models.Implementation.GroupServiceImpl">
+    <Position X="1" Y="1.75" Width="3.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.Models.Group" Collapsed="true">
+    <Position X="22" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.Models.GroupMember" Collapsed="true">
+    <Position X="18.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.GroupDTO.AddMember" Collapsed="true">
+    <Position X="16.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.GroupDTO.CreateGroupResponse" Collapsed="true">
+    <Position X="18.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.GroupDTO.DeleteUserFromGroup" Collapsed="true">
+    <Position X="20.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.GroupDTO.GroupDetalisReceived" Collapsed="true">
+    <Position X="16.75" Y="1.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.GroupDTO.GroupUpdateReceived" Collapsed="true">
+    <Position X="20.25" Y="1.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.GroupDTO.Member" Collapsed="true">
+    <Position X="16.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.GroupDTO.RandomGroupsCreate" Collapsed="true">
+    <Position X="18.5" Y="2.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.GroupDTO.ViewGroups" Collapsed="true">
+    <Position X="18.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork_API.Controllers.BaseController" Collapsed="true">
+    <Position X="7.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork_API.Controllers.GroupController">
+    <Position X="6.5" Y="8.75" Width="3" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork_API.Factory.SecurityHelper" Collapsed="true">
+    <Position X="20.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Service.Models.Implementation.UserServiceImpl" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Service.Models.Implementation.AssignedTaskServiceImpl" Collapsed="true">
+    <Position X="12" Y="1.75" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Service.Models.Implementation.AssignmentServiceImpl" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Service.Models.Implementation.ListServiceImpl" Collapsed="true">
+    <Position X="9.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Service.Models.Implementation.NotificationServiceImpl" Collapsed="true">
+    <Position X="14.25" Y="1.75" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="TeamWork.ApplicationLogger.ILoggerService" Collapsed="true">
+    <Position X="16.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Repository.Models.Interface.IBaseRepository&lt;T&gt;" Collapsed="true">
+    <Position X="2" Y="6.5" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Repository.Models.Interface.IGroupRepository">
+    <Position X="0.5" Y="7.75" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Repository.Models.Interface.IGroupMemberRepository">
+    <Position X="3" Y="7.75" Width="2" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Repository.UOW.IUnitOfWork" Collapsed="true">
+    <Position X="20.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Service.Models.Interface.IGroupService" Collapsed="true">
+    <Position X="20.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Service.Models.Interface.IUserService" Collapsed="true">
+    <Position X="20.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Service.Models.Interface.IAssignedTaskService" Collapsed="true">
+    <Position X="16.75" Y="4.75" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Service.Models.Interface.IAssignmentService" Collapsed="true">
+    <Position X="18.5" Y="4.75" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Service.Models.Interface.IListService" Collapsed="true">
+    <Position X="22" Y="4.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Service.Models.Interface.INotificationService" Collapsed="true">
+    <Position X="18.5" Y="5.5" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork_API.Factory.IHelperFactory" Collapsed="true">
+    <Position X="16.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TeamWork.ApplicationLogic.Repository.Models.Implementation.BaseRepository&lt;T&gt;">
+    <Position X="5.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Repository.Models.Implementation.UserRepositoryImpl">
+    <Position X="5.25" Y="4" Width="1.75" />
+    <TypeIdentifier />
+    <Lollipop Position="1.55" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Repository.UOW.UnitOfWork" BaseTypeListCollapsed="true">
+    <Position X="3" Y="5" Width="1.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Service.Models.Implementation.ABaseService">
+    <Position X="5.75" Y="6" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Service.Models.Implementation.UserServiceImpl">
+    <Position X="5.75" Y="8.5" Width="2.25" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork_API.Controllers.BaseController">
+    <Position X="0.75" Y="10.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork_API.Controllers.AccountController">
+    <Position X="0.75" Y="12.25" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.AccountDTO.UserLoginModel">
+    <Position X="0.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.AccountDTO.UserRegisterModel">
+    <Position X="2.75" Y="15.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.Models.User">
+    <Position X="7.5" Y="0.75" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogger.LoggerService" BaseTypeListCollapsed="true">
+    <Position X="0.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork_API.Factory.HelperFactory">
+    <Position X="3.5" Y="12.75" Width="2.25" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork_API.Factory.TokenGeneratorHelper">
+    <Position X="7.5" Y="12.75" Width="2.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork_API.Factory.SecurityHelper">
+    <Position X="7.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.AccountDTO.JWToken">
+    <Position X="4.75" Y="15.5" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.AccountDTO.PasswordChanger">
+    <Position X="7" Y="15.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.AccountDTO.ProfileUserModel">
+    <Position X="9" Y="15.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.AccountDTO.UploadImageModel">
+    <Position X="10.75" Y="15.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork_API.Factory.ImageHelper">
+    <Position X="13.25" Y="12.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="TeamWork.ApplicationLogger.ILoggerService">
+    <Position X="0.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Repository.Models.Interface.IUserRepository">
+    <Position X="3.25" Y="3" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Repository.Models.Interface.IBaseRepository&lt;T&gt;">
+    <Position X="3" Y="0.75" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Service.Models.Interface.IUserService">
+    <Position X="8" Y="6" Width="2.25" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Repository.UOW.IUnitOfWork">
+    <Position X="0.75" Y="5" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork_API.Factory.IHelperFactory">
+    <Position X="3.5" Y="10.5" Width="2.25" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

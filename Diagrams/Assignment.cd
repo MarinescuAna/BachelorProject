@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TeamWork.ApplicationLogger.LoggerService" Collapsed="true">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Repository.Models.Implementation.AssignmentRepository">
+    <Position X="1.5" Y="0.5" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Repository.Models.Implementation.BaseRepository&lt;T&gt;" Collapsed="true">
+    <Position X="7.5" Y="2" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Repository.UOW.UnitOfWork" Collapsed="true">
+    <Position X="10.25" Y="3" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Service.Models.Implementation.AssignmentServiceImpl">
+    <Position X="4" Y="2.25" Width="3.25" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.AssignmentDTO.AssignmentDisplay">
+    <Position X="13.25" Y="6.25" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.AssignmentDTO.CreateAssignment">
+    <Position X="14.5" Y="2.75" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.AssignmentDTO.DisplayGrades">
+    <Position X="12.5" Y="3" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.DataAccess.Domain.Models.Assignment">
+    <Position X="10.5" Y="6.75" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork_API.Controllers.AssignmentController">
+    <Position X="6.5" Y="7" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork_API.Controllers.BaseController" Collapsed="true">
+    <Position X="7.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TeamWork.ApplicationLogic.Service.Models.Implementation.ABaseService" Collapsed="true">
+    <Position X="3" Y="6.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="TeamWork.ApplicationLogger.ILoggerService" Collapsed="true">
+    <Position X="12" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Repository.Models.Interface.IAssignmentRepository">
+    <Position X="9.25" Y="5" Width="2" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Repository.Models.Interface.IBaseRepository&lt;T&gt;" Collapsed="true">
+    <Position X="8.25" Y="4" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Repository.UOW.IUnitOfWork" Collapsed="true">
+    <Position X="10.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TeamWork.ApplicationLogic.Service.Models.Interface.IAssignmentService">
+    <Position X="1.25" Y="3.25" Width="3.25" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

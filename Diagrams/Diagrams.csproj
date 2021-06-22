@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TeamWork-AppAPI\AplicationLogic.Repository\TeamWork.ApplicationLogic.Repository.csproj" />
+    <ProjectReference Include="..\TeamWork-AppAPI\AplicationLogic.Service\TeamWork.ApplicationLogic.Service.csproj" />
+    <ProjectReference Include="..\TeamWork-AppAPI\DataAccess.Domain\TeamWork.DataAccess.Domain.csproj" />
+    <ProjectReference Include="..\TeamWork-AppAPI\TeamWork-API\TeamWork-API.csproj" />
+    <ProjectReference Include="..\TeamWork-AppAPI\TeamWork.AplicationLogin.Logger\TeamWork.ApplicationLogger.csproj" />
+    <ProjectReference Include="..\TeamWork-AppAPI\TeamWork.Common\TeamWork.Common.csproj" />
+    <ProjectReference Include="..\TeamWork-AppAPI\TeamWork.DataAccess.Repository\TeamWork.DataAccess.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

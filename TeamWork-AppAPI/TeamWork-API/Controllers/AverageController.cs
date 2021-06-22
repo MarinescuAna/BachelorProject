@@ -29,7 +29,6 @@ namespace TeamWork_API.Controllers
             _averageService = averageService;
         }
 
-        //TODO testeaza notificarea
         [HttpPost]
         [Route("ComputeAverage")]
         public async Task<IActionResult> ComputeAverage(AverageInsert[] list)

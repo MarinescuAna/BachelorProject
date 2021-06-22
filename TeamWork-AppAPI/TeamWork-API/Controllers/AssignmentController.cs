@@ -62,7 +62,7 @@ namespace TeamWork_API.Controllers
 
             return StatusCode(Number.Number_200, listReturn);
         }
-        //TODO testata
+
         [HttpPost]
         [Route("CreateTask")]
         public async Task<IActionResult> CreateTask(CreateAssignment assignment)

@@ -30,7 +30,6 @@ namespace TeamWork_API.Controllers
             _assignmentService = assignmentService;
         }
 
-        //TODO testata
         [HttpGet]
         [Route("GetTasksGroup")]
         public async Task<IActionResult> GetTasksGroup(string listId)

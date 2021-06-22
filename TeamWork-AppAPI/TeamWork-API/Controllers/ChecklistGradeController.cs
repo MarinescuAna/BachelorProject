@@ -44,7 +44,6 @@ namespace TeamWork_API.Controllers
             _checkService = checkService;
         }
 
-        //TODO testeaza notificarea
         /// <summary>
         /// This methode will do the follow operations:
         ///  - first it will found all the assigned tasks that have the given assignmentid

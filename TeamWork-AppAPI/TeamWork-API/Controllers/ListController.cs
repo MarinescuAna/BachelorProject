@@ -26,7 +26,7 @@ namespace TeamWork_API.Controllers
         {
             _listService = listService;
         }
-        //TODO testeaza
+
         [HttpPut]
         [Route("DeleteList")]
         public async Task<IActionResult> DeleteList(string listId)
@@ -55,7 +55,6 @@ namespace TeamWork_API.Controllers
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        //TODO testata
         [HttpPost]
         [Route("CreateList")]
         public async Task<IActionResult> CreateList(CreateList list)
@@ -98,7 +97,6 @@ namespace TeamWork_API.Controllers
         /// <param name="groupId"></param>
         /// <returns></returns>
 
-        //TODO testata
         [HttpGet]
         [Route("GetLists")]
         public async Task<IActionResult> GetLists(string groupId)

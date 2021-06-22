@@ -61,7 +61,7 @@ namespace TeamWork_API.Controllers
             });
 
         }
-        //TODO adauga notificare si testeaza
+
         /// <summary>
         /// First thing first is to check the number of members because if they are just 2 (teacher and student)
         /// the evaluation can't be done.
@@ -143,7 +143,7 @@ namespace TeamWork_API.Controllers
                     assignedTaskId
                 ));
         }
-        //TODO notificare
+
         [HttpPut]
         [Route("AssignPeerEvaluation")]
         public async Task<IActionResult> AssignPeerEvaluation(UpdatePeerEvaluation updatePeerEvaluation)

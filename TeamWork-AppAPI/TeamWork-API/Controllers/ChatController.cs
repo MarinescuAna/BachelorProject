@@ -48,7 +48,8 @@ namespace TeamWork_API.Controllers
                     MessageKey = message.ID.ToString(),
                     Content = message.Content,
                     DateSent = message.DateSent.ToString(),
-                    UserName = message.User?.FirstName + Constants.BlankSpace + message.User?.LastName
+                    UserName = message.User?.FirstName + Constants.BlankSpace + message.User?.LastName,
+                    Email = message.UserId
                 });
             }
             return StatusCode(Number.Number_200, messagesView);

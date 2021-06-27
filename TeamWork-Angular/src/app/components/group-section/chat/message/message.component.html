@@ -5,10 +5,10 @@
                 <h3><strong>{{message.userName}}</strong> </h3>
             </mat-card-title>
             <div fxFlex fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="end start">
-                <button mat-icon-button matTooltip="Edit message" (click)="onUpdate()" >
+                <button mat-icon-button matTooltip="Edit message" (click)="onUpdate()" *ngIf="isCurrentUser">
                     <mat-icon>create</mat-icon>
                     </button>
-                <button mat-icon-button matTooltip="Delete message for all" (click)="onDelete()">
+                <button mat-icon-button matTooltip="Delete message for all" (click)="onDelete()" *ngIf="isCurrentUser">
                     <mat-icon>delete</mat-icon>
                     </button>
             </div>

@@ -14,5 +14,6 @@ export class ViewMessageModule{
     messageKey:string;
     userName:string;
     content:string;
+    email:string;
     dateSent:string;
 }

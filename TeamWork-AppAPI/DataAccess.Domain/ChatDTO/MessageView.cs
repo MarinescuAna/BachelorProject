@@ -7,6 +7,7 @@ namespace TeamWork.DataAccess.Domain.ChatDTO
         public string UserName { get; set; }
         public string Content { get; set; }
         public string DateSent { get; set; }
+        public string Email { get; set; }
 
     }
 }

@@ -148,6 +148,9 @@ export class RandomSelectionMainComponent implements OnInit {
 
   }
 
+  redirect(){
+    this.route.navigateByUrl('my-groups');
+  }
   onSentData(){
     this.error='';
     this.groupService.SentInvitationsRandom(this.data).subscribe(cr=>{
